@@ -1,4 +1,4 @@
-#Gerência de Oportunidades
+# Gerência de Oportunidades
 
 A Universidade Regionalizada Salvador da América (URSA) é uma das maiores universidades de sua região. A região de abrangência da URSA compreende uma área essencialmente agrícola, com muitos produtores agropecuários de pequeno, grande e médio porte. Mesmo sendo agrícola, a região é muito bem servida de serviços de tecnologia da informação e comunicação, com grande conectividade e acesso indiscriminado por moradores e empresários a dispositivos computacionais de vários tipos. 
 
@@ -9,7 +9,7 @@ Os coordenadores dos cursos ligados ao agronegócio ficaram sabendo que você po
 Deverão ser criadas aplicações com com interface de comunicação usando sockets UDP e TCP, Web Services SOAP e Web Services Rest. Deverá ser implementado um Banco de Dados para o armazenamento dos dados das oportunidades de emprego, estágio e bolsas disponibilizadas. A base de dados deve der a seguinte disposição:
 
 
-##Oportunidade
+## Oportunidade
 
 \#codigo: Integer (chave primária)
 @codcargo: Integer (chave estrangeira cargo)
@@ -19,7 +19,7 @@ ingresso: Timestamp
 fechada: Timestamp
 
 
-##Cargo
+## Cargo
 
 \#codcargo: Integer (chave primária)
 
@@ -31,26 +31,36 @@ tipo: Integer
 
 O campo 'acesso' serve para indicar para alunos de quais cursos a oportunidade é válida. Na URSA hoje são usados os seguintes acessos (alunos dos cursos):
 
-1 – Somente Agronomia 5 – Agronomia ou Agronegocio
+1 – Somente Agronomia
 
-2 – Somente Engenharia Agronomica 6 – Eng. Agronomica ou Agronegocio
+2 – Somente Engenharia Agronomica
 
-3 – Somente Agronogocio 7 – Todos os cursos
+3 – Somente Agronogocio
 
 4 – Agronomia ou Eng. Agronomica
 
+5 – Agronomia ou Agronegocio
+
+6 – Eng. Agronomica ou Agronegocio
+
+7 – Todos os cursos
 
 
 O campo 'tipo' serve para indicar o tipo da oportunidade para aquele cargo. Na URSA hoje são usados os seguintes tipos:
 
-1 – Emprego formal 5 – Bolsa de pesquisa
+1 – Emprego formal
 
-2 – Estágio até 20h/semana 6 – Bolsa de extensão
+2 – Estágio até 20h/semana
 
-3 – Estágio acima de 20h/semana 7 – Bolsa de graduação
+3 – Estágio acima de 20h/semana
 
 4 – Estágio voluntário
 
+5 – Bolsa de pesquisa
+
+6 – Bolsa de extensão
+
+7 – Bolsa de graduação
 
 
 O Banco de Dados pode ser implementado com qualquer tecnologia, uma vez que não é o foco do trabalho. A tabela cargo pode ser preenchida com registros por meio de uma ferramenta cliente de banco de dados. O SD não precisa alterar essa tabela, apenas consultá-la.
@@ -67,7 +77,7 @@ Deve-se implementar pelo menos os seguintes servidores/serviços (Java):
 
 
 
-#O servidor/serviços deverão suportar as seguintes operações:
+### O servidor/serviços deverão suportar as seguintes operações:
 
 - Adiciona: Adiciona uma oportunidade ao BD. Caso código da oportunidade já exista, não adicionar e informar um erro;
 
@@ -126,10 +136,14 @@ A relação de funcionalidades descritas até aqui equivalem 70% da nota do trab
 
 
 
-##Apresentação
+## Apresentação
 
 O líder da equipe deverá realizar uma apresentação técnica: mostrar os modelos usados, as aplicações desenvolvidas e as tecnologias usadas (não usar código-fonte) do que foi construído (10 minutos). Em seguida, deve-se proceder a demonstração das implementações. Uma máquina ficará com o servidor/serviços, mostrando os logs de processamento enquanto outra ficará com os clientes/consumidores usados. Serão reservados dois projetores para a apresentação (40 min). A apresentação será no LCI e caso algum grupo necessite de acesso externo a algum serviço bloqueado, deve prever antecipadamente e solicitar ao professor para liberar o acesso. Em seguida, cada integrante será entrevistado individualmente para informar o que implementou e como foi realizada a implementação.
 
 
 Serão realizadas duas avaliações: uma referente ao desenvolvimento do grupo e outra referente ao desenvolvimento individual de cada componente do grupo.
 
+
+
+
+Arquivos da pasta PHP/ em [Heroku](//ursa-sd.herokuapp.com/)
