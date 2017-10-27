@@ -1,0 +1,12 @@
+1 SOCKET UPD cliente/servidor (JOÃO PEDRO BORÇA)
+2 SOCKET TCP cliente/servidor (DANIELA KUINCHTNER)
+3 WS SOAP (Serviços web) (REGIS SGANZERLA)
+4 WB REST (Serviços web) (LUIS FONTOURA SPANIOL)
+5 BD (Add, altera, exclui, consulta, listasOportunidades, listasAbertas) (ANDERSON FONTANA)
+
+
+EXTRAS:
+6 App móvel (GABRIEL PALUDO)
+7 Integração com Twitter (GABRIEL BUFFON)
+8 Web? / modelo ou tratamento de falhas?
+
