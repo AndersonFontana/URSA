@@ -25,6 +25,20 @@ CREATE TABLE Oportunidade (
 );
 
 /*
-    INSERT INTO Cargo VALUES (codcargo, descricao, tipo);
     INSERT INTO Oportunidade VALUES (codigo, codcargo, descricao, acesso, ingresso, fechada);
+    INSERT INTO Cargo VALUES (codcargo, descricao, tipo);
+    INSERT INTO Cargo VALUES (01, 'Teste 01', 7);
+    INSERT INTO Cargo VALUES (02, 'Teste 02', 7);
+    INSERT INTO Cargo VALUES (03, 'Teste 03', 6);
+    INSERT INTO Cargo VALUES (04, 'Teste 04', 6);
+    INSERT INTO Cargo VALUES (05, 'Teste 05', 5);
+    INSERT INTO Cargo VALUES (06, 'Teste 06', 5);
+    INSERT INTO Cargo VALUES (07, 'Teste 07', 4);
+    INSERT INTO Cargo VALUES (08, 'Teste 08', 4);
+    INSERT INTO Cargo VALUES (09, 'Teste 09', 3);
+    INSERT INTO Cargo VALUES (10, 'Teste 10', 3);
+    INSERT INTO Cargo VALUES (11, 'Teste 11', 2);
+    INSERT INTO Cargo VALUES (12, 'Teste 12', 2);
+    INSERT INTO Cargo VALUES (13, 'Teste 13', 1);
+    INSERT INTO Cargo VALUES (14, 'Teste 14', 1);
 */
