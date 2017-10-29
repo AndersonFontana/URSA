@@ -1,121 +1,235 @@
 package BANCO;
 
 import JDBC.JDBCUtil;
+import dominio.Cargo;
+import dominio.Oportunidade;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-//import java.util.List;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author anderson
  */
 public class DaoBanco {
-	public String teste() throws Exception {
-		String sql = "SELECT * FROM Oportunidade";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		return rs.toString();
-	}
-/* Só um exemplo da disciplina de POO
-	public void incluir(Oportunidade objeto) throws Exception {
-		String sql = "SELECT id FROM cidade WHERE id = ?";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		pstmt.setInt(1, objeto.getId());
-		ResultSet rs = pstmt.executeQuery();
+	private String sql;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
 
+	/**
+	 * Adiciona uma oportunidade ao BD com base no objeto, instancia de oportunidade
+	 * @param objeto: Instancia de Oportunidade a ser inserido no banco, o Timestamp de ingresso será inserido automaticamente
+	 * @return true se for executado como o esperado
+	 * @throws Exception caso já exista o codigo da Oportunidade
+	 */
+	public boolean adicionar(Oportunidade objeto) throws Exception {
+		rs = existeCargo(objeto.getCodcargo());
+		if (!rs.next())
+			throw new Exception("Cargo não existe!");
+			
+		rs = existeOportunidade(objeto.getCodigo());
 		if (!rs.next()) {
-			sql = "INSERT INTO cidade (id, nome, estado) VALUES (?,?,?)";
+			sql = "INSERT INTO Oportunidade VALUES (?, ?, ?, ?, ?, ?)";
 			pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-			pstmt.setInt(1, objeto.getId());
-			pstmt.setString(2, objeto.getNome());
-			pstmt.setString(3, objeto.getEstado());
+			pstmt.setInt(1, objeto.getCodigo());
+			pstmt.setInt(2, objeto.getCodcargo());
+			pstmt.setString(3, objeto.getDescricao());
+			pstmt.setInt(4, objeto.getAcesso());
+			pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			pstmt.setTimestamp(6, objeto.getFechada());
 			pstmt.executeUpdate();
 		} else {
-			throw new Exception("Cidade já está na lista.");
+			throw new Exception("Oportunidade já existe!");
 		}
+		return true;
 	}
-
-	public Cidade obter(Integer id) throws Exception {
-		String sql = "SELECT id FROM cidade WHERE id = ?";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		pstmt.setInt(1, id);
-		ResultSet rs = pstmt.executeQuery();
-
-		Cidade temp = new Cidade(id);
+	/**
+	 * Altera uma oportunidade ao BD com base no objeto, instancia de oportunidade 
+	 * @param objeto a ser alterado no banco, note que se passar um objeto só com código, irá remover os dados dos outros campos (#TODO)
+	 * @return true se for executado como o esperado
+	 * @throws Exception caso já exista o codigo da Oportunidade 
+	 */
+	public boolean alterar(Oportunidade objeto) throws Exception {
+		rs = existeCargo(objeto.getCodcargo());
+		if (!rs.next()) 
+			throw new Exception("Cargo não existe!");
+		
+		rs = existeOportunidade(objeto.getCodigo());
 		if (rs.next()) {
-			return new Cidade(rs.getString("nome"), rs.getString("estado"), rs.getInt("id"));
+			sql = "UPDATE Oportunidade SET codcargo = ?, descricao = ?, acesso = ?, fechada = ? WHERE codigo = ?";
+			pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+			pstmt.setInt(1, objeto.getCodcargo());
+			pstmt.setString(2, objeto.getDescricao());
+			pstmt.setInt(3, objeto.getAcesso());
+			// pstmt.setTimestamp(4, objeto.getIngresso());
+			pstmt.setTimestamp(4, objeto.getFechada());
+			pstmt.setInt(5, objeto.getCodigo());
+			pstmt.executeUpdate();
 		} else {
-			throw new Exception("Cidade não encontrada.");
+			throw new Exception("Oportunidade não encontrada!");
+		}
+		return true;
+	}
+	/**
+	 * Apaga uma oportunidade do BD com base no código da oportunidade 
+	 * @param codigo identificador da Oportunidade a ser excluído
+	 * @return true se for executado como o esperado
+	 * @throws Exception caso a Oportunidade não for encontrada
+	 */
+	public boolean excluir(int codigo) throws Exception {
+		rs = existeOportunidade(codigo);
+		if (rs.next()) {
+			sql = "DELETE FROM Oportunidade WHERE codigo = ?";
+			pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+			pstmt.setInt(1, codigo);
+			pstmt.executeUpdate();
+		} else {
+			throw new Exception("Oportunidade não encontrada!");
+		}
+		return true;
+	}
+	/**
+	 * Apaga uma oportunidade do BD com base no objeto, instancia de oportunidade
+	 * @param objeto Instancia da Oportunidade a ser excluído
+	 * @return true se for executado como o esperado
+	 * @throws Exception caso a Oportunidade não for encontrada 
+	 */
+	public boolean excluir(Oportunidade objeto) throws Exception {
+		return excluir(objeto.getCodigo());
+	}
+	/**
+	 * Retorna os dados de uma oportunidade com base no código da oportunidade
+	 * @param codigo identificador da Oportunidade a ser consultado
+	 * @return Instancia de Oportunidade com todos os dados, incluindo detalhes do Cargo
+	 * @throws Exception caso a Oportunidade não seja encontrada
+	 */
+	public Oportunidade consultar(int codigo) throws Exception {
+		rs = existeOportunidade(codigo);
+		if (rs.next()) {
+			return new Oportunidade(
+					rs.getInt("codigo"),
+					rs.getInt("codcargo"),
+					consultarCargo(rs.getInt("codcargo")),
+					rs.getString("descricao"),
+					rs.getInt("acesso"),
+					rs.getTimestamp("ingresso"),
+					rs.getTimestamp("fechada")
+			);
+		} else {
+			throw new Exception("Oportunidade não encontrada!");
+		}
+	}
+	/**
+	 * Retorna os dados de uma oportunidade com base no objeto, instancia de oportunidade
+	 * @param objeto Instancia da Oportunidade a ser consultado
+	 * @return Instancia de Oportunidade com todos os dados, incluindo detalhes do Cargo
+	 * @throws Exception caso a Oportunidade não seja encontrada
+	 */
+	public Oportunidade consultar(Oportunidade objeto) throws Exception {
+		return consultar(objeto.getCodigo());
+	}
+	
+	/**
+	 * Recebe o código do cargo e retorna uma lista contendo as oportunidades para aquele cargo
+	 * @param CodCargo 
+	 * @return Lista com todas as Oportunidades encontradas
+	 * @throws Exception caso o Cargo não seja encontrado
+	 */
+	public List<Oportunidade> listaOportunidades(int CodCargo) throws Exception {
+		rs = existeCargo(CodCargo);
+		if (!rs.next())
+			throw new Exception("Cargo não existe!");
+		
+		sql = "SELECT * FROM Oportunidade WHERE codcargo = ?";
+		pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+		pstmt.setInt(1, CodCargo);
+		
+		return resultSet2ArrayList(pstmt.executeQuery());
+	}
+	/**
+	 * Recebe o tipo de oportunidade e retorna as oportunidades em aberto para aquele tipo
+	 * @param tipo
+	 * @return Lista com todas as Oportunidades encontradas
+	 * @throws Exception caso tipo não seja encontrado em Cargo
+	 */
+	public List<Oportunidade> listaAbertas(int tipo) throws Exception {
+		sql = "SELECT * FROM Cargo WHERE tipo = ?";
+		pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+		pstmt.setInt(1, tipo);
+		rs = pstmt.executeQuery();
+		if (rs.next()) {
+			sql = "SELECT o.* FROM Oportunidade o, Cargo c WHERE ? < o.fechada AND o.codcargo = c.codcargo AND c.tipo = ?";
+			pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+			pstmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+			pstmt.setInt(2, tipo);
+		}
+		else {
+			throw new Exception("Tipo não encontrado em Cargo");
+		}
+
+		return resultSet2ArrayList(pstmt.executeQuery());
+	}
+	/**
+	 * Retorna as oportunidades em aberto para todos os tipos
+	 * @return Lista com todas as Oportunidades encontradas
+	 * @throws Exception 
+	 */
+	public List<Oportunidade> listaAbertas() throws Exception {
+		sql = "SELECT * FROM Oportunidade WHERE ? < fechada";
+		pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+		pstmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+		
+		return resultSet2ArrayList(pstmt.executeQuery());
+	}
+	/**
+	 * Consultar Cargo especifico passando o codcargo
+	 * @param codcargo
+	 * @return instancia de Cargo com todas as informações
+	 * @throws Exception caso codcargo não seja encontrado
+	 */
+	public Cargo consultarCargo(int codcargo) throws Exception {
+		ResultSet rs2 = existeCargo(codcargo);
+		if (rs2.next()) {
+			return new Cargo(
+					rs2.getInt("codcargo"),
+					rs2.getString("descricao"),
+					rs2.getInt("tipo")
+			);
+		} else {
+			throw new Exception("Cargo não encontrado!");
 		}
 	}
 
-	public void alterar(Cidade objeto) throws Exception {
-		String sql = "UPDATE cidade SET nome = ?, estado = ? WHERE id = ?";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		pstmt.setString(1, objeto.getNome());
-		pstmt.setString(2, objeto.getEstado());
-		pstmt.setInt(3, objeto.getId());
-		pstmt.executeUpdate();
+	private ResultSet existeOportunidade(int codigo) throws Exception {
+		sql = "SELECT * FROM Oportunidade WHERE codigo = ?";
+		pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+		pstmt.setInt(1, codigo);
+		return pstmt.executeQuery();
 	}
 
-	public void excluir(Cidade objeto) throws Exception {
-		String sql = "DELETE FROM cidade WHERE id = ?";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		pstmt.setInt(1, objeto.getId());
-		pstmt.executeUpdate();
+	private ResultSet existeCargo(int codcargo) throws Exception {
+		sql = "SELECT * FROM Cargo WHERE codcargo = ?";
+		pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
+		pstmt.setInt(1, codcargo);
+		return pstmt.executeQuery();
 	}
 
-	public void excluir(Integer index) throws Exception {
-		String sql = "DELETE FROM cidade WHERE id = ?";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		System.out.println(index);
-		pstmt.setInt(1, index);
-		pstmt.executeUpdate();
-	}
-
-	public List<Cidade> obterTodos() throws Exception {
-		String sql = "SELECT * FROM cidade";
-		PreparedStatement pstmt = JDBCUtil.getInstance().getCon().prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-
-		List<Cidade> cidades = new ArrayList();
+	private List<Oportunidade> resultSet2ArrayList(ResultSet rs) throws Exception {
+		List<Oportunidade> oportunidades = new ArrayList();
 		while (rs.next()) {
-			cidades.add(new Cidade(rs.getString("nome"), rs.getString("estado"), rs.getInt("id")));
+			oportunidades.add(new Oportunidade(
+					rs.getInt("codigo"),
+					rs.getInt("codcargo"),
+					consultarCargo(rs.getInt("codcargo")),
+					rs.getString("descricao"),
+					rs.getInt("acesso"),
+					rs.getTimestamp("ingresso"),
+					rs.getTimestamp("fechada")
+				)
+			);
 		}
-
-		return cidades;
+		return oportunidades;
 	}
-
-	public List<Cidade> obterTodos(String ordem) throws Exception {
-		List<Cidade> cidades = obterTodos();
-		switch (ordem) {
-			case "ID (a..z)":
-				Collections.sort(cidades, Cidade.BY_ID);
-				break;
-			case "ID (z..a)":
-				Collections.sort(cidades, Cidade.BY_ID);
-				Collections.reverse(cidades);
-				break;
-			case "Cidade (a..z)":
-				Collections.sort(cidades, Cidade.BY_NOME);
-				break;
-			case "Cidade (z..a)":
-				Collections.sort(cidades, Cidade.BY_NOME);
-				Collections.reverse(cidades);
-				break;
-			case "Estado (a..z)":
-				Collections.sort(cidades, Cidade.BY_UF);
-				break;
-			case "Estado (z..a)":
-				Collections.sort(cidades, Cidade.BY_UF);
-				Collections.reverse(cidades);
-				break;
-			default:
-				throw new Exception("Cidade não foi possível ordenar, verificar argumento.");
-		}
-
-		return cidades;
-	}
-*/
 }
