@@ -28,18 +28,8 @@ public class Servidor {
             byte [] sdados = new byte[100];
             DatagramPacket rPack = new DatagramPacket(rdados, rdados.length);
             s.receive(rPack);
-            String processar = new String(rPack.getData()).trim();
-            System.out.println(processar);
-            processar = processar.toUpperCase();
-            sdados = processar.getBytes();
-            System.out.println(processar);
-            DatagramPacket sPack = new DatagramPacket(sdados, sdados.length, rPack.getAddress(), rPack.getPort());
-            s.send(sPack);
-            if(processar.equals("DESLIGAR")){
-                s.close();
-                break;
-            }
-            System.out.println("resposta enviada");
+            String rDados = new String(rPack.getData()).trim();
+            System.out.println(rDados);
         }
     }
     
