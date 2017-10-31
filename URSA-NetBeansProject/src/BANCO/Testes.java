@@ -30,7 +30,7 @@ public class Testes {
 		Cargo cargo = null;
 		
 		try {
-			System.out.println(dao.adicionar(op));
+			//System.out.println(dao.adicionar(op));
 			// System.out.println(dao.alterar(op));
 			// System.out.println(dao.consultar(op).toString());
 			// System.out.println(dao.excluir(op));
