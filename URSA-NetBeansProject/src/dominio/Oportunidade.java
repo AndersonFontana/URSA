@@ -87,16 +87,16 @@ public class Oportunidade {
 		return ingresso;
 	}
 
-	public void setIngresso(Timestamp ingresso) {
-		this.ingresso = ingresso;
-	}
-
 	public Timestamp getFechada() {
 		return fechada;
 	}
 
 	public void setFechada(Timestamp fechada) {
 		this.fechada = fechada;
+	}
+	
+	public void setFechada(Date fechada) {
+		this.fechada = new Timestamp(fechada.getTime());
 	}
 
 	public Cargo getCargo() {
