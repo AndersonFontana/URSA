@@ -21,8 +21,8 @@ public class Servidor {
         // TODO code application logic here
         
         System.out.println("Servidor");
-        Integer porta = 2001;
-        DatagramSocket s = new DatagramSocket(2001);
+        int porta = 2001;
+        DatagramSocket s = new DatagramSocket(porta);
         while(true){
             byte [] rdados = new byte[100];
             byte [] sdados = new byte[100];

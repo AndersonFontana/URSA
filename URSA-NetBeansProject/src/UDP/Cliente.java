@@ -6,15 +6,23 @@
 package UDP;
 
 import dominio.Oportunidade;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jdk.nashorn.internal.parser.JSONParser;
+
 
 /**
  *
@@ -26,26 +34,24 @@ public class Cliente {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws ParseException{
         // TODO code application logic here
         
         
         System.out.println("Para ver os comandos digite (-help)");
-        Integer porta = 2001;
-        InetAddress ip = InetAddress.getByName("localhost");
-        DatagramSocket s = new DatagramSocket(porta);
+        
         String operacao = null;
         while(true){
-            byte  sdados[] = new byte[100];
             operacao = null;
             String dados = null;
             System.out.print("Insira a Operação: ");
             operacao = ler.next();
             if(operacao.equals("-help")){
                 help();
+                continue;
             }
             else if(operacao.equals("-i")){
-                dados = operacao + "-" + incluir();
+                dados = operacao + "\n" + incluir();
             }
             else if(operacao.equals("-a")){
                 help();
@@ -61,9 +67,9 @@ public class Cliente {
             }
             else{
                 System.out.println("Comando Invalido");
+                continue;
             }
-            sdados = dados.getBytes();
-            DatagramPacket sPack = new DatagramPacket(sdados, sdados.length, ip, porta);
+            Serializar(dados);
             
         }
     }
@@ -75,7 +81,7 @@ public class Cliente {
         System.out.println("-c: consulta oportunidade");
         System.out.println("-q: sair");
     }
-    public static String incluir() throws ParseException{
+    public static String incluir(){
         String retorno = null;
         Oportunidade op = new Oportunidade();
         System.out.print("Digite o Codigo:");
@@ -86,18 +92,38 @@ public class Cliente {
         op.setCodcargo(ler.nextInt());
         System.out.print("Digite o codigo de acesso:");
         op.setAcesso(ler.nextInt());
-        op.setFechada((Timestamp) lerdata());        
-        System.out.print("Digite o Codigo:");
-        retorno = op.getCodigo() + "-" + op.getDescricao() + "-" + op.getCodcargo()+ "-" + op.getCodcargo() + "-" + op.getFechada();
+        op.setFechada(lerdata());
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getCodcargo() + "\n" + op.getFechada();
         return retorno;
     }
     
-    public static Date lerdata() throws ParseException{
-        System.out.println("Digite a data de fechamento(dd/MM/yyyy):");
-        String dataRecebida = ler.nextLine();
+    public static Date lerdata(){
+        System.out.print("Digite a data de fechamento(dd/MM/yyyy):");
+        String dataRecebida = ler.next();
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
-	Date dt = df.parse(dataRecebida);
+	Date dt = null;
+        try {
+            dt = df.parse(dataRecebida);
+        } catch (ParseException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("");
         return dt;
+    }
+    public static void Serializar(String dados){
+        int tam = 0;
+        tam = dados.length()/97;
+        if(dados.length()%97 > 1)
+            tam++;
+        int indice = 0;
+        int indice2 = 97;
+        for(int i = 0; i < tam; i++){
+            indice = i * 97;
+            if(indice2 > dados.length()){
+                indice2 = dados.length();
+            }
+            String aux = String.format("%03d",i)+ "\n" + dados.substring(indice, indice2);
+        }
     }
     
 }
