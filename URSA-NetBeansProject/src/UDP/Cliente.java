@@ -6,7 +6,9 @@
 package UDP;
 
 import dominio.Oportunidade;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
@@ -31,12 +33,13 @@ import jdk.nashorn.internal.parser.JSONParser;
 
 public class Cliente {
     public static Scanner ler = new Scanner(System.in);
+    public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws ParseException{
         // TODO code application logic here
-        
+        System.out.println("Cliente");
         
         System.out.println("Para ver os comandos digite (-help)");
         
@@ -44,6 +47,7 @@ public class Cliente {
         while(true){
             operacao = null;
             String dados = null;
+            String[] vetor;
             System.out.print("Insira a Operação: ");
             operacao = ler.next();
             if(operacao.equals("-help")){
@@ -51,7 +55,7 @@ public class Cliente {
                 continue;
             }
             else if(operacao.equals("-i")){
-                dados = operacao + "\n" + incluir();
+                dados = incluir();
             }
             else if(operacao.equals("-a")){
                 help();
@@ -69,7 +73,15 @@ public class Cliente {
                 System.out.println("Comando Invalido");
                 continue;
             }
-            Serializar(dados);
+            byte  sdados[] = new byte[100];
+            operacao = String.format("%03d",0) + "\n" + operacao;
+            enviar(operacao);
+            vetor = Serializar(dados);
+            String tamanho = String.format("%03d",1) + "\n" + vetor.length;
+            enviar(tamanho);
+            for(int i = 0; i < vetor.length; i++){
+                enviar(vetor[i]);
+            }
             
         }
     }
@@ -87,13 +99,17 @@ public class Cliente {
         System.out.print("Digite o Codigo:");
         op.setCodigo(ler.nextInt());
         System.out.print("Digite a Descricao:");
-        op.setDescricao(ler.next());
+        try {
+            op.setDescricao(in.readLine());
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.print("Digite o codigo do cargo:");
         op.setCodcargo(ler.nextInt());
         System.out.print("Digite o codigo de acesso:");
         op.setAcesso(ler.nextInt());
         op.setFechada(lerdata());
-        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getCodcargo() + "\n" + op.getFechada();
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + op.getFechada();
         return retorno;
     }
     
@@ -110,20 +126,50 @@ public class Cliente {
         System.out.println("");
         return dt;
     }
-    public static void Serializar(String dados){
+    public static String[] Serializar(String dados){
         int tam = 0;
         tam = dados.length()/97;
         if(dados.length()%97 > 1)
             tam++;
         int indice = 0;
         int indice2 = 97;
-        for(int i = 0; i < tam; i++){
-            indice = i * 97;
+        String[] vetor = new String[tam];
+        for(int i = 2; i < (tam + 2); i++){
+            indice = (i-2) * 97;
+            
             if(indice2 > dados.length()){
                 indice2 = dados.length();
             }
             String aux = String.format("%03d",i)+ "\n" + dados.substring(indice, indice2);
+            vetor[i-2]= aux;
+            indice2 += 97;
         }
+        return vetor;
+    }
+    public static void enviar(String dados){
+        byte  sdados[] = new byte[100];
+        int porta = 2001;
+        InetAddress ip = null;
+        DatagramSocket s = null;
+        try {
+            ip = InetAddress.getByName("localhost");
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            s = new DatagramSocket(2007);
+        } catch (SocketException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        sdados = dados.getBytes();
+        DatagramPacket sPack = new DatagramPacket(sdados, sdados.length, ip, porta);
+        try {
+            s.send(sPack);
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        s.close();
     }
     
 }
