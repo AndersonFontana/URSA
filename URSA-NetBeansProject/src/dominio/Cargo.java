@@ -15,6 +15,11 @@ public class Cargo {
 		this.tipo = tipo;
 	}
 
+        public Cargo() {
+            
+        }
+
+        
 	@Override
 	public String toString() {
 		return "Cargo{" + "codcargo=" + codcargo + ", descricao=" + descricao + ", tipo=" + tipo + '}';
