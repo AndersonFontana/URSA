@@ -102,4 +102,6 @@ public class Oportunidade {
 	public Cargo getCargo() {
 		return cargo;
 	}
+        
+        
 }
