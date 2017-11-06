@@ -48,8 +48,8 @@ public class Processar extends Thread{
         } catch (IOException ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String operacao = dados.split("\n")[1];
-        String aux = dados.split("\n")[2];
+        String operacao = dados.split("\n")[1].trim();
+        String aux = dados.split("\n")[2].trim();
         Integer tam = Integer.parseInt(aux);
         String Vetdados [] = new String[tam];
         for(int i = 0; i< tam; i++){
