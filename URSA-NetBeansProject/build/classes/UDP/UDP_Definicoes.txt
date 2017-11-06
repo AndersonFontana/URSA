@@ -1,0 +1,24 @@
+Servidor de acesso ao BD que se comunica meio de um Socket UDP, porta 2001;
+
+- Adiciona: Adiciona uma oportunidade ao BD. Caso código da oportunidade já exista, não
+adicionar e informar um erro;
+
+
+- Altera: - Altera uma oportunidade ao BD. Caso código da oportunidade não exista, não alterar e
+informar um erro;
+
+
+- Excluir: apaga uma oportunidade do BD. Caso o código da oportunidade não exista no BD,
+retornar essa informação;
+
+
+- Consulta: retorna os dados de uma oportunidade. Caso o código da oportunidade não exista no
+BD, retornar essa informação;
+
+
+Quando a oportunidade tiver mais de 100 caracteres, a oportunidade será enviada em
+mais de uma mensagem. Ele será usado apenas para interface dos usuários com equipamentos
+antigos. 
+
+Socket UDP deve construir um log de processamento das operações realizadas.
+Cliente com interface de linha de comando para servidor UDP (-HELP);
