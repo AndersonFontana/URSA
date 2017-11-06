@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class Processar extends Thread{
     byte [] sdados = new byte[100];
-    byte [] rdados = new byte[100];
+
     DatagramSocket soc = null;
     DatagramPacket rPack = null;
     Boolean rodando = true;
@@ -53,6 +53,8 @@ public class Processar extends Thread{
         Integer tam = Integer.parseInt(aux);
         String Vetdados [] = new String[tam];
         for(int i = 0; i< tam; i++){
+            Integer posicao = 0;
+            byte [] rdados = new byte[100];
             DatagramPacket rPack2 = new DatagramPacket(rdados, rdados.length);
             try {
                 soc.receive(rPack2);
@@ -60,9 +62,13 @@ public class Processar extends Thread{
                 Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
             }
             String auxx = new String(rPack2.getData());
-            Vetdados[i] = auxx;
+            posicao = (Integer.parseInt(auxx.split("\n")[0].trim()))-1;
+            auxx = auxx.split("\n", 2)[1];
+            Vetdados[posicao] = auxx;
             System.out.println(auxx);
+
         }
+        String dadosOP = null;
         switch(operacao){
             case "-i":
                 //incluir();

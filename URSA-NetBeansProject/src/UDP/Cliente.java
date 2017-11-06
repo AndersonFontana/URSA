@@ -134,7 +134,7 @@ public class Cliente {
         int indice2 = 97;
         String[] vetor = new String[tam];
         for(int i = 0; i < tam; i++){
-            indice = i * 97;
+            indice = i * 96;
             
             if(indice2 > dados.length()){
                 indice2 = dados.length();
@@ -157,7 +157,7 @@ public class Cliente {
         }
         
         try {
-            s = new DatagramSocket(2007);
+            s = new DatagramSocket();
         } catch (SocketException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
