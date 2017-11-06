@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "924195519672",
+    "firebase_url": "https://ursapp-5cad3.firebaseio.com",
+    "project_id": "ursapp-5cad3",
+    "storage_bucket": "ursapp-5cad3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924195519672:android:c46d463c9244d54c",
+        "android_client_info": {
+          "package_name": "com.gabrielplicks.ursapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924195519672-76hki1g3u42ouktj7fk7huiq0ma1b03f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQQkMWGJ7RVU8I8pFe8m06OBOaIRiJbyo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
