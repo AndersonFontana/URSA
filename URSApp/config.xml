@@ -84,8 +84,8 @@
     <platform name="android">
         <resource-file src="google-services.json" target="google-services.json" />
     </platform>
-    <engine name="android" spec="~6.3.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="SENDER_ID" value="924195519672" />
     </plugin>
+    <engine name="android" spec="~6.3.0" />
 </widget>
