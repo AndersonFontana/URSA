@@ -90,7 +90,7 @@ public class Cliente {
         System.out.println("-q: sair");
     }
     public static String incluir(){
-        String retorno = null;
+        String retorno = new String();
         Oportunidade op = new Oportunidade();
         System.out.println("Adicionar oportunidade, preencha os campos abaixo.");
         System.out.print("Digite o Codigo:");
@@ -110,8 +110,17 @@ public class Cliente {
         return retorno;
     }
     
+    public static String consulta(){
+        Oportunidade op = new Oportunidade();
+        String retorno = new String();
+        System.out.println("Consulta Oprtunidade");
+        System.out.println("Digite o codigo da oportunidade: ");
+        retorno = ler.next();
+        return retorno;
+    }
+    
     public static String alterar(){
-        String retorno = null;
+        String retorno = new String();
         Oportunidade op = new Oportunidade();
         String teste = "n";
         System.out.println("Alterar oportunidade, digite o codigo da oportunidade a ser alterada.\n"
@@ -128,7 +137,9 @@ public class Cliente {
             }
             teste = "n";
         }
-        else{}
+        else{
+        
+        }
         
         
         System.out.print("Digite o codigo do cargo:");
