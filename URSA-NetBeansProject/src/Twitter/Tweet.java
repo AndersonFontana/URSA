@@ -28,10 +28,12 @@ public class Tweet {
 
                 twitter.setOAuthAccessToken(accessToken);
                 
-                String pretweet = op.getCargo()+"\n"+op.getDescricao();
+                String pretweet = "A nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
+                        "\n"+op.getDescricao();
                 
                 if (pretweet.length()>140){
-                    pretweet = pretweet.substring(0, 139);
+                    pretweet = pretweet.substring(0, 136);
+                    pretweet = pretweet + "...";
                 }
                 
                 twitter.updateStatus(pretweet);
