@@ -5,6 +5,11 @@
  */
 package WebServices;
 
+import BANCO.DaoBanco;
+import dominio.Oportunidade;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -19,6 +24,15 @@ public class Operacoes {
     
     @WebMethod(operationName = "adiciona")
     public String hello(@WebParam(name = "adiciona") String txt) {
+        
+        Oportunidade op = new Oportunidade(5, 5, "descrição", 5, new Date());
+        DaoBanco db = new DaoBanco();
+        try {
+            db.adicionar(op);
+        } catch (Exception ex) {
+            Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return "Hello " + txt + " !";
     }
     
