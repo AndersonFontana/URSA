@@ -22,7 +22,7 @@ public class Testes {
                 Oportunidade op = new Oportunidade();
                 
             try {
-                op = dao.consultar(1);
+                op = dao.consultar(3);
             } catch (Exception ex) {
                 System.out.println("Erro");
             }            
