@@ -11,11 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +21,6 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jdk.nashorn.internal.parser.JSONParser;
 
 
 /**
@@ -58,7 +55,7 @@ public class Cliente {
                 dados = incluir();
             }
             else if(operacao.equals("-a")){
-                help();
+                dados = alterar();
             }
             else if(operacao.equals("-e")){
                 help();
@@ -93,8 +90,9 @@ public class Cliente {
         System.out.println("-q: sair");
     }
     public static String incluir(){
-        String retorno = null;
+        String retorno = new String();
         Oportunidade op = new Oportunidade();
+        System.out.println("Adicionar oportunidade, preencha os campos abaixo.");
         System.out.print("Digite o Codigo:");
         op.setCodigo(ler.nextInt());
         System.out.print("Digite a Descricao:");
@@ -107,23 +105,64 @@ public class Cliente {
         op.setCodcargo(ler.nextInt());
         System.out.print("Digite o codigo de acesso:");
         op.setAcesso(ler.nextInt());
-        op.setFechada(lerdata());
-        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + op.getFechada();
+        //op.setFechada(lerdata());
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerdata();
         return retorno;
     }
     
-    public static Date lerdata(){
+    public static String consulta(){
+        Oportunidade op = new Oportunidade();
+        String retorno = new String();
+        System.out.println("Consulta Oprtunidade");
+        System.out.println("Digite o codigo da oportunidade: ");
+        retorno = ler.next();
+        return retorno;
+    }
+    
+    public static String alterar(){
+        String retorno = new String();
+        Oportunidade op = new Oportunidade();
+        String teste = "n";
+        System.out.println("Alterar oportunidade, digite o codigo da oportunidade a ser alterada.\n"
+                           + "Se quiser alterar o campo digite s senao digite n");
+        System.out.print("Digite o Codigo da oportunidade a ser alterada:");
+        op.setCodigo(ler.nextInt());
+        System.out.println("Alterar Descricao(s/N)");
+        if(teste.equals("s")){
+            System.out.print("Digite a Descricao:"); 
+            try {
+                 op.setDescricao(in.readLine());
+            }catch (IOException ex) {
+                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            teste = "n";
+        }
+        else{
+        
+        }
+        
+        
+        System.out.print("Digite o codigo do cargo:");
+        op.setCodcargo(ler.nextInt());
+        System.out.print("Digite o codigo de acesso:");
+        op.setAcesso(ler.nextInt());
+        //op.setFechada(lerdata());
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerdata();
+        return retorno;
+    }
+  
+    public static String lerdata(){
         System.out.print("Digite a data de fechamento(dd/MM/yyyy):");
         String dataRecebida = ler.next();
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
-	Date dt = null;
+	Date dt = new Date();
         try {
             dt = df.parse(dataRecebida);
         } catch (ParseException ex) {
             System.out.println("Formato errado da data" + ex.getMessage());
         }
         System.out.println("");
-        return dt;
+        return dataRecebida;
     }
     public static String[] Serializar(String dados){
         int tam = 0;
