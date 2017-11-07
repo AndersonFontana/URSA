@@ -5,10 +5,16 @@
  */
 package UDP;
 
+import BANCO.DaoBanco;
+import dominio.Oportunidade;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,9 +43,8 @@ public class Processar extends Thread{
         } catch (SocketException ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(this.getName());
+        //System.out.println(this.getName());
         String dados = new String(rPack.getData());
-        System.out.println(dados);
         String dadosRe = "Recebido";
         sdados = dadosRe.getBytes();
         DatagramPacket sPack = new DatagramPacket(sdados, sdados.length, rPack.getAddress(),rPack.getPort()); 
@@ -65,18 +70,50 @@ public class Processar extends Thread{
             posicao = (Integer.parseInt(auxx.split("\n")[0].trim()))-1;
             auxx = auxx.split("\n", 2)[1];
             Vetdados[posicao] = auxx;
-            System.out.println(auxx);
-
         }
-        String dadosOP = null;
+        String dadosOP = concat(Vetdados);
         switch(operacao){
             case "-i":
-                //incluir();
+                System.out.println("incluir");
+                incluir(dadosOP);
                 break;
         }
     }
     public void parar(){
         rodando = false;
+    }
+    public String concat(String vet[]){
+        String aux = new String();
+        for(int i = 0; i < vet.length; i++){
+            aux = aux + vet[i];
+        }
+        return aux;
+    }
+    public Oportunidade instanciaOP(String dados){
+        Oportunidade op = new Oportunidade();
+        op.setCodigo(Integer.parseInt(dados.split("\n")[0]));
+        op.setDescricao(dados.split("\n")[1]);
+        op.setCodcargo(Integer.parseInt(dados.split("\n")[2]));
+        op.setAcesso(Integer.parseInt(dados.split("\n")[3]));
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date dt = null;
+        try {
+            dt = (Date)formatter.parse(dados.split("\n")[4]);
+        } catch (ParseException ex) {
+            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        op.setFechada(dt);
+        return op;
+    }
+    public void incluir(String dados){
+        Oportunidade op = instanciaOP(dados);
+        DaoBanco dao = new DaoBanco();
+        try {
+            dao.adicionar(op);
+        } catch (Exception ex) {
+            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }
