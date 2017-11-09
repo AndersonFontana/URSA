@@ -5,9 +5,12 @@
  */
 package TCP;
 
+import UDP.Cliente;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +30,10 @@ public class ServidorTCP {
             System.out.println("Servidor escutando porta: "+servidor.getLocalPort());
             
             Socket cliente = servidor.accept();
-
+            
+            System.out.println("Servidor conectado com cliente "
+                                + cliente.getInetAddress().getHostAddress()+" na porta: "+ cliente.getPort());
+               
             ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
             String rec = new String(entrada.readObject().toString());
 
@@ -37,6 +43,7 @@ public class ServidorTCP {
         }
         catch(Exception e){
             System.out.println("Erro: "+e.getMessage());
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
         }
         finally{
             

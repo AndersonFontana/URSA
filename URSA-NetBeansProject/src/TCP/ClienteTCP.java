@@ -5,14 +5,20 @@
  */
 package TCP;
 
+import BANCO.DaoBanco;
+import UDP.Cliente;
 import dominio.Cargo;
 import dominio.Oportunidade;
-import java.io.ObjectInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,23 +26,25 @@ import java.util.Scanner;
  */
 public class ClienteTCP {
     
-    public static void enviarReceber(String dados){
+    public static void enviarReceber(Oportunidade dados){
         
         Scanner ler = new Scanner(System.in);
         
         int port = 1972;
         String host = new String("localhost");
-        
         try{
             Socket cliente = new Socket(host, port);
             System.out.println("Cliente conectou com servidor na porta: "+port);
 
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
-            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-            
+                       
+            saida.writeObject(dados);
+            saida.flush();
+            System.out.println("Conexão encerrada!");   
         }
         catch(Exception e){
             System.out.println("Erro: "+e.getMessage());
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
         }
     }
        
@@ -45,7 +53,7 @@ public class ClienteTCP {
                 
         while (true)
         {
-            System.out.println("ACESSOS");
+            System.out.println("\nACESSOS");
             System.out.println("[1] Somente Agronomia");
             System.out.println("[2] Somente Engenharia Agronomica");
             System.out.println("[3] Somente Agronegocio");
@@ -73,7 +81,7 @@ public class ClienteTCP {
                 
         while (true)
         {
-            System.out.println("TIPOS DE OPORTUNIDADES:");
+            System.out.println("\nTIPOS DE OPORTUNIDADES:");
             System.out.println("[1] Emprego formal");
             System.out.println("[2] Estágio até 20h/semana");
             System.out.println("[3] Estágio acima de 20h/semana");
@@ -96,98 +104,61 @@ public class ClienteTCP {
         }
     }
     
-    
-    public static Oportunidade lerOportunidade(){
+    public static Oportunidade lerOportunidade() throws IOException{
+        Scanner ler = new Scanner(System.in); 
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        //String retorno = null;
         
-        Scanner ler = new Scanner(System.in);        
-        Oportunidade oportunidade = new Oportunidade();      
-        oportunidade.setAcesso(lerAcesso());          
-        return oportunidade;        
+        Oportunidade op = new Oportunidade();
+        System.out.print("Digite o CÓDIGO da oportunidade: ");
+        op.setCodigo(ler.nextInt());
+        
+        System.out.print("Digite a DESCRIÇÃO da oportunidade: ");
+        op.setDescricao(in.readLine());
+        
+        op.setAcesso(lerAcesso());  
+        
+        //ingresso: timestamp
+        //fechada: timestamp
+        
+        //retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getAcesso();
+        return op;
+           
     }
     
-    public static Cargo lerCargo(){
+    public static Cargo lerCargo() throws IOException{
+        Scanner ler = new Scanner(System.in); 
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         
-        Scanner ler = new Scanner(System.in);        
-        Cargo cargo = new Cargo();        
-        cargo.setTipo(lerTipo());      
+        Cargo cargo = new Cargo(); 
+        
+        System.out.println("Digite o CÓDIGO do cargo: ");
+        cargo.setCodcargo(ler.nextInt());
+        
+        System.out.print("Digite a DESCRIÇÃO do cargo: ");
+        cargo.setDescricao(in.readLine());
+        
+        cargo.setTipo(lerTipo());  
+        
         return cargo;
     }
     
-    
-    public static ArquivoBD comunicar (Socket cliente,
-                                       ArquivoBD arquivo,
-                                       ObjectOutputStream saida,
-                                       ObjectInputStream entrada) throws Exception{
-        saida.writeObject(arquivo);
-        saida.flush();
-        System.out.println("Conexão encerrada!");
-        
-        return (ArquivoBD) entrada.readObject();
-    }
-    
-//    public static String adicionar() throws IOException{
-//                
-//        Oportunidade oportunidade = new Oportunidade();
-//        String retornaOp = null;
-//        oportunidade = lerOportunidade();
-//        ArquivoBD arquivo = new ArquivoBD();
-//        //arquivo.setOpe(operacao);
-//        List<Object> lista = new ArrayList<Object>();
-//        
-//        lista.add(oportunidade);
-//        
-//        arquivo.setObjetos(lista);
-//        //arquivo = comunicar(cliente, arquivo, saida, entrada);
-//        
-//        retornaOp = oportunidade.getCodigo() + "\n" 
-//                  + oportunidade.getCodcargo()+ "\n"
-//                  + oportunidade.getCargo()+ "\n"
-//                  + oportunidade.getDescricao() + "\n"
-//                  + oportunidade.getAcesso()+ "\n" 
-//                  + oportunidade.getIngresso()+ "\n"
-//                  + oportunidade.getFechada();
-//        
-//        return retornaOp;
-//    }    
-    
-//    public static void consultar(){
-//        
-//    }
-//    
-//    public static void excluir(){
-//        
-//    }
-//    
-//    public static void alterar(){
-//        
-//    }
-//      
-//    public static void listarOportunidades(){
-//        
-//    }
-    
-//    public static void listarAbertas(){
-//        
-//    }
-        
     public static void main(String[] args) throws Exception{
         
-        try{
-                Scanner ler = new Scanner(System.in);
+        Scanner ler = new Scanner(System.in);
+        
+//        try{
+//            int port = 1972;
+//            String host = new String("localhost");
+//
+//            Socket cliente = new Socket(host, port);
+//            System.out.println("Cliente conectou com servidor na porta: "+port);
+//
+//            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
 
-                int port = 1972;
-                String host = new String("localhost");
-
-                Socket cliente = new Socket(host, port);
-                System.out.println("Cliente conectou com servidor na porta: "+port);
-
-                ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
-                ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-
-              
             while(true){
-                System.out.println("*******************");
-                System.out.println("     OPERAÇÕES     ");
+                System.out.println("\n*******************");
+                System.out.println("     OPERAÇÕES   ");
                 System.out.println("*******************");
                 System.out.println("[1] Adicionar");
                 System.out.println("[2] Alterar");
@@ -199,71 +170,71 @@ public class ClienteTCP {
                 System.out.print("Digite a sua opção desejada: ");
 
                 Integer operacao = Integer.parseInt(ler.nextLine());
-
-                Oportunidade oportunidade = new Oportunidade();
+                Oportunidade op = new Oportunidade();
+                DaoBanco dao = new DaoBanco();
                 Cargo cargo = new Cargo();
-                String retornaOp = null;
-                ArquivoBD arquivo = new ArquivoBD();
-                List<Object> lista = new ArrayList<Object>();
-                arquivo.setOpe(operacao);
-
-
+                List<Oportunidade> listaOportunidades = new ArrayList();
+                
                 switch(operacao){
-                    case 1:
-                        //adicionar();
-                        oportunidade = lerOportunidade();
-                        lista.add(oportunidade);
-                        arquivo.setObjetos(lista);
-                        arquivo = comunicar(cliente, arquivo, saida, entrada);
+                    case 1: //adicionar
+                        op = lerOportunidade();
+                        listaOportunidades.add(op);
+                        //enviarReceber(op);
+                        //lista.add(op);
+                        System.out.println(dao.adicionar(op));
                         break;
-                    case 2:
-                        //alterar();
-                        oportunidade = lerOportunidade();
-                        lista.add(oportunidade);
-                        arquivo.setObjetos(lista);
-                        arquivo = comunicar(cliente, arquivo, saida, entrada);
+                        
+                    case 2: //alterar
+                        op = lerOportunidade();
+                        listaOportunidades.add(op);
+                        //enviarReceber(op);
+                        //lista.add(op);
+                        System.out.println(dao.alterar(op));
                         break;
-                    case 3:
-                        //consultar();
-                        oportunidade = lerOportunidade();
-                        lista.add(oportunidade);
-                        arquivo.setObjetos(lista);
-                        arquivo = comunicar(cliente, arquivo, saida, entrada);
+                        
+                    case 3: //consultar
+                        op = lerOportunidade();
+                        listaOportunidades.add(op);
+                        //enviarReceber(op);
+                        //lista.add(op);
+                        System.out.println(dao.consultar(op));
                         break;
-                    case 4:
-                        //excluir();
-                        oportunidade = lerOportunidade();
-                        lista.add(oportunidade);
-                        arquivo.setObjetos(lista);
-                        arquivo = comunicar(cliente, arquivo, saida, entrada);
+                        
+                    case 4: //excluir
+                        op = lerOportunidade();
+                        listaOportunidades.add(op);
+                        //enviarReceber(op);
+                        //lista.add(op);
+                        System.out.println(dao.excluir(op));
                         break;
-                    case 5:
-                        //listarOportunidades();
-                        oportunidade = lerOportunidade();
-                        lista.add(oportunidade);
-                        arquivo.setObjetos(lista);
-                        arquivo = comunicar(cliente, arquivo, saida, entrada);
+                        
+                    case 5: //listarOportunidades
+                        op = lerOportunidade();
+                        //enviarReceber(op);
+                        //lista.add(op);
+                        listaOportunidades = dao.listaOportunidades(1);
+                        //System.out.println(dao.listaOportunidades(codCargo));                     
                         break;
-                    case 6:
-                        //listarAbertas();
-                        cargo = lerCargo();
-                        lista.add(cargo);
-                        arquivo.setObjetos(lista);
-                        arquivo = comunicar(cliente, arquivo, saida, entrada);
+                        
+                    case 6: //listarAbertas
+                        cargo.setTipo(lerTipo());
+                        //enviarReceber(op);
+                        //lista.add(cargo);
+                        listaOportunidades = dao.listaAbertas(7);
+                        //System.out.println(dao.listaAbertas(tipo));            
                         break;
+                        
                     case 7:
                         System.out.println("Sair...");
                         break;
-
                 }
             }
-            
-        }
-        catch(Exception e){
-            System.out.println("Erro: "+e.getMessage());  
-        }
-        finally{
-                
-        }
+//        }
+//        catch(Exception e){
+//            System.out.println("Erro: "+e.getMessage());  
+//        }
+//        finally{
+//                
+//        }
     }    
 }
