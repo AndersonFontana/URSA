@@ -19,7 +19,7 @@ public class Servidor {
      */
     public static void main(String[] args) throws Exception{
         // TODO code application logic here
-        
+        Integer cont = 0;
         System.out.println("Servidor");
         int porta = 2001;
         DatagramSocket s = new DatagramSocket(porta);
@@ -28,8 +28,9 @@ public class Servidor {
             byte [] sdados = new byte[100];
             DatagramPacket rPack = new DatagramPacket(rdados, rdados.length);
             s.receive(rPack);
-            String rDados = new String(rPack.getData()).trim();
-            System.out.println(rDados);
+            cont++;
+            Processar p = new Processar(rPack, "Thread " + cont.toString(), porta+cont);
+            p.start();
         }
     }
     

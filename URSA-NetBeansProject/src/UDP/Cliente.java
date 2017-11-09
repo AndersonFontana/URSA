@@ -11,11 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +21,6 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jdk.nashorn.internal.parser.JSONParser;
 
 
 /**
@@ -58,7 +55,7 @@ public class Cliente {
                 dados = incluir();
             }
             else if(operacao.equals("-a")){
-                help();
+                dados = alterar();
             }
             else if(operacao.equals("-e")){
                 help();
@@ -75,12 +72,11 @@ public class Cliente {
             }
             byte  sdados[] = new byte[100];
             operacao = String.format("%03d",0) + "\n" + operacao;
-            enviar(operacao);
             vetor = Serializar(dados);
-            String tamanho = String.format("%03d",1) + "\n" + vetor.length;
-            enviar(tamanho);
+            Integer tamanho = vetor.length;
+            int porta = enviar(operacao + "\n" + tamanho, 2001);
             for(int i = 0; i < vetor.length; i++){
-                enviar(vetor[i]);
+                enviar(vetor[i], porta);
             }
             
         }
@@ -94,8 +90,9 @@ public class Cliente {
         System.out.println("-q: sair");
     }
     public static String incluir(){
-        String retorno = null;
+        String retorno = new String();
         Oportunidade op = new Oportunidade();
+        System.out.println("Adicionar oportunidade, preencha os campos abaixo.");
         System.out.print("Digite o Codigo:");
         op.setCodigo(ler.nextInt());
         System.out.print("Digite a Descricao:");
@@ -108,23 +105,64 @@ public class Cliente {
         op.setCodcargo(ler.nextInt());
         System.out.print("Digite o codigo de acesso:");
         op.setAcesso(ler.nextInt());
-        op.setFechada(lerdata());
-        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + op.getFechada();
+        //op.setFechada(lerdata());
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerdata();
         return retorno;
     }
     
-    public static Date lerdata(){
+    public static String consulta(){
+        Oportunidade op = new Oportunidade();
+        String retorno = new String();
+        System.out.println("Consulta Oprtunidade");
+        System.out.println("Digite o codigo da oportunidade: ");
+        retorno = ler.next();
+        return retorno;
+    }
+    
+    public static String alterar(){
+        String retorno = new String();
+        Oportunidade op = new Oportunidade();
+        String teste = "n";
+        System.out.println("Alterar oportunidade, digite o codigo da oportunidade a ser alterada.\n"
+                           + "Se quiser alterar o campo digite s senao digite n");
+        System.out.print("Digite o Codigo da oportunidade a ser alterada:");
+        op.setCodigo(ler.nextInt());
+        System.out.println("Alterar Descricao(s/N)");
+        if(teste.equals("s")){
+            System.out.print("Digite a Descricao:"); 
+            try {
+                 op.setDescricao(in.readLine());
+            }catch (IOException ex) {
+                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            teste = "n";
+        }
+        else{
+        
+        }
+        
+        
+        System.out.print("Digite o codigo do cargo:");
+        op.setCodcargo(ler.nextInt());
+        System.out.print("Digite o codigo de acesso:");
+        op.setAcesso(ler.nextInt());
+        //op.setFechada(lerdata());
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerdata();
+        return retorno;
+    }
+  
+    public static String lerdata(){
         System.out.print("Digite a data de fechamento(dd/MM/yyyy):");
         String dataRecebida = ler.next();
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
-	Date dt = null;
+	Date dt = new Date();
         try {
             dt = df.parse(dataRecebida);
         } catch (ParseException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Formato errado da data" + ex.getMessage());
         }
         System.out.println("");
-        return dt;
+        return dataRecebida;
     }
     public static String[] Serializar(String dados){
         int tam = 0;
@@ -134,21 +172,21 @@ public class Cliente {
         int indice = 0;
         int indice2 = 97;
         String[] vetor = new String[tam];
-        for(int i = 2; i < (tam + 2); i++){
-            indice = (i-2) * 97;
+        for(int i = 0; i < tam; i++){
+            indice = i * 96;
             
             if(indice2 > dados.length()){
                 indice2 = dados.length();
             }
-            String aux = String.format("%03d",i)+ "\n" + dados.substring(indice, indice2);
-            vetor[i-2]= aux;
+            String aux = String.format("%03d",i+1)+ "\n" + dados.substring(indice, indice2);
+            vetor[i]= aux;
             indice2 += 97;
         }
         return vetor;
     }
-    public static void enviar(String dados){
+    public static int enviar(String dados, int porta){
         byte  sdados[] = new byte[100];
-        int porta = 2001;
+        byte  rdados[] = new byte[100];
         InetAddress ip = null;
         DatagramSocket s = null;
         try {
@@ -158,7 +196,7 @@ public class Cliente {
         }
         
         try {
-            s = new DatagramSocket(2007);
+            s = new DatagramSocket();
         } catch (SocketException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -169,7 +207,19 @@ public class Cliente {
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Integer nporta= 0;
+        if(porta == 2001){
+            DatagramPacket re = new DatagramPacket(rdados, rdados.length);
+            try {
+                s.receive(re);
+            } catch (IOException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            nporta = re.getPort();
+            System.out.println(" Porta:" + nporta.toString());
+        }
         s.close();
+        return nporta;
     }
     
 }
