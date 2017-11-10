@@ -46,13 +46,7 @@ public class Processar extends Thread{
         //System.out.println(this.getName());
         String dados = new String(rPack.getData());
         String dadosRe = "Recebido";
-        sdados = dadosRe.getBytes();
-        DatagramPacket sPack = new DatagramPacket(sdados, sdados.length, rPack.getAddress(),rPack.getPort()); 
-        try {
-            soc.send(sPack);
-        } catch (IOException ex) {
-            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        responder(dadosRe);
         String operacao = dados.split("\n")[1].trim();
         String aux = dados.split("\n")[2].trim();
         Integer tam = Integer.parseInt(aux);
@@ -77,19 +71,31 @@ public class Processar extends Thread{
                 System.out.println("incluir");
                 incluir(dadosOP);
                 break;
+            case "-c":
+                System.out.println("Consultar");
+                consultar(dadosOP);
+                break;
+            case "-a":
+                System.out.println("Consultar");
+                alterar(dadosOP);
+                break;
+            case "-e":
+                System.out.println("Consultar");
+                excluir(dadosOP);
+                break;
         }
     }
     public void parar(){
         rodando = false;
     }
-    public String concat(String vet[]){
+    public static String concat(String vet[]){
         String aux = new String();
         for(int i = 0; i < vet.length; i++){
             aux = aux + vet[i];
         }
         return aux;
     }
-    public Oportunidade instanciaOP(String dados){
+    public static Oportunidade instanciaOP(String dados){
         Oportunidade op = new Oportunidade();
         op.setCodigo(Integer.parseInt(dados.split("\n")[0]));
         op.setDescricao(dados.split("\n")[1]);
@@ -99,10 +105,10 @@ public class Processar extends Thread{
         Date dt = null;
         try {
             dt = (Date)formatter.parse(dados.split("\n")[4]);
+            op.setFechada(dt);
         } catch (ParseException ex) {
-            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+            op.setFechada(null);
         }
-        op.setFechada(dt);
         return op;
     }
     public void incluir(String dados){
@@ -114,6 +120,58 @@ public class Processar extends Thread{
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    public void alterar(String dados){
+        Oportunidade op = instanciaOP(dados);
+        DaoBanco dao = new DaoBanco();
+        try {
+            dao.alterar(op);
+        } catch (Exception ex) {
+            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void excluir(String dados){
+        System.out.println(dados);
+        DaoBanco dao = new DaoBanco();
+        try {
+            dao.excluir(Integer.parseInt(dados.trim()));
+        } catch (Exception ex) {
+            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void consultar(String dados){
+        Cliente c = new Cliente();
+        String retorno = new String();
+        String[] vetor;
+        String operacao = new String();
+        Oportunidade op = new Oportunidade();
+        DaoBanco dao = new DaoBanco();
+        try {
+            op = dao.consultar(Integer.parseInt(dados.trim()));
+        } catch (Exception ex) {
+            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso() + "\n" + op.getIngresso() + "\n" + op.getFechada();
+        vetor = c.Serializar(retorno);
+        Integer tamanho = vetor.length;
+        operacao = String.format("%03d",0) + "\n" + tamanho.toString();
+        responder(operacao);
+        for(int i = 0; i < vetor.length; i++){
+                responder(vetor[i]);
+        }
+    }
+    public void responder(String dados){
+        sdados = dados.getBytes();
+        DatagramPacket sPack = new DatagramPacket(sdados, sdados.length, rPack.getAddress(),rPack.getPort()); 
+        try {
+            soc.send(sPack);
+        } catch (IOException ex) {
+            Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

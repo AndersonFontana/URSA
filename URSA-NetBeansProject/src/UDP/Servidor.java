@@ -13,7 +13,6 @@ import java.net.DatagramSocket;
  * @author 152078
  */
 public class Servidor {
-
     /**
      * @param args the command line arguments
      */
