@@ -21,11 +21,14 @@ export class HomePage {
 	    	// Inicializar push notifications
 
 			const options: PushOptions = {
-				android: {},
+				android: {
+					topics: ['ursapp']
+				},
 				ios: {
 			    	alert: 'true',
 			    	badge: true,
-			    	sound: 'false'
+			    	sound: 'false',
+			    	topics: ['ursapp']
 				},
 				windows: {},
 				browser: {
