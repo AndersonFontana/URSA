@@ -16,7 +16,7 @@ import java.net.URL;
 public class URSApp {
 
     private static String SERVER_KEY = "AAAA1y5YfLg:APA91bGyqdMwpt2Z-NJoqkz22QTWpaM62_TDTgR3wF5uEFkRW8cNiGdPF9_QrGk-SKgLD85utZN3_8pmOU4AsFZTyRMuxSl4aj51ybEc1WOdUjJjeAUsFDP3BbvZBT4Nb1oHt5NO_A_F";
-    private static String DEVICE_TOKEN = "dRQmTrVPa-g:APA91bGEVvWUu0a62ZvQLQ4avdJyMhdNnyTQ7D5a-q-crqpsCRIKNpipxTphkkB4BtGVEU1AC5_3pxuD_Qe-43sq4hD7_an93cj1HrhAeB52-O1LHIeRFWnGuY1XTFO73xqw9MP8dJfl";
+    private static String DEVICE_TOKEN = "/topics/ursapp";
     
     /**
      * @param args the command line arguments
