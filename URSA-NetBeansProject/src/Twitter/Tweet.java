@@ -31,8 +31,8 @@ public class Tweet {
                 String pretweet = "A nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
                         "\n"+op.getDescricao();
                 
-                if (pretweet.length()>140){
-                    pretweet = pretweet.substring(0, 136);
+                if (pretweet.length()>280){
+                    pretweet = pretweet.substring(0, 276);
                     pretweet = pretweet + "...";
                 }
                 
