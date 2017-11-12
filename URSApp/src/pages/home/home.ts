@@ -45,7 +45,10 @@ export class HomePage {
 				{
 					alert('Notificação recebida: ' + notification.message);
 
-					this.navCtrl.push(DetailsPage);
+					this.navCtrl.push(DetailsPage, {
+					    title: notification.title,
+					    message: notification.message
+					});
 				});
 
 				// Este vai registrar no sistema de notificação e exibe o token do dispositivo
