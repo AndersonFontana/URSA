@@ -9,10 +9,12 @@ export class DetailsPage {
 
   title: string;
   message: string;
+  content: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.title = this.navParams.get('title');
     this.message = this.navParams.get('message');
+    this.content = this.navParams.get('content');
   }
 
 }

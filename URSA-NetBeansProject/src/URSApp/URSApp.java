@@ -22,21 +22,24 @@ public class URSApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String title = "Título notificação";
-        String message = "Mensagem notificação";
+        String title = "Nova vaga/oportunidade!";
+        String message = "Você recebeu uma nova vaga ou oportunidade! Clique para visualizar.";
+        String content = "{'param1': 'um', 'param2': 'dois'}";
         
         try {
-            sendPushNotification(title, message);
+            sendPushNotification(title, message, content);
         } catch (Exception ex) {
             System.out.println("Erro: " + ex.getMessage());
         }
     }
     
-    private static void sendPushNotification(String title, String message) throws Exception {
+    private static void sendPushNotification(String title, String message, String content) throws Exception {      
         String pushMessage = "{\"data\":{\"title\":\"" +
                 title +
                 "\",\"message\":\"" +
                 message +
+                "\",\"content\":\"" +
+                content +
                 "\"},\"to\":\"" +
                 DEVICE_TOKEN +
                 "\"}";

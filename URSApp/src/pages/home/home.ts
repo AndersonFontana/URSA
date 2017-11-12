@@ -18,7 +18,7 @@ export class HomePage {
 		this.push.hasPermission().then((res: any) => {
 
 		    if (res.isEnabled) {
-		      alert('Tem permissão');
+		    	console.log('Tem permissão');
 
 		    	// Inicializar push notifications
 
@@ -43,25 +43,26 @@ export class HomePage {
 				// Este vai receber a mensagem da notificação
 				pushObject.on('notification').subscribe((notification: any) =>
 				{
-					alert('Notificação recebida: ' + notification.message);
+
+					let additionalData = JSON.parse(JSON.stringify(notification.additionalData));
 
 					this.navCtrl.push(DetailsPage, {
-					    title: notification.title,
-					    message: notification.message
+					    'title': notification.title,
+					    'message': notification.message,
+					    'content': additionalData.content
 					});
 				});
 
 				// Este vai registrar no sistema de notificação e exibe o token do dispositivo
 				pushObject.on('registration').subscribe((registration: any) =>
 				{
-					document.getElementById('token').innerHTML = registration.registrationId;
 				});
 
 				// Este vai verificar se existe algum erro na mensagem
 				pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
 
 		    } else {
-		      alert('Não tem permissão');
+		    	console.log('Não tem permissão');
 		    }
 
 	  	});
