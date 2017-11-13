@@ -97,10 +97,10 @@ public class Processar extends Thread{
     }
     public static Oportunidade instanciaOP(String dados){
         Oportunidade op = new Oportunidade();
-        op.setCodigo(Integer.parseInt(dados.split("\n")[0]));
-        op.setDescricao(dados.split("\n")[1]);
-        op.setCodcargo(Integer.parseInt(dados.split("\n")[2]));
-        op.setAcesso(Integer.parseInt(dados.split("\n")[3]));
+        op.setCodigo(Integer.parseInt(dados.split("\n")[0].trim()));
+        op.setDescricao(dados.split("\n")[1].trim().trim());
+        op.setCodcargo(Integer.parseInt(dados.split("\n")[2].trim()));
+        op.setAcesso(Integer.parseInt(dados.split("\n")[3].trim()));
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date dt = null;
         try {
