@@ -6,8 +6,12 @@
 package WebServices;
 
 import BANCO.DaoBanco;
+import static UDP.Cliente.ler;
 import dominio.Oportunidade;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,11 +34,22 @@ public class Operacoes {
                             @WebParam(name = "codCargo") Integer CodCargo,
                             @WebParam(name = "descricao") String descricao,
                             @WebParam(name = "acesso") Integer acesso,
-                            @WebParam(name = "fechada") Timestamp fechada
+                            @WebParam(name = "fechada") String fechada
                             
             ) {  
         DaoBanco db = new DaoBanco();
-        Oportunidade op = new Oportunidade(Codigo, CodCargo, descricao, acesso, fechada);
+        
+        
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date dt = new Date();
+        try {
+            dt = df.parse(fechada);
+        } catch (ParseException ex) {
+            System.out.println("Formato errado da data" + ex.getMessage());
+        }
+
+        Oportunidade op = new Oportunidade(Codigo, CodCargo, descricao, acesso, dt);
+        System.out.println(op.toString());
         try {
             db.adicionar(op);
         } catch (Exception ex) {
@@ -45,10 +60,18 @@ public class Operacoes {
     }
     
     @WebMethod(operationName = "altera")
-    public boolean altera(@WebParam(name = "altera") Oportunidade Op) {
+    public boolean altera(@WebParam(name = "codigo") Integer Codigo,
+                            @WebParam(name = "codCargo") Integer CodCargo,
+                            @WebParam(name = "descricao") String descricao,
+                            @WebParam(name = "acesso") Integer acesso,
+                            @WebParam(name = "fechada") Timestamp fechada
+                            
+               ) {
+        
         DaoBanco db = new DaoBanco();
+        Oportunidade op = new Oportunidade(Codigo, CodCargo, descricao, acesso, fechada);
         try {
-            db.alterar(Op);
+            db.alterar(op);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,12 +79,11 @@ public class Operacoes {
         return true;
     }
     
-    
     @WebMethod(operationName = "exclui")
-    public boolean exclui(@WebParam(name = "exclui") Oportunidade Op) {
+    public boolean exclui(@WebParam(name = "exclui") Integer codigo) {
          DaoBanco db = new DaoBanco();
         try {
-            db.excluir(Op);
+            db.excluir(codigo);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,11 +92,11 @@ public class Operacoes {
     }
     
     @WebMethod(operationName = "consulta")
-    public Oportunidade consulta(@WebParam(name = "consulta") Oportunidade Op) {
+    public Oportunidade consulta(@WebParam(name = "consulta") Integer codigo) {
          Oportunidade ret = new Oportunidade();
          DaoBanco db = new DaoBanco();
         try {
-            ret = db.consultar(Op);
+            ret = db.consultar(codigo);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
