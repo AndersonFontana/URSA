@@ -11,6 +11,7 @@ import twitter4j.auth.AccessToken;
  * @author 152072
  */
 public class Tweet {
+        // Chaves de ativação
         static String consumerKeyStr =       "ssSa9oGptlEWd5HZhMLv3fvAY";
 	static String consumerSecretStr =    "zb9zKZsRYZyUry4GkDWXdA3H71RmMBb4gorfsU09iXouxEGRIG";
 	static String accessTokenStr =       "925046275610947584-knr4EDD1Bd1JRtf5KashL6w5CYECL5C";
@@ -20,6 +21,7 @@ public class Tweet {
             //op.getDescricao();
                     
             try {
+                // inicia conexão
                 Twitter twitter = new TwitterFactory().getInstance();
 
                 twitter.setOAuthConsumer(consumerKeyStr, consumerSecretStr);
@@ -27,17 +29,22 @@ public class Tweet {
                         accessTokenSecretStr);
 
                 twitter.setOAuthAccessToken(accessToken);
+                // inicia conexão
                 
+                //cria tweet
                 String pretweet = "A nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
                         "\n"+op.getDescricao();
                 
-                if (pretweet.length()>280){
-                    pretweet = pretweet.substring(0, 276);
+                // formata tweet
+                if (pretweet.length()>140){
+                    pretweet = pretweet.substring(0, 136);
                     pretweet = pretweet + "...";
                 }
                 
+                // envia tweet
                 twitter.updateStatus(pretweet);
 
+                // mensagem para o sistema
                 System.out.println("Successfully updated the status in Twitter.");
             } catch (TwitterException te) {
                 te.printStackTrace();
