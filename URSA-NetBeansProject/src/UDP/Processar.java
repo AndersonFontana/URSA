@@ -15,8 +15,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
+
 
 /**
  *
@@ -30,7 +30,7 @@ public class Processar extends Thread{
     Boolean rodando = true;
     Integer porta;
     public String parar;
-
+    
     public Processar(DatagramPacket pack, String name, Integer porta) throws SocketException {
         this.setName(name);
         this.rPack = pack;
@@ -119,6 +119,9 @@ public class Processar extends Thread{
         } catch (Exception ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String RL = "Incluida Opornuidade Codigo " + op.getCodigo();
+        logInfo(RL);
+        responder(RL);
         
     }
     
@@ -130,6 +133,9 @@ public class Processar extends Thread{
         } catch (Exception ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String RL = "Alterada Opornuidade Codigo " + op.getCodigo();
+        logInfo(RL);
+        responder(RL);
         
     }
     
@@ -141,6 +147,9 @@ public class Processar extends Thread{
         } catch (Exception ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String RL = "Excluida Opornuidade Codigo " + Integer.parseInt(dados.trim());
+        logInfo(RL);
+        responder(RL);
     }
     
     public void consultar(String dados){
@@ -163,6 +172,8 @@ public class Processar extends Thread{
         for(int i = 0; i < vetor.length; i++){
                 responder(vetor[i]);
         }
+        String RL = "Consultada Opornuidade Codigo " + op.getCodigo();
+        logInfo(RL);
     }
     public void responder(String dados){
         sdados = dados.getBytes();
@@ -173,5 +184,9 @@ public class Processar extends Thread{
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void logInfo(String log) {
+		Servidor.LOGGER.info(log);
+	}
     
 }

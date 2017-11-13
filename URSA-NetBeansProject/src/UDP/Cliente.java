@@ -88,6 +88,7 @@ public class Cliente {
             for(int i = 0; i < vetor.length; i++){
                 enviar(vetor[i], porta, soc);
             }
+            System.out.println(receber(soc));
             
         }
     }
@@ -162,7 +163,7 @@ public class Cliente {
             teste = "n";
         }
         else{
-            op.setDescricao(null);
+            op.setDescricao("");
         }
         System.out.print("Alterar Cargo(s/n): ");
         teste = ler.next();
