@@ -32,12 +32,12 @@ public class Tweet {
                 // inicia conexão
                 
                 //cria tweet
-                String pretweet = "A nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
-                        "\n"+op.getDescricao();
+                String pretweet = "Nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
+                        "\n\n"+op.getDescricao();
                 
                 // formata tweet
-                if (pretweet.length()>140){
-                    pretweet = pretweet.substring(0, 136);
+                if (pretweet.length()>280){
+                    pretweet = pretweet.substring(0, 286);
                     pretweet = pretweet + "...";
                 }
                 
