@@ -84,7 +84,7 @@ public class DaoBanco {
                 pstmt.setInt(1, objeto.getCodcargo());
             }
 
-            if (objeto.getDescricao() == null) {
+            if (objeto.getDescricao().equals("")) {
                 pstmt.setString(2, rs.getString("descricao"));
             } else {
                 pstmt.setString(2, objeto.getDescricao());

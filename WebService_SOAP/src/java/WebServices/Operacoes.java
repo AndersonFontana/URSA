@@ -7,6 +7,7 @@ package WebServices;
 
 import BANCO.DaoBanco;
 import dominio.Oportunidade;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,16 +21,22 @@ import javax.jws.WebParam;
  *
  * @author Regis
  */
+
 @WebService(serviceName = "Operacoes")
 public class Operacoes {
-
     
     @WebMethod(operationName = "adiciona")
-    public boolean adiciona(@WebParam(name = "adiciona") Oportunidade Op) {
-        
+    public boolean adiciona(@WebParam(name = "codigo") Integer Codigo,
+                            @WebParam(name = "codCargo") Integer CodCargo,
+                            @WebParam(name = "descricao") String descricao,
+                            @WebParam(name = "acesso") Integer acesso,
+                            @WebParam(name = "fechada") Timestamp fechada
+                            
+            ) {  
         DaoBanco db = new DaoBanco();
+        Oportunidade op = new Oportunidade(Codigo, CodCargo, descricao, acesso, fechada);
         try {
-            db.adicionar(Op);
+            db.adicionar(op);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
