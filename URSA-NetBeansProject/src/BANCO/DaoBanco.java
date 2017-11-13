@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import URSApp.URSApp;
 
 /**
  *
@@ -47,6 +48,11 @@ public class DaoBanco {
         } else {
             throw new Exception("Oportunidade já existe!");
         }
+        
+        // Envia notificação ao app
+        URSApp ursapp = new URSApp();
+        ursapp.sendPushNotification(objeto);
+        
         return true;
     }
 

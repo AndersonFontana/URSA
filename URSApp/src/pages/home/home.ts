@@ -43,6 +43,7 @@ export class HomePage {
 				// Este vai receber a mensagem da notificação
 				pushObject.on('notification').subscribe((notification: any) =>
 				{
+					alert(notification.message);
 
 					let additionalData = JSON.parse(JSON.stringify(notification.additionalData));
 
@@ -56,6 +57,7 @@ export class HomePage {
 				// Este vai registrar no sistema de notificação e exibe o token do dispositivo
 				pushObject.on('registration').subscribe((registration: any) =>
 				{
+					console.log('Token dispositivo: ', registration.registrationId);
 				});
 
 				// Este vai verificar se existe algum erro na mensagem
