@@ -1,7 +1,6 @@
-/URSA-NetBeansProject/nbproject/private/
-/URSA-NetBeansProject/nbproject/private/
-/URSA-NetBeansProject/build/
-/URSA-NetBeansProject/nbbuild/
-/URSA-NetBeansProject/dist/
-/URSA-NetBeansProject/nbdist/
-/URSA-NetBeansProject/.nb-gradle/
+*/nbproject/private/
+*/build/
+*/nbbuild/
+*/dist/
+*/nbdist/
+*/.nb-gradle/
