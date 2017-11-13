@@ -89,7 +89,6 @@ public class Cliente {
                 enviar(vetor[i], porta, soc);
             }
             System.out.println(receber(soc));
-            
         }
     }
     
