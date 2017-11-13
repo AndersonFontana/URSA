@@ -26,7 +26,7 @@ import javax.jws.WebParam;
  * @author Regis
  */
 
-@WebService(serviceName = "Operacoes")
+@WebService(serviceName = "Operacoe")
 public class Operacoes {
     
     @WebMethod(operationName = "adiciona")
