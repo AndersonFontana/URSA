@@ -6,7 +6,6 @@
 package WebServices;
 
 import BANCO.DaoBanco;
-import static UDP.Cliente.ler;
 import dominio.Oportunidade;
 import java.sql.Timestamp;
 import java.text.DateFormat;
