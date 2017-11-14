@@ -68,7 +68,7 @@ public class Processar extends Thread{
         String dadosOP = concat(Vetdados);
         switch(operacao){
             case "-i":
-                System.out.println("incluir");
+                System.out.println("Incluir");
                 incluir(dadosOP);
                 break;
             case "-c":
@@ -114,12 +114,13 @@ public class Processar extends Thread{
     public void incluir(String dados){
         Oportunidade op = instanciaOP(dados);
         DaoBanco dao = new DaoBanco();
+        String RL = "Incluida Oportunidade Codigo " + op.getCodigo();
         try {
             dao.adicionar(op);
         } catch (Exception ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String RL = "Incluida Opornuidade Codigo " + op.getCodigo();
+            RL = ex.getMessage();
+        }        
         logInfo(RL);
         responder(RL);
         
@@ -128,24 +129,28 @@ public class Processar extends Thread{
     public void alterar(String dados){
         Oportunidade op = instanciaOP(dados);
         DaoBanco dao = new DaoBanco();
+        String RL = "Alterada Oportunidade Codigo " + op.getCodigo();
         try {
             dao.alterar(op);
         } catch (Exception ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+            RL = ex.getMessage();
         }
-        String RL = "Alterada Opornuidade Codigo " + op.getCodigo();
+        
         logInfo(RL);
         responder(RL);  
     }
     
     public void excluir(String dados){
         DaoBanco dao = new DaoBanco();
+        String RL = "Excluida Oportunidade Codigo " + Integer.parseInt(dados.trim());
         try {
             dao.excluir(Integer.parseInt(dados.trim()));
         } catch (Exception ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
+            RL = ex.getMessage();
         }
-        String RL = "Excluida Opornuidade Codigo " + Integer.parseInt(dados.trim());
+        
         logInfo(RL);
         responder(RL);
     }
@@ -170,7 +175,7 @@ public class Processar extends Thread{
         for(int i = 0; i < vetor.length; i++){
                 responder(vetor[i]);
         }
-        String RL = "Consultada Opornuidade Codigo " + op.getCodigo();
+        String RL = "Consultada Oportunidade Codigo " + op.getCodigo();
         logInfo(RL);
     }
     public void responder(String dados){

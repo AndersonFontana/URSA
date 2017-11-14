@@ -167,7 +167,7 @@ public class Cliente {
         System.out.print("Alterar Cargo(s/n): ");
         teste = ler.next();
         if(teste.equals("s") || teste.equals("S")){
-            op.setCodcargo(Integer.parseInt(Aux_Alterar("o codigo do cardo")));
+            op.setCodcargo(Integer.parseInt(Aux_Alterar("o codigo do cargo")));
             teste = "n";
         }
         else{
