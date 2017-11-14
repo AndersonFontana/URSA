@@ -1,6 +1,7 @@
 package BANCO;
 
 import JDBC.JDBCUtil;
+import Twitter.Tweet;
 import dominio.Cargo;
 import dominio.Oportunidade;
 import java.sql.PreparedStatement;
@@ -49,9 +50,13 @@ public class DaoBanco {
             throw new Exception("Oportunidade já existe!");
         }
         
-        // Envia notificação ao app
+        objeto = consultar(objeto);
+        
         URSApp ursapp = new URSApp();
-        ursapp.sendPushNotification(objeto);
+        Tweet tw = new Tweet();
+        
+        ursapp.sendPushNotification(objeto);    // Envia notificação ao app
+        tw.Tweet(objeto);                       // Envia tweet
         
         return true;
     }
