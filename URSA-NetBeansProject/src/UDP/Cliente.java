@@ -116,7 +116,6 @@ public class Cliente {
         op.setCodcargo(ler.nextInt());
         System.out.print("Digite o codigo de acesso:");
         op.setAcesso(ler.nextInt());
-        //op.setFechada(lerdata());
         retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerdata();
         return retorno;
     }
@@ -225,8 +224,7 @@ public class Cliente {
         int indice2 = 97;
         String[] vetor = new String[tam];
         for(int i = 0; i < tam; i++){
-            indice = i * 96;
-            
+            indice = i * 96; 
             if(indice2 > dados.length()){
                 indice2 = dados.length();
             }

@@ -43,7 +43,7 @@ public class Processar extends Thread{
         } catch (SocketException ex) {
             Logger.getLogger(Processar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.out.println(this.getName());
+        //System.out.println(this.getName()); // nome thread
         String dados = new String(rPack.getData());
         String dadosRe = "Recebido";
         responder(dadosRe);
@@ -76,11 +76,11 @@ public class Processar extends Thread{
                 consultar(dadosOP);
                 break;
             case "-a":
-                System.out.println("Consultar");
+                System.out.println("Alterar");
                 alterar(dadosOP);
                 break;
             case "-e":
-                System.out.println("Consultar");
+                System.out.println("Excluir");
                 excluir(dadosOP);
                 break;
         }
@@ -135,12 +135,10 @@ public class Processar extends Thread{
         }
         String RL = "Alterada Opornuidade Codigo " + op.getCodigo();
         logInfo(RL);
-        responder(RL);
-        
+        responder(RL);  
     }
     
     public void excluir(String dados){
-        System.out.println(dados);
         DaoBanco dao = new DaoBanco();
         try {
             dao.excluir(Integer.parseInt(dados.trim()));

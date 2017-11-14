@@ -32,18 +32,12 @@ public class Servidor {
         DatagramSocket s = new DatagramSocket(porta);
          try {
             Handler console = new ConsoleHandler();
-            Handler file = new FileHandler("C:\\Users\\JoãoPedro\\Desktop\\LOG_" + System.currentTimeMillis() +".txt");
-            /*Define que na consola apenas aparece log com nível superior ou
-              a warning e no ficheiro deve aparecer o log de qualquer nível
-             */
+            Handler file = new FileHandler("C:\\Users\\JoãoPedro\\Desktop\\LOG_" + System.currentTimeMillis() +".txt"); //local do arquivo
             console.setLevel(Level.WARNING);
             file.setLevel(Level.ALL);
-            //Define o formato de output do ficheiro como XML
-            file.setFormatter(new SimpleFormatter());
-            //Adiciona os handlers para ficheiro e console
+            file.setFormatter(new SimpleFormatter());//tipo do arquivo
             LOGGER.addHandler(file);
             LOGGER.addHandler(console);
-            //Ignora os Handlers definidos no Logger Global
             LOGGER.setUseParentHandlers(false);
         }
         catch(IOException io){
