@@ -6,19 +6,21 @@
 package TCP;
 
 import BANCO.DaoBanco;
-import UDP.Cliente;
 import dominio.Cargo;
 import dominio.Oportunidade;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -26,27 +28,27 @@ import java.util.logging.Logger;
  */
 public class ClienteTCP {
     
-    public static void enviarReceber(Oportunidade dados){
-        
-        Scanner ler = new Scanner(System.in);
-        
-        int port = 1972;
-        String host = new String("localhost");
-        try{
-            Socket cliente = new Socket(host, port);
-            System.out.println("Cliente conectou com servidor na porta: "+port);
-
-            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
-                       
-            saida.writeObject(dados);
-            saida.flush();
-            System.out.println("Conexão encerrada!");   
-        }
-        catch(Exception e){
-            System.out.println("Erro: "+e.getMessage());
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
-        }
-    }
+//    public static void enviarReceber(Oportunidade dados){
+//        
+//        Scanner ler = new Scanner(System.in);
+//        
+//        int port = 1972;
+//        String host = new String("localhost");
+//        try{
+//            Socket cliente = new Socket(host, port);
+//            System.out.println("Cliente conectou com servidor na porta: "+port);
+//
+//            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
+//                       
+//            saida.writeObject(dados);
+//            saida.flush();
+//            System.out.println("Conexão encerrada!");   
+//        }
+//        catch(Exception e){
+//            System.out.println("Erro: "+e.getMessage());
+//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//    }
        
     public static Integer lerAcesso(){
         Scanner ler = new Scanner(System.in);
@@ -104,11 +106,44 @@ public class ClienteTCP {
         }
     }
     
-    public static Oportunidade lerOportunidade() throws IOException{
+    public static String lerFechada(){
         Scanner ler = new Scanner(System.in); 
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        //String retorno = null;
         
+        System.out.print("Digite a data de FECHADA (dd/MM/yyyy): ");
+        String dataFechada = ler.next();
+	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+	Date dt = new Date();
+        try {
+            dt = df.parse(dataFechada);
+        } catch (ParseException e) {
+            System.out.println("Formato errado!" + e.getMessage());
+        }
+        System.out.println("");
+        return dataFechada;
+    }
+    
+    public static String lerIngresso(){
+        Scanner ler = new Scanner(System.in); 
+        
+        System.out.print("Digite a data de INGRESSO (dd/MM/yyyy): ");
+        String dataIngresso = ler.next();
+	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+	Date dt = new Date();
+        try {
+            dt = df.parse(dataIngresso);
+        } catch (ParseException e) {
+            System.out.println("Formato errado!" + e.getMessage());
+        }
+        System.out.println("");
+        return dataIngresso;
+    }
+    
+    
+    public static String lerOportunidade() throws IOException{
+        Scanner ler = new Scanner(System.in);
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        
+        String retorno = new String();
         Oportunidade op = new Oportunidade();
         System.out.print("Digite o CÓDIGO da oportunidade: ");
         op.setCodigo(ler.nextInt());
@@ -116,23 +151,24 @@ public class ClienteTCP {
         System.out.print("Digite a DESCRIÇÃO da oportunidade: ");
         op.setDescricao(in.readLine());
         
-        op.setAcesso(lerAcesso());  
+        System.out.print("Digite o CÓDIGO do cargo: ");
+        op.setCodcargo(ler.nextInt());
         
-        //ingresso: timestamp
-        //fechada: timestamp
+        op.setAcesso(lerAcesso());
         
-        //retorno = op.getCodigo() + "\n" + op.getDescricao() + "\n" + op.getAcesso();
-        return op;
-           
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + 
+                "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerIngresso()+ "\n" + lerFechada();
+        return retorno;
+        
     }
     
-    public static Cargo lerCargo() throws IOException{
+    public static String lerCargo() throws IOException{
         Scanner ler = new Scanner(System.in); 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        
+        String retorno = new String();
         Cargo cargo = new Cargo(); 
         
-        System.out.println("Digite o CÓDIGO do cargo: ");
+        System.out.print("Digite o CÓDIGO do cargo: ");
         cargo.setCodcargo(ler.nextInt());
         
         System.out.print("Digite a DESCRIÇÃO do cargo: ");
@@ -140,21 +176,23 @@ public class ClienteTCP {
         
         cargo.setTipo(lerTipo());  
         
-        return cargo;
+        retorno = cargo.getCodcargo() + "\n" + cargo.getDescricao() + "\n" + lerTipo();
+        return retorno;
     }
     
     public static void main(String[] args) throws Exception{
         
         Scanner ler = new Scanner(System.in);
         
-//        try{
-//            int port = 1972;
-//            String host = new String("localhost");
-//
-//            Socket cliente = new Socket(host, port);
-//            System.out.println("Cliente conectou com servidor na porta: "+port);
-//
-//            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
+        try{
+            int port = 1972;
+            String host = new String("localhost");
+
+            Socket cliente = new Socket(host, port);
+            
+            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
+            //ObjectInputStream inp = new ObjectInputStream(cliente.getInputStream());
+            System.out.println("Cliente conectou com servidor na porta: "+port);
 
             while(true){
                 System.out.println("\n*******************");
@@ -177,49 +215,38 @@ public class ClienteTCP {
                 
                 switch(operacao){
                     case 1: //adicionar
-                        op = lerOportunidade();
-                        listaOportunidades.add(op);
-                        //enviarReceber(op);
-                        //lista.add(op);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
+                        
                         System.out.println(dao.adicionar(op));
                         break;
                         
                     case 2: //alterar
-                        op = lerOportunidade();
-                        listaOportunidades.add(op);
-                        //enviarReceber(op);
-                        //lista.add(op);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
                         System.out.println(dao.alterar(op));
                         break;
                         
                     case 3: //consultar
-                        op = lerOportunidade();
-                        listaOportunidades.add(op);
-                        //enviarReceber(op);
-                        //lista.add(op);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
                         System.out.println(dao.consultar(op));
                         break;
                         
                     case 4: //excluir
-                        op = lerOportunidade();
-                        listaOportunidades.add(op);
-                        //enviarReceber(op);
-                        //lista.add(op);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
                         System.out.println(dao.excluir(op));
                         break;
                         
                     case 5: //listarOportunidades
-                        op = lerOportunidade();
-                        //enviarReceber(op);
-                        //lista.add(op);
+                        lerOportunidade();
                         listaOportunidades = dao.listaOportunidades(1);
-                        //System.out.println(dao.listaOportunidades(codCargo));                     
+                        //System.out.println(dao.listaOportunidades(Codcargo));                     
                         break;
                         
                     case 6: //listarAbertas
                         cargo.setTipo(lerTipo());
-                        //enviarReceber(op);
-                        //lista.add(cargo);
                         listaOportunidades = dao.listaAbertas(7);
                         //System.out.println(dao.listaAbertas(tipo));            
                         break;
@@ -229,12 +256,12 @@ public class ClienteTCP {
                         break;
                 }
             }
-//        }
-//        catch(Exception e){
-//            System.out.println("Erro: "+e.getMessage());  
-//        }
-//        finally{
-//                
-//        }
+        }
+        catch(Exception e){
+            System.out.println("Erro: "+e.getMessage());  
+        }
+        finally{
+                
+        }
     }    
 }
