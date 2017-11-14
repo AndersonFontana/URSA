@@ -30,6 +30,7 @@ import java.util.logging.Logger;
  */
 
 public class Cliente {
+    private static String host = "localhost";
     public static Scanner ler = new Scanner(System.in);
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
@@ -203,7 +204,7 @@ public class Cliente {
     }
   
     public static String lerdata(){
-        System.out.print("Digite a data de fechamento(dd/MM/yyyy):");
+        System.out.print("Digite a data de fechamento(dd/MM/yyyy): ");
         String dataRecebida = ler.next();
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
 	Date dt = new Date();
@@ -218,7 +219,7 @@ public class Cliente {
     public static String[] Serializar(String dados){
         int tam = 0;
         tam = dados.length()/97;
-        if(dados.length()%97 > 1)
+        if(dados.length()%97 > 0)
             tam++;
         int indice = 0;
         int indice2 = 97;
@@ -240,7 +241,7 @@ public class Cliente {
         byte  rdados[] = new byte[100];
         InetAddress ip = null;
         try {
-            ip = InetAddress.getByName("localhost");
+            ip = InetAddress.getByName(host);
         } catch (UnknownHostException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -286,12 +287,17 @@ public class Cliente {
         return ret;
     }
     public static void mostrarOP(String dados){
-        System.out.println("Codigo: " + dados.split("\n")[0].trim());
-        System.out.println("Descricao: " + dados.split("\n")[1].trim());
-        System.out.println("Codigo Cargo: " + dados.split("\n")[2].trim());
-        System.out.println("Codigo Acesso: " + dados.split("\n")[3].trim());
-        System.out.println("Data Ingresso: " + dados.split("\n")[4].trim());
-        System.out.println("Data Fechamento: " + dados.split("\n")[5].trim());
+        if(dados.split("\n")[0].trim().equals("0")){
+            System.out.println("Oportunidade não existe!");
+        }
+        else{
+            System.out.println("Codigo: " + dados.split("\n")[0].trim());
+            System.out.println("Descricao: " + dados.split("\n")[1].trim());
+            System.out.println("Codigo Cargo: " + dados.split("\n")[2].trim());
+            System.out.println("Codigo Acesso: " + dados.split("\n")[3].trim());
+            System.out.println("Data Ingresso: " + dados.split("\n")[4].trim());
+            System.out.println("Data Fechamento: " + dados.split("\n")[5].trim());
+        }
     }
     
   
