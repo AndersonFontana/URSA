@@ -29,6 +29,9 @@ public class ThreadServidorTCP {
     /**
      * @param args the command line arguments
      */
+    
+    //static final Logger logger = Logger.getLogger(ClienteTCP.class.getName());
+    
     public static void main(String[] args) {
         // TODO code application logic here
     }
@@ -37,18 +40,18 @@ public class ThreadServidorTCP {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private Socket s;
+    private Socket cliente;
     
     public ThreadServidorTCP(Socket cliente){
-        this.s = s;
+        this.cliente = cliente;
     }
 
     public Socket getS() {
-        return s;
+        return cliente;
     }
 
     public void setS(Socket s) {
-        this.s = s;
+        this.cliente = cliente;
     }
     
     public static Boolean inserir(Integer codigo, Integer codcargo, String descricao, Integer acesso, Timestamp fechada) throws Exception {
@@ -72,8 +75,7 @@ public class ThreadServidorTCP {
     public static Boolean alterar(Integer Codigo) throws Exception {
         try {
             DaoBanco dao = new DaoBanco();
-            Oportunidade op;
-            op = new Oportunidade(dao.consultar(Codigo).getCodigo());
+            Oportunidade op = new Oportunidade(dao.consultar(Codigo).getCodigo());
             
             dao.alterar(op);
             //Logger.logMethod("TCP", "");
@@ -103,10 +105,10 @@ public class ThreadServidorTCP {
         }
     }
     
-    public static Boolean excluir(Integer Codigo) throws Exception{
+    public static Boolean excluir(Integer codigo) throws Exception{
         try {
             DaoBanco dao = new DaoBanco();
-            Oportunidade op = new Oportunidade(dao.consultar(Codigo).getCodigo());
+            Oportunidade op = new Oportunidade(dao.consultar(codigo).getCodigo());
             dao.excluir(op);
             //Logger.logMethod("TCP", "");
             return true;
@@ -155,7 +157,7 @@ public class ThreadServidorTCP {
         }
     }
 
-    //@SuppressWarnings("empty-statement")
+    @SuppressWarnings("empty-statement")
     public void run()
     {
         ObjectInputStream entrada = null;
@@ -164,101 +166,98 @@ public class ThreadServidorTCP {
         try {
             System.out.println("Conexão estabelecida.");
 
-            entrada = new ObjectInputStream(s.getInputStream());
-            saida = new ObjectOutputStream(s.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+            saida = new ObjectOutputStream(cliente.getOutputStream());
             
             while (true){
                 Object obj = entrada.readObject();
                 Arquivo arquivoLista = (Arquivo) obj;
 
-                Oportunidade op = (Oportunidade) arquivoLista.getOportunidades().get(0);
-
+                Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                
                 String descricao = op.getDescricao();
                 Integer codigo = op.getCodigo();
                 Integer codcargo = op.getCodcargo();
                 Integer acesso = op.getAcesso();
-                Calendar fechada = arquivoLista.getData();
-                List<Oportunidade> listRetorno = new ArrayList<Oportunidade>();
+                Timestamp fechada = op.getFechada();
+                //Calendar fechada = arquivoLista.getData();
+                List<Object> listRetorno = new ArrayList<Object>();
 
                 switch (arquivoLista.getOperacao()){
                     case 1: // Adicionar oportunidade
                         try{
-                            adicionar(codigo, codcargo, descricao, acesso, fechada);
-                            //arquivoLista.setRetorno("Oportunidade inserida com sucesso");
-                            //arquivoLista.setCodigo(0);
+                            inserir(codigo, codcargo, descricao, acesso, fechada);
+                            arquivoLista.setRetorno("Oportunidade inserida com sucesso");
+                            arquivoLista.setCodigo(0);
+                            
                         } catch (Exception ex) {
-                            //arquivoLista.setRetorno(ex.getMessage());
-                            //arquivoLista.setCodigo(1);
+                            arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setCodigo(1);
                         }
                         break;
 
                     case 2: //Alterar oportunidade
-
                         try{
                             alterar(codigo);
-                            //arquivoLista.setRetorno("Oportunidade alterada com sucesso");
-                            //arquivoLista.setCodigo(0);
+                            arquivoLista.setRetorno("Oportunidade alterada com sucesso");
+                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
-                            //arquivoLista.setRetorno(ex.getMessage());
-                            //arquivoLista.setCodigo(1);
+                            arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setCodigo(1);
                         }
                         break;
 
                     case 3: // Consultar oportunidade
-
-                        try{
-                            excluir(codigo);
-                            //arquivoLista.setRetorno("Oportunidade excluído com sucesso");
-                            //arquivoLista.setCodigo(0);
-                        } catch (Exception ex) {
-                            //arquivoLista.setRetorno(ex.getMessage());
-                            //arquivoLista.setCodigo(1);
-                        }
-                        break;
-
-                    case 4: //Excluir oportunidade
-
                         try{
                             op = consultar(codigo);
-                            listRetorno.add((Oportunidade)op);
-                            arquivoLista.setOportunidades(listRetorno);
-                            //arquivoLista.setRetorno("Arquivo consultado com sucesso.");
-                            //arquivoLista.setCodigo(0);
+                            listRetorno.add((Object)op);
+                            arquivoLista.setObjetos(listRetorno);
+                            arquivoLista.setRetorno("Arquivo consultado com sucesso.");
+                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
-                            //arquivoLista.setRetorno(ex.getMessage());
-                            //arquivoLista.setCodigo(1);
+                            arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setCodigo(1);
+                        }
+                        break;
+                        
+                    case 4: //Excluir oportunidade
+                        try{
+                            excluir(codigo);
+                            arquivoLista.setRetorno("Oportunidade excluída com sucesso");
+                            arquivoLista.setCodigo(0);
+                        } catch (Exception ex) {
+                            arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setCodigo(1);
                         }
                         break;
 
+
                     case 5: // Listar oportunidades
-
                         try{
-                            for (Oportunidade opor : listaOp(codcargo)){
-                                listRetorno.add((Oportunidade)opor);
+                            for (Oportunidade oport : listaOportunidades(codcargo)){
+                                listRetorno.add((Object)oport);
                             }
-
-                            arquivoLista.setOportunidades(listRetorno);
-                            //arquivoLista.setRetorno("Oportunidades listadas com sucesso.");
-                            //arquivoLista.setCodigo(0);
+                            arquivoLista.setObjetos(listRetorno);
+                            arquivoLista.setRetorno("Oportunidades listadas com sucesso.");
+                            arquivoLista.setCodigo(0);
 
                         } catch (Exception ex) {
-                            //arquivoLista.setRetorno(ex.getMessage());
-                            //arquivoLista.setCodigo(1);
+                            arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setCodigo(1);
                         }
                         break;
 
                     case 6: // Listar abertas
                         try{
-                            for (Oportunidade aber : listaAberta(codcargo)){
-                                listRetorno.add((Oportunidade)aber);
+                            for (Oportunidade aberta : listaAbertas(codcargo)){
+                                listRetorno.add((Object)aberta);
                             }
-                            
-                            arquivoLista.setOportunidades(listRetorno);
-                            //arquivoLista.setRetorno("Abertas listadas com sucesso.");
-                            //arquivoLista.setCodigo(0);
+                            arquivoLista.setObjetos(listRetorno);
+                            arquivoLista.setRetorno("Abertas listadas com sucesso.");
+                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
-                            //arquivoLista.setRetorno(ex.getMessage());
-                            //arquivoLista.setCodigo(1);
+                            arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setCodigo(1);
                         }
                         break;
                     case 7:
@@ -284,23 +283,11 @@ public class ThreadServidorTCP {
          
     }
 
-    private void adicionarOportunidade(Integer codigo, Integer codcargo, String descricao, Integer acesso, Calendar fechada) {
+    private Iterable<Oportunidade> listaAbertas(Integer codcargo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void excluirOportunidade(Integer codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private Iterable<Oportunidade> listaOp(Integer codcargo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void adicionar(Integer codigo, Integer codcargo, String descricao, Integer acesso, Calendar fechada) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private Iterable<Oportunidade> listaAberta(Integer codcargo) {
+    private Iterable<Oportunidade> listaOportunidades(Integer codcargo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
