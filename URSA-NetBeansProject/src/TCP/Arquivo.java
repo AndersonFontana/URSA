@@ -15,32 +15,20 @@ import java.util.List;
  * @author user
  */
 public class Arquivo implements Serializable{
+    
     private Integer operacao;
-    
-    private List<Oportunidade> oportunidades;
-    
+    private List<Object> objetos;
     private Calendar data;
-    
-    // Para retornar ao usuário se deu erro (1) ou sucesso (0)
-    private Integer codigo;
-    
-    public Calendar getData() {
-        return data;
+    private Integer tipo;
+    private Integer codigo;// Para retornar ao usuário se deu erro (1) ou sucesso (0)
+    String retorno; // mensagem de retorno
+
+    public List<Object> getObjetos() {
+        return objetos;
     }
 
-    public void setData(Calendar data) {
-        this.data = data;
-    }
-    
-    // MENSAGEM DE RETORNO
-    String retorno;
-
-    public List<Oportunidade> getOportunidades() {
-        return oportunidades;
-    }
-
-    public void setOportunidades(List<Oportunidade> oportunidades) {
-        this.oportunidades = oportunidades;
+    public void setObjetos(List<Object> objetos) {
+        this.objetos = objetos;
     }
 
     public String getRetorno() {
@@ -54,17 +42,33 @@ public class Arquivo implements Serializable{
     public int getOperacao() {
         return operacao;
     }
+    
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
 
-    public void setOperacao(int ope) {
-        this.operacao = ope;
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setOperacao(int operacao) {
+        this.operacao = operacao;
     }
 
     public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Integer code) {
-        this.codigo = code;
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+    
+    public Calendar getData() {
+        return data;
+    }
+
+    public void setData(Calendar data) {
+        this.data = data;
     }
 
     public Arquivo() {
