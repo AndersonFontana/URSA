@@ -78,7 +78,7 @@ public class ClienteTCP {
         }
     }
     
-    public static Timestamp lerFechada() throws ParseException{
+    public static Date lerFechada() throws ParseException{
         
         Arquivo arquivoLista = new Arquivo();
         System.out.print("Digite a data de FECHADA (dd/MM/yyyy): ");
@@ -93,7 +93,7 @@ public class ClienteTCP {
         return Timestamp.valueOf(dataFechada);
     }
     
-    public static Timestamp lerIngresso() throws ParseException{ 
+    public static Date lerIngresso() throws ParseException{ 
         
         Arquivo arquivoLista = new Arquivo();
         
@@ -157,11 +157,63 @@ public class ClienteTCP {
         return op;        
     }
     
-    public static Oportunidade alterar(){
+    public static Oportunidade alterar() throws ParseException{
+
         Oportunidade op = new Oportunidade();
-        System.out.print("Digite o CÓDIGO da oportunidade para alterá-la: ");
+        String teste = "n";
+        System.out.println("Alterar oportunidade, digite o CÓDIGO da oportunidade a ser alterada.\n"
+                           + "Se quiser alterar o campo digite S senão digite N");
+        System.out.print("Digite o CÓDIGO da oportunidade a ser alterada: ");
         op.setCodigo(ler.nextInt());
-        return op;        
+        System.out.print("Alterar DESCRIÇÃO (S/N)? ");
+        teste = ler.next();
+        if(teste.equals("s") || teste.equals("S")){
+            op.setDescricao(Aux_Alterar("a descrição"));
+            teste = "n";
+        }
+        else{
+            op.setDescricao(null);
+        }
+        System.out.print("Alterar CARGO (S/N)? ");
+        teste = ler.next();
+        if(teste.equals("s") || teste.equals("S")){
+            op.setCodcargo(Integer.parseInt(Aux_Alterar("o código do cargo")));
+            teste = "n";
+        }
+        else{
+            op.setCodcargo(0);
+        }
+        System.out.print("Alterar ACESSO (S/N)? ");
+        teste = ler.next();
+        if(teste.equals("s") || teste.equals("S")){
+            op.setAcesso(Integer.parseInt(Aux_Alterar("o código do acesso")));
+            teste = "n";
+        }
+        else{
+            op.setAcesso(0);
+        }
+        System.out.print("Alterar DATA FECHAMENTO (S/N)? ");
+        teste = ler.next();
+        if(teste.equals("s") || teste.equals("S")){
+            op.setFechada(lerFechada());
+            teste = "n";
+        }
+        else{
+            op.setFechada(null);
+        }
+        
+        return op;
+    }
+    
+    public static String Aux_Alterar(String str){
+        String ret = new String();
+        System.out.print("Digite " + str + ": ");
+        try {
+            ret = in.readLine();
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
     }
     
     public static Cargo listarOportunidades(){
