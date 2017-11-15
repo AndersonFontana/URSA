@@ -24,5 +24,19 @@ public class ClienteWebSoap {
         webservices.Operacoes port = service.getOperacoesPort();
         return port.adiciona(codigo, codCargo, descricao, acesso, fechada);
     }
+
+    private static boolean altera(java.lang.Integer codigo, java.lang.Integer codCargo, java.lang.String descricao, java.lang.Integer acesso, webservices.Timestamp fechada) {
+        webservices.Operacoes_Service service = new webservices.Operacoes_Service();
+        webservices.Operacoes port = service.getOperacoesPort();
+        return port.altera(codigo, codCargo, descricao, acesso, fechada);
+    }
+
+    private static boolean exclui(java.lang.Integer exclui) {
+        webservices.Operacoes_Service service = new webservices.Operacoes_Service();
+        webservices.Operacoes port = service.getOperacoesPort();
+        return port.exclui(exclui);
+    }
+    
+    
     
 }
