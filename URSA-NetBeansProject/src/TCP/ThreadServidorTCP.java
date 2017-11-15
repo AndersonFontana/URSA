@@ -38,11 +38,11 @@ public class ThreadServidorTCP extends Thread{
         this.cliente = cliente;
     }
 
-    public Socket getS() {
+    public Socket getCliente() {
         return cliente;
     }
 
-    public void setS(Socket cliente) {
+    public void setCliente(Socket cliente) {
         this.cliente = cliente;
     }
     
@@ -104,7 +104,7 @@ public class ThreadServidorTCP extends Thread{
         }
     }
 
-    public static List<Oportunidade> listarOportunidades(Integer Codcargo) throws Exception{
+    public static List<Oportunidade> listaOportunidades(Integer Codcargo) throws Exception{
         try {
             DaoBanco dao = new DaoBanco();
             List<Oportunidade> list = (List<Oportunidade>) dao.consultar(Codcargo);
@@ -119,7 +119,7 @@ public class ThreadServidorTCP extends Thread{
         }
     }
     
-    public static List<Oportunidade> listarAbertas(Integer tipo) throws Exception{
+    public static List<Oportunidade> listaAbertas(Integer tipo) throws Exception{
         try {
             DaoBanco dao = new DaoBanco();
             List<Oportunidade> list = (List<Oportunidade>) dao.consultar(tipo);
@@ -211,7 +211,7 @@ public class ThreadServidorTCP extends Thread{
 
                     case 5: // Listar oportunidades
                         try{
-                            for (Oportunidade oport : listarOportunidades(codcargo)){
+                            for (Oportunidade oport : listaOportunidades(codcargo)){
                                 listRetorno.add((Object)oport);
                             }
                             arquivoLista.setObjetos(listRetorno);
@@ -226,7 +226,7 @@ public class ThreadServidorTCP extends Thread{
 
                     case 6: // Listar abertas
                         try{
-                            for (Oportunidade aberta : listarAbertas(codcargo)){
+                            for (Oportunidade aberta : listaAbertas(codcargo)){
                                 listRetorno.add((Object)aberta);
                             }
                             arquivoLista.setObjetos(listRetorno);

@@ -173,8 +173,9 @@ public class ClienteTCP {
     
     public static Oportunidade listarAbertas(){
         Oportunidade op = new Oportunidade(); 
-        System.out.print("Digite o TIPO da oportunidade para listar as em aberto: ");
-        op.setAcesso(lerAcesso());
+        Cargo cargo = new Cargo(); 
+        //System.out.print("Digite o TIPO da oportunidade para listar as em aberto: ");
+        cargo.setTipo(lerTipo());
         return op;
         
     }
