@@ -24,21 +24,13 @@ import java.util.logging.Logger;
  *
  * @author user
  */
-public class ThreadServidorTCP {
+public class ThreadServidorTCP extends Thread{
 
     /**
      * @param args the command line arguments
      */
     
     //static final Logger logger = Logger.getLogger(ClienteTCP.class.getName());
-    
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-
-    void start() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     private Socket cliente;
     
@@ -50,7 +42,7 @@ public class ThreadServidorTCP {
         return cliente;
     }
 
-    public void setS(Socket s) {
+    public void setS(Socket cliente) {
         this.cliente = cliente;
     }
     
@@ -59,14 +51,11 @@ public class ThreadServidorTCP {
             Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
             DaoBanco dao = new DaoBanco();
             dao.adicionar(op);
-            //Logger.logMethod("TCP", "");
             return true;
         } catch (SQLException e) {
-            //Logger.logMethod("TCP", e.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
             throw new Exception("Não foi possivel inserir a oportunidade.");
         } catch (Exception ex) {
-            //Logger.logMethod("TCP",  ex.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
         }
@@ -78,14 +67,11 @@ public class ThreadServidorTCP {
             Oportunidade op = new Oportunidade(dao.consultar(Codigo).getCodigo());
             
             dao.alterar(op);
-            //Logger.logMethod("TCP", "");
             return true;
         } catch (SQLException e) {
-            //Logger.logMethod("TCP", e.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
             throw new Exception("Não foi possivel alterar a oportunidade.");
         } catch (Exception ex) {
-            //Logger.logMethod("TCP",  ex.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
         }
@@ -96,10 +82,8 @@ public class ThreadServidorTCP {
         try {
             DaoBanco dao = new DaoBanco();
             Oportunidade op = dao.consultar(Codigo);
-            //Logger.logMethod("TCP", "");
             return op;
         } catch (Exception ex) {
-            //Logger.logMethod("TCP",  ex.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
         }
@@ -110,14 +94,11 @@ public class ThreadServidorTCP {
             DaoBanco dao = new DaoBanco();
             Oportunidade op = new Oportunidade(dao.consultar(codigo).getCodigo());
             dao.excluir(op);
-            //Logger.logMethod("TCP", "");
             return true;
         }  catch (SQLException e) {
-            //Logger.logMethod("TCP", e.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
             throw new Exception("Não foi possivel excluir a oportunidade.");
         } catch (Exception ex) {
-            //Logger.logMethod("TCP",  ex.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
         }
@@ -131,10 +112,8 @@ public class ThreadServidorTCP {
             for (Oportunidade op : list) {
                 op.setCodcargo(Codcargo);
             }
-            //Logger.logMethod("TCP", "");
             return list;
         } catch (Exception ex) {
-            //Logger.logMethod("TCP",  ex.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
         }
@@ -148,10 +127,8 @@ public class ThreadServidorTCP {
             for (Oportunidade op : list) {
                 op.setCodcargo(tipo);
             }
-            //Logger.logMethod("TCP", "");
             return list;
         } catch (Exception ex) {
-            //Logger.logMethod("TCP",  ex.getMessage());
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
         }
@@ -234,7 +211,7 @@ public class ThreadServidorTCP {
 
                     case 5: // Listar oportunidades
                         try{
-                            for (Oportunidade oport : listaOportunidades(codcargo)){
+                            for (Oportunidade oport : listarOportunidades(codcargo)){
                                 listRetorno.add((Object)oport);
                             }
                             arquivoLista.setObjetos(listRetorno);
@@ -249,7 +226,7 @@ public class ThreadServidorTCP {
 
                     case 6: // Listar abertas
                         try{
-                            for (Oportunidade aberta : listaAbertas(codcargo)){
+                            for (Oportunidade aberta : listarAbertas(codcargo)){
                                 listRetorno.add((Object)aberta);
                             }
                             arquivoLista.setObjetos(listRetorno);
@@ -281,14 +258,6 @@ public class ThreadServidorTCP {
             }
         }
          
-    }
-
-    private Iterable<Oportunidade> listaAbertas(Integer codcargo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private Iterable<Oportunidade> listaOportunidades(Integer codcargo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
