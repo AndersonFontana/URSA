@@ -111,20 +111,6 @@ public class ClienteTCP {
         return op;  
     }
     
-//     public static Cargo lerCargo() throws IOException{
-//        Cargo cargo = new Cargo(); 
-//        
-//        System.out.print("Digite o CÓDIGO do cargo: ");
-//        cargo.setCodcargo(ler.nextInt());
-//        
-//        System.out.print("Digite a DESCRIÇÃO do cargo: ");
-//        cargo.setDescricao(in.readLine());
-//        
-//        cargo.setTipo(lerTipo());  
-//        
-//        return cargo;
-//    }
-    
     public static Oportunidade excluir(){
         Oportunidade op = new Oportunidade();
         System.out.print("Digite o CÓDIGO da oportunidade para excluí-la: ");
@@ -213,28 +199,6 @@ public class ClienteTCP {
         return op;
         
     }
-
-//    public static void enviarReceber(Oportunidade dados){
-//        
-//        Scanner ler = new Scanner(System.in);
-//        
-//        int port = 1972;
-//        String host = new String("localhost");
-//        try{
-//            Socket cliente = new Socket(host, port);
-//            System.out.println("Cliente conectou com servidor na porta: "+port);
-//
-//            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
-//                       
-//            saida.writeObject(dados);
-//            saida.flush();
-//            System.out.println("Conexão encerrada!");   
-//        }
-//        catch(Exception e){
-//            System.out.println("Erro: "+e.getMessage());
-//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
-//        }
-//    }
     
     public static void main(String[] args) throws Exception{
         

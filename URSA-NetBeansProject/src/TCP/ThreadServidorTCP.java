@@ -30,23 +30,7 @@ public class ThreadServidorTCP extends Thread{
     /**
      * @param args the command line arguments
      */
-    
-    //static final Logger logger = Logger.getLogger(ClienteTCP.class.getName());
-    
-    private Socket cliente;
-    
-    public ThreadServidorTCP(Socket cliente){
-        this.cliente = cliente;
-    }
-
-    public Socket getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Socket cliente) {
-        this.cliente = cliente;
-    }
-    
+      
     public static Boolean inserir(Integer codigo, Integer codcargo, String descricao, Integer acesso, Date fechada) throws Exception {
         try {
             Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
@@ -144,8 +128,6 @@ public class ThreadServidorTCP extends Thread{
         ObjectOutputStream saida = null;
         
         try {
-            System.out.println("Conexão estabelecida!");
-
             entrada = new ObjectInputStream(cliente.getInputStream());
             saida = new ObjectOutputStream(cliente.getOutputStream());
             
@@ -167,6 +149,7 @@ public class ThreadServidorTCP extends Thread{
                         try{
                             inserir(codigo, codcargo, descricao, acesso, fechada);
                             arquivoLista.setRetorno("Oportunidade inserida com sucesso!");
+                            System.out.println(arquivoLista.getRetorno());
                             
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
@@ -177,6 +160,7 @@ public class ThreadServidorTCP extends Thread{
                         try{
                             alterar(codigo, codcargo, descricao, acesso, fechada);
                             arquivoLista.setRetorno("Oportunidade alterada com sucesso!");
+                            System.out.println(arquivoLista.getRetorno());
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
                         }
@@ -188,6 +172,7 @@ public class ThreadServidorTCP extends Thread{
                             listRetorno.add((Oportunidade)op);
                             arquivoLista.setOportunidades(listRetorno);
                             arquivoLista.setRetorno("Arquivo consultado com sucesso!");
+                            System.out.println(arquivoLista.getRetorno());
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
                         }
@@ -197,6 +182,7 @@ public class ThreadServidorTCP extends Thread{
                         try{
                             excluir(codigo);
                             arquivoLista.setRetorno("Oportunidade excluída com sucesso!");
+                            System.out.println(arquivoLista.getRetorno());
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
                         }
@@ -210,6 +196,7 @@ public class ThreadServidorTCP extends Thread{
                             }
                             arquivoLista.setOportunidades(listRetorno);
                             arquivoLista.setRetorno("Oportunidades listadas com sucesso!");
+                            System.out.println(arquivoLista.getRetorno());
 
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
@@ -223,6 +210,7 @@ public class ThreadServidorTCP extends Thread{
                             }
                             arquivoLista.setOportunidades(listRetorno);
                             arquivoLista.setRetorno("Abertas listadas com sucesso!");
+                            System.out.println(arquivoLista.getRetorno());
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
                         }
@@ -249,5 +237,20 @@ public class ThreadServidorTCP extends Thread{
         }
          
     }
+    
+    private Socket cliente;
+    
+    public ThreadServidorTCP(Socket cliente){
+        this.cliente = cliente;
+    }
+
+    public Socket getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Socket cliente) {
+        this.cliente = cliente;
+    }
+    
     
 }
