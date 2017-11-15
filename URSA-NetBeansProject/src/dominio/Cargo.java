@@ -1,10 +1,12 @@
 package dominio;
 
+import java.io.Serializable;
+
 /**
  *
  * @author anderson
  */
-public class Cargo {
+public class Cargo implements Serializable {
 	private int codcargo;
 	private String descricao;
 	private int tipo;
