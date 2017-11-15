@@ -65,7 +65,7 @@ public class ThreadServidorTCP extends Thread{
     public static Boolean alterar(Integer codigo, Integer codcargo, String descricao, Integer acesso, Date fechada) throws Exception {
         try {
             DaoBanco dao = new DaoBanco();
-            Oportunidade op = new Oportunidade();
+            Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
             op.setCodigo(codigo);
             op.setAcesso(acesso);
             op.setCodcargo(codcargo);

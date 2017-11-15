@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class ClienteTCP {
             System.out.println("[6] Engenharia Agronomica ou Agronegocio");
             System.out.println("[7] Todos os cursos");
             System.out.print("Digite o número de acesso: ");
-            Integer acesso = Integer.parseInt(ler.nextLine());
+            Integer acesso = ler.nextInt();
         
             return acesso;
         }
@@ -72,7 +73,7 @@ public class ClienteTCP {
             System.out.println("[6] Bolsa de extensão");
             System.out.println("[7] Bolsa de graduação");
             System.out.print("Digite o tipo da oportunidade: ");
-            Integer tipo = Integer.parseInt(ler.nextLine());
+            Integer tipo = ler.nextInt();
             
             return tipo;
         }
@@ -81,33 +82,14 @@ public class ClienteTCP {
     public static Date lerFechada() throws ParseException{
         
         Arquivo arquivoLista = new Arquivo();
-        System.out.print("Digite a data de FECHADA (dd/MM/yyyy): ");
-        String dataFechada = ler.nextLine();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");    
-	Date sdt = new Date();
-        if (!dataFechada.equals("")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(sdf.parse(dataFechada));
-            arquivoLista.setData(cal);
-        }
-        return Timestamp.valueOf(dataFechada);
+        System.out.print("Digite a data de FECHAMENTO (dd/MM/yyyy): ");
+        String dataRecebida = ler.next();
+	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+	Date dt = df.parse(dataRecebida);
+        
+        return dt;
     }
     
-    public static Date lerIngresso() throws ParseException{ 
-        
-        Arquivo arquivoLista = new Arquivo();
-        
-        System.out.print("Digite a data de INGRESSO (dd/MM/yyyy): ");
-        String dataIngresso = ler.nextLine();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
-	if (!dataIngresso.equals("")){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(sdf.parse(dataIngresso));
-            arquivoLista.setData(cal);
-        }        
-        return Timestamp.valueOf(dataIngresso);
-    }
-        
     public static Oportunidade lerOportunidade() throws IOException, ParseException{
         
         Oportunidade op = new Oportunidade();
