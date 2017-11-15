@@ -97,7 +97,6 @@ public class ThreadServidorTCP extends Thread{
     public static Boolean excluir(Integer codigo) throws Exception{
         try {
             DaoBanco dao = new DaoBanco();
-            //Oportunidade op = new Oportunidade(dao.consultar(codigo).getCodigo());
             dao.excluir(codigo);
             return true;
         }  catch (SQLException e) {
@@ -154,26 +153,23 @@ public class ThreadServidorTCP extends Thread{
                 Object obj = entrada.readObject();
                 Arquivo arquivoLista = (Arquivo) obj;
 
-                Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                Oportunidade op = (Oportunidade) arquivoLista.getOportunidades().get(0);
                 
                 String descricao = op.getDescricao();
                 Integer codigo = op.getCodigo();
                 Integer codcargo = op.getCodcargo();
                 Integer acesso = op.getAcesso();
-                Timestamp fechada = op.getFechada();
-                //Date fechada = arquivoLista.getData();
-                List<Object> listRetorno = new ArrayList<Object>();
+                Date fechada = op.getFechada();
+                List<Oportunidade> listRetorno = new ArrayList<Oportunidade>();
 
                 switch (arquivoLista.getOperacao()){
                     case 1: // Adicionar oportunidade
                         try{
                             inserir(codigo, codcargo, descricao, acesso, fechada);
                             arquivoLista.setRetorno("Oportunidade inserida com sucesso!");
-                            arquivoLista.setCodigo(0);
                             
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
-                            arquivoLista.setCodigo(1);
                         }
                         break;
 
@@ -181,23 +177,19 @@ public class ThreadServidorTCP extends Thread{
                         try{
                             alterar(codigo, codcargo, descricao, acesso, fechada);
                             arquivoLista.setRetorno("Oportunidade alterada com sucesso!");
-                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
-                            arquivoLista.setCodigo(1);
                         }
                         break;
 
                     case 3: // Consultar oportunidade
                         try{
                             op = consultar(codigo);
-                            listRetorno.add((Object)op);
-                            arquivoLista.setObjetos(listRetorno);
+                            listRetorno.add((Oportunidade)op);
+                            arquivoLista.setOportunidades(listRetorno);
                             arquivoLista.setRetorno("Arquivo consultado com sucesso!");
-                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
-                            arquivoLista.setCodigo(1);
                         }
                         break;
                         
@@ -205,10 +197,8 @@ public class ThreadServidorTCP extends Thread{
                         try{
                             excluir(codigo);
                             arquivoLista.setRetorno("Oportunidade excluída com sucesso!");
-                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
-                            arquivoLista.setCodigo(1);
                         }
                         break;
 
@@ -216,29 +206,25 @@ public class ThreadServidorTCP extends Thread{
                     case 5: // Listar oportunidades
                         try{
                             for (Oportunidade oport : listaOportunidades(codcargo)){
-                                listRetorno.add((Object)oport);
+                                listRetorno.add((Oportunidade)oport);
                             }
-                            arquivoLista.setObjetos(listRetorno);
+                            arquivoLista.setOportunidades(listRetorno);
                             arquivoLista.setRetorno("Oportunidades listadas com sucesso!");
-                            arquivoLista.setCodigo(0);
 
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
-                            arquivoLista.setCodigo(1);
                         }
                         break;
 
                     case 6: // Listar abertas
                         try{
                             for (Oportunidade aberta : listaAbertas(codcargo)){
-                                listRetorno.add((Object)aberta);
+                                listRetorno.add((Oportunidade)aberta);
                             }
-                            arquivoLista.setObjetos(listRetorno);
+                            arquivoLista.setOportunidades(listRetorno);
                             arquivoLista.setRetorno("Abertas listadas com sucesso!");
-                            arquivoLista.setCodigo(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
-                            arquivoLista.setCodigo(1);
                         }
                         break;
                     case 7:

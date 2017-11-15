@@ -111,19 +111,19 @@ public class ClienteTCP {
         return op;  
     }
     
-     public static Cargo lerCargo() throws IOException{
-        Cargo cargo = new Cargo(); 
-        
-        System.out.print("Digite o CÓDIGO do cargo: ");
-        cargo.setCodcargo(ler.nextInt());
-        
-        System.out.print("Digite a DESCRIÇÃO do cargo: ");
-        cargo.setDescricao(in.readLine());
-        
-        cargo.setTipo(lerTipo());  
-        
-        return cargo;
-    }
+//     public static Cargo lerCargo() throws IOException{
+//        Cargo cargo = new Cargo(); 
+//        
+//        System.out.print("Digite o CÓDIGO do cargo: ");
+//        cargo.setCodcargo(ler.nextInt());
+//        
+//        System.out.print("Digite a DESCRIÇÃO do cargo: ");
+//        cargo.setDescricao(in.readLine());
+//        
+//        cargo.setTipo(lerTipo());  
+//        
+//        return cargo;
+//    }
     
     public static Oportunidade excluir(){
         Oportunidade op = new Oportunidade();
@@ -213,19 +213,7 @@ public class ClienteTCP {
         return op;
         
     }
-    
-    public static String retorno(){
-        Arquivo arquivoLista =  new Arquivo();
-        String ret = null;
-        if (arquivoLista.getCodigo() == 0){
-            ret = arquivoLista.getRetorno();
-        }
-        else if (arquivoLista.getCodigo() == 1){
-            ret = "Erro: " + arquivoLista.getRetorno();
-        }
-        return ret;
-    }
-    
+
 //    public static void enviarReceber(Oportunidade dados){
 //        
 //        Scanner ler = new Scanner(System.in);
@@ -273,67 +261,54 @@ public class ClienteTCP {
                 System.out.println("[7] Sair");
                 System.out.print("Digite a sua opção desejada: ");
 
-                Integer operacao = Integer.parseInt(ler.nextLine());
+                Integer operacao = ler.nextInt();
                 Oportunidade op = new Oportunidade();
                 Cargo cargo = new Cargo();
-                String ret = null;
                 Arquivo arquivoLista =  new Arquivo();
                 arquivoLista.setOperacao(operacao);
-                List<Object> listaOportunidades = new ArrayList();
+                List<Oportunidade> listaOportunidades = new ArrayList();
                 
                 switch(operacao){
                     case 1: //adicionar
                         op = lerOportunidade();
                         listaOportunidades.add(op);
-                        arquivoLista.setObjetos(listaOportunidades);
+                        arquivoLista.setOportunidades(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        ret = retorno();
-                        System.out.println(ret);
                         break;
                         
                     case 2: //alterar
                         op = alterar();
                         listaOportunidades.add(op);
-                        arquivoLista.setObjetos(listaOportunidades);
+                        arquivoLista.setOportunidades(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        ret = retorno();
-                        System.out.println(ret);
                         break;
                         
                     case 3: //consultar
                         op = consultar();
                         listaOportunidades.add(op);
-                        arquivoLista.setObjetos(listaOportunidades);
+                        arquivoLista.setOportunidades(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        ret = retorno();
-                        System.out.println(ret);
                         break;
                         
                     case 4: //excluir
                         op = excluir();
                         listaOportunidades.add(op);
-                        arquivoLista.setObjetos(listaOportunidades);
+                        arquivoLista.setOportunidades(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        ret = retorno();
-                        System.out.println(ret);
                         break;
                         
                     case 5: //listarOportunidades
                         cargo = listarOportunidades();
                         listaOportunidades.add(op);
-                        arquivoLista.setObjetos(listaOportunidades);
+                        arquivoLista.setOportunidades(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);    
-                        ret = retorno();
-                        System.out.println(ret);
                         break;
                         
                     case 6: //listarAbertas
                         op = listarAbertas();
                         listaOportunidades.add(op);
-                        arquivoLista.setObjetos(listaOportunidades);
+                        arquivoLista.setOportunidades(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);  
-                        ret = retorno();
-                        System.out.println(ret);
                         break;
                         
                     case 7:

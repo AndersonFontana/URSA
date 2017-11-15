@@ -7,7 +7,7 @@ package TCP;
 
 import dominio.Oportunidade;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,20 +17,15 @@ import java.util.List;
 public class Arquivo implements Serializable{
     
     private Integer operacao;
-    private List<Object> objetos;
-    private Calendar data;
+    private List<Oportunidade> oportunidades;
+    private Date data;
     private Integer tipo;
-    private Integer codigo;// Para retornar ao usuário se deu erro (1) ou sucesso (0)
-    String retorno; // mensagem de retorno
+    String retorno; 
 
-    public List<Object> getObjetos() {
-        return objetos;
+    
+    public Arquivo() {
     }
-
-    public void setObjetos(List<Object> objetos) {
-        this.objetos = objetos;
-    }
-
+       
     public String getRetorno() {
         return retorno;
     }
@@ -43,36 +38,33 @@ public class Arquivo implements Serializable{
         return operacao;
     }
     
-    public void setTipo(Integer tipo) {
-        this.tipo = tipo;
-    }
-
-    public int getTipo() {
-        return tipo;
-    }
-
     public void setOperacao(int operacao) {
         this.operacao = operacao;
     }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
+    
+    public int getTipo() {
+        return tipo;
     }
     
-    public Calendar getData() {
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+    
+    public Date getData() {
         return data;
     }
 
-    public void setData(Calendar data) {
+    public void setData(Date data) {
         this.data = data;
     }
-
-    public Arquivo() {
+    
+    public List<Oportunidade> getOportunidades() {
+        return oportunidades;
     }
-    
-    
+
+    public void setOportunidades(List<Oportunidade> oportunidades) {
+        this.oportunidades = oportunidades;
+    }
+
+   
 }
