@@ -10,11 +10,11 @@
 <message name="alteraResponse">
 <part name="parameters" element="tns:alteraResponse"/>
 </message>
-<message name="lista_op">
-<part name="parameters" element="tns:lista_op"/>
+<message name="consulta">
+<part name="parameters" element="tns:consulta"/>
 </message>
-<message name="lista_opResponse">
-<part name="parameters" element="tns:lista_opResponse"/>
+<message name="consultaResponse">
+<part name="parameters" element="tns:consultaResponse"/>
 </message>
 <message name="exclui">
 <part name="parameters" element="tns:exclui"/>
@@ -22,17 +22,11 @@
 <message name="excluiResponse">
 <part name="parameters" element="tns:excluiResponse"/>
 </message>
-<message name="lista_ab">
-<part name="parameters" element="tns:lista_ab"/>
+<message name="lista_op">
+<part name="parameters" element="tns:lista_op"/>
 </message>
-<message name="lista_abResponse">
-<part name="parameters" element="tns:lista_abResponse"/>
-</message>
-<message name="consulta">
-<part name="parameters" element="tns:consulta"/>
-</message>
-<message name="consultaResponse">
-<part name="parameters" element="tns:consultaResponse"/>
+<message name="lista_opResponse">
+<part name="parameters" element="tns:lista_opResponse"/>
 </message>
 <message name="adiciona">
 <part name="parameters" element="tns:adiciona"/>
@@ -40,30 +34,36 @@
 <message name="adicionaResponse">
 <part name="parameters" element="tns:adicionaResponse"/>
 </message>
+<message name="lista_ab">
+<part name="parameters" element="tns:lista_ab"/>
+</message>
+<message name="lista_abResponse">
+<part name="parameters" element="tns:lista_abResponse"/>
+</message>
 <portType name="Operacoes">
 <operation name="altera">
 <input wsam:Action="http://WebServices/Operacoes/alteraRequest" message="tns:altera"/>
 <output wsam:Action="http://WebServices/Operacoes/alteraResponse" message="tns:alteraResponse"/>
 </operation>
-<operation name="lista_op">
-<input wsam:Action="http://WebServices/Operacoes/lista_opRequest" message="tns:lista_op"/>
-<output wsam:Action="http://WebServices/Operacoes/lista_opResponse" message="tns:lista_opResponse"/>
+<operation name="consulta">
+<input wsam:Action="http://WebServices/Operacoes/consultaRequest" message="tns:consulta"/>
+<output wsam:Action="http://WebServices/Operacoes/consultaResponse" message="tns:consultaResponse"/>
 </operation>
 <operation name="exclui">
 <input wsam:Action="http://WebServices/Operacoes/excluiRequest" message="tns:exclui"/>
 <output wsam:Action="http://WebServices/Operacoes/excluiResponse" message="tns:excluiResponse"/>
 </operation>
-<operation name="lista_ab">
-<input wsam:Action="http://WebServices/Operacoes/lista_abRequest" message="tns:lista_ab"/>
-<output wsam:Action="http://WebServices/Operacoes/lista_abResponse" message="tns:lista_abResponse"/>
-</operation>
-<operation name="consulta">
-<input wsam:Action="http://WebServices/Operacoes/consultaRequest" message="tns:consulta"/>
-<output wsam:Action="http://WebServices/Operacoes/consultaResponse" message="tns:consultaResponse"/>
+<operation name="lista_op">
+<input wsam:Action="http://WebServices/Operacoes/lista_opRequest" message="tns:lista_op"/>
+<output wsam:Action="http://WebServices/Operacoes/lista_opResponse" message="tns:lista_opResponse"/>
 </operation>
 <operation name="adiciona">
 <input wsam:Action="http://WebServices/Operacoes/adicionaRequest" message="tns:adiciona"/>
 <output wsam:Action="http://WebServices/Operacoes/adicionaResponse" message="tns:adicionaResponse"/>
+</operation>
+<operation name="lista_ab">
+<input wsam:Action="http://WebServices/Operacoes/lista_abRequest" message="tns:lista_ab"/>
+<output wsam:Action="http://WebServices/Operacoes/lista_abResponse" message="tns:lista_abResponse"/>
 </operation>
 </portType>
 <binding name="OperacoesPortBinding" type="tns:Operacoes">
@@ -77,7 +77,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="lista_op">
+<operation name="consulta">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -95,16 +95,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="lista_ab">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="consulta">
+<operation name="lista_op">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -114,6 +105,15 @@
 </output>
 </operation>
 <operation name="adiciona">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="lista_ab">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
