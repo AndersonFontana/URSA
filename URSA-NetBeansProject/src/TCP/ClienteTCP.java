@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +28,8 @@ import java.util.Scanner;
  * @author Daniela
  */
 public class ClienteTCP {
+    public static Scanner ler = new Scanner(System.in);
+    public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     
 //    public static void enviarReceber(Oportunidade dados){
 //        
@@ -49,9 +52,16 @@ public class ClienteTCP {
 //            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
 //        }
 //    }
+    
+    public static Arquivo enviar (Socket cliente, Arquivo arq, ObjectOutputStream saida, ObjectInputStream entrada) throws Exception{
+        saida.writeObject(arq);
+        saida.flush();
+        
+        return (Arquivo) entrada.readObject();
+    }
+    
        
     public static Integer lerAcesso(){
-        Scanner ler = new Scanner(System.in);
                 
         while (true)
         {
@@ -66,20 +76,11 @@ public class ClienteTCP {
             System.out.print("Digite o número de acesso: ");
             Integer acesso = Integer.parseInt(ler.nextLine());
         
-            if (acesso > 7 || acesso < 1){
-                System.out.println("\n************************");
-                System.out.println("Erro: Tipo inválido");
-                System.out.println("************************\n");
-                continue;
-            }
-            else{
-                return acesso;
-            }
+            return acesso;
         }
     }
     
     public static Integer lerTipo(){
-        Scanner ler = new Scanner(System.in);
                 
         while (true)
         {
@@ -93,96 +94,98 @@ public class ClienteTCP {
             System.out.println("[7] Bolsa de graduação");
             System.out.print("Digite o tipo da oportunidade: ");
             Integer tipo = Integer.parseInt(ler.nextLine());
-
-            if (tipo > 7 || tipo < 1){
-                System.out.println("\n************************");
-                System.out.println("Erro: Tipo inválido");
-                System.out.println("************************\n");
-                continue;
-            }
-            else{
-                return tipo;
-            }
+            
+            return tipo;
         }
     }
     
-    public static String lerFechada(){
-        Scanner ler = new Scanner(System.in); 
+    public static String lerFechada() throws ParseException{
+        
+        Arquivo arquivoLista = new Arquivo();
         
         System.out.print("Digite a data de FECHADA (dd/MM/yyyy): ");
-        String dataFechada = ler.next();
-	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
-	Date dt = new Date();
-        try {
-            dt = df.parse(dataFechada);
-        } catch (ParseException e) {
-            System.out.println("Formato errado!" + e.getMessage());
+        String dataFechada = ler.nextLine();
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");    
+	Date sdt = new Date();
+        if (!dataFechada.equals("")){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(sdf.parse(dataFechada));
+            arquivoLista.setData(cal);
         }
-        System.out.println("");
         return dataFechada;
     }
     
-    public static String lerIngresso(){
-        Scanner ler = new Scanner(System.in); 
+    public static String lerIngresso() throws ParseException{ 
+        
+        Arquivo arquivoLista = new Arquivo();
         
         System.out.print("Digite a data de INGRESSO (dd/MM/yyyy): ");
-        String dataIngresso = ler.next();
-	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
-	Date dt = new Date();
-        try {
-            dt = df.parse(dataIngresso);
-        } catch (ParseException e) {
-            System.out.println("Formato errado!" + e.getMessage());
-        }
-        System.out.println("");
+        String dataIngresso = ler.nextLine();
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+	if (!dataIngresso.equals("")){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(sdf.parse(dataIngresso));
+            arquivoLista.setData(cal);
+        }        
         return dataIngresso;
     }
     
     
-    public static String lerOportunidade() throws IOException{
-        Scanner ler = new Scanner(System.in);
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    public static Oportunidade lerOportunidade() throws IOException{
         
-        String retorno = new String();
         Oportunidade op = new Oportunidade();
-        System.out.print("Digite o CÓDIGO da oportunidade: ");
+        System.out.print("Digite o CÓDIGO da oportunidade para inserí-lo: ");
         op.setCodigo(ler.nextInt());
         
-        System.out.print("Digite a DESCRIÇÃO da oportunidade: ");
+        System.out.print("Digite a DESCRIÇÃO da oportunidade para inserí-la: ");
         op.setDescricao(in.readLine());
         
-        System.out.print("Digite o CÓDIGO do cargo: ");
+        System.out.print("Digite o CÓDIGO do cargo para inserí-lo: ");
         op.setCodcargo(ler.nextInt());
         
         op.setAcesso(lerAcesso());
         
-        retorno = op.getCodigo() + "\n" + op.getDescricao() + 
-                "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerIngresso()+ "\n" + lerFechada();
-        return retorno;
+        return op;
         
     }
     
-    public static String lerCargo() throws IOException{
-        Scanner ler = new Scanner(System.in); 
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String retorno = new String();
+    public static Oportunidade excluir(){
+        Oportunidade op = new Oportunidade();
+        System.out.print("Digite o CÓDIGO da oportunidade para excluí-la: ");
+        op.setCodigo(ler.nextInt());
+        return op;
+    }
+    
+    public static Oportunidade consultar(){
+        Oportunidade op = new Oportunidade();
+        System.out.print("Digite o CÓDIGO da oportunidade para consultá-la: ");
+        op.setCodigo(ler.nextInt());
+        return op;        
+    }
+    
+    public static Oportunidade alterar(){
+        Oportunidade op = new Oportunidade();
+        System.out.print("Digite o CÓDIGO da oportunidade para alterá-la: ");
+        op.setCodigo(ler.nextInt());
+        return op;        
+    }
+    
+    public static Cargo listarOportunidades(){
         Cargo cargo = new Cargo(); 
-        
-        System.out.print("Digite o CÓDIGO do cargo: ");
+        System.out.print("Digite o CÓDIGO do cargo para listar as oportunidades: ");
         cargo.setCodcargo(ler.nextInt());
+        return cargo;
+    }
+    
+    public static Oportunidade listarAbertas(){
+        Oportunidade op = new Oportunidade(); 
+        System.out.print("Digite o TIPO da oportunidade para listar as em aberto: ");
+        op.setAcesso(lerAcesso());
+        return op;
         
-        System.out.print("Digite a DESCRIÇÃO do cargo: ");
-        cargo.setDescricao(in.readLine());
-        
-        cargo.setTipo(lerTipo());  
-        
-        retorno = cargo.getCodcargo() + "\n" + cargo.getDescricao() + "\n" + lerTipo();
-        return retorno;
     }
     
     public static void main(String[] args) throws Exception{
-        
-        Scanner ler = new Scanner(System.in);
         
         try{
             int port = 1972;
@@ -191,12 +194,12 @@ public class ClienteTCP {
             Socket cliente = new Socket(host, port);
             
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
-            //ObjectInputStream inp = new ObjectInputStream(cliente.getInputStream());
+            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream()); 
             System.out.println("Cliente conectou com servidor na porta: "+port);
 
             while(true){
                 System.out.println("\n*******************");
-                System.out.println("     OPERAÇÕES   ");
+                System.out.println("     OPERAÇÕES      ");
                 System.out.println("*******************");
                 System.out.println("[1] Adicionar");
                 System.out.println("[2] Alterar");
@@ -209,50 +212,59 @@ public class ClienteTCP {
 
                 Integer operacao = Integer.parseInt(ler.nextLine());
                 Oportunidade op = new Oportunidade();
-                DaoBanco dao = new DaoBanco();
                 Cargo cargo = new Cargo();
+                Arquivo arquivoLista =  new Arquivo();
+                arquivoLista.setOperacao(operacao);
                 List<Oportunidade> listaOportunidades = new ArrayList();
                 
                 switch(operacao){
                     case 1: //adicionar
-                        lerOportunidade();
-                        //listaOportunidades.add(op);
-                        
-                        System.out.println(dao.adicionar(op));
+                        op = lerOportunidade();
+                        listaOportunidades.add(op);
+                        arquivoLista.setOportunidades(listaOportunidades);
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
                         break;
                         
                     case 2: //alterar
-                        lerOportunidade();
-                        //listaOportunidades.add(op);
-                        System.out.println(dao.alterar(op));
+                        op = alterar();
+                        listaOportunidades.add(op);
+                        arquivoLista.setOportunidades(listaOportunidades);
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
                         break;
                         
                     case 3: //consultar
-                        lerOportunidade();
-                        //listaOportunidades.add(op);
-                        System.out.println(dao.consultar(op));
+                        op = consultar();
+                        listaOportunidades.add(op);
+                        arquivoLista.setOportunidades(listaOportunidades);
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
                         break;
                         
                     case 4: //excluir
-                        lerOportunidade();
-                        //listaOportunidades.add(op);
-                        System.out.println(dao.excluir(op));
+                        op = excluir();
+                        listaOportunidades.add(op);
+                        arquivoLista.setOportunidades(listaOportunidades);
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
                         break;
                         
                     case 5: //listarOportunidades
-                        lerOportunidade();
-                        listaOportunidades = dao.listaOportunidades(1);
-                        //System.out.println(dao.listaOportunidades(Codcargo));                     
+                        cargo = listarOportunidades();
+                        listaOportunidades.add(op);
+                        arquivoLista.setOportunidades(listaOportunidades);
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);                    
                         break;
                         
                     case 6: //listarAbertas
-                        cargo.setTipo(lerTipo());
-                        listaOportunidades = dao.listaAbertas(7);
-                        //System.out.println(dao.listaAbertas(tipo));            
+                        op = listarAbertas();
+                        listaOportunidades.add(op);
+                        arquivoLista.setOportunidades(listaOportunidades);
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);         
                         break;
                         
                     case 7:
                         System.out.println("Sair...");
+                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
+                        cliente.close();
+                        System.exit(0);
                         break;
                 }
             }
