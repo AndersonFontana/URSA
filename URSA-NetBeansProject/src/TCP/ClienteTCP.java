@@ -5,6 +5,7 @@
  */
 package TCP;
 
+import BANCO.DaoBanco;
 import dominio.Cargo;
 import dominio.Oportunidade;
 import java.io.BufferedReader;
@@ -13,18 +14,13 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -32,20 +28,33 @@ import java.util.logging.Logger;
  */
 public class ClienteTCP {
     
-    public static Scanner ler = new Scanner(System.in);
-    
-    public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    
-    public static Arquivo enviar (Socket cliente, Arquivo arq, ObjectOutputStream saida, ObjectInputStream entrada) throws Exception{
-        saida.writeObject(arq);
-        saida.flush();
-        
-        return (Arquivo) entrada.readObject();
-    }
-   
+//    public static void enviarReceber(Oportunidade dados){
+//        
+//        Scanner ler = new Scanner(System.in);
+//        
+//        int port = 1972;
+//        String host = new String("localhost");
+//        try{
+//            Socket cliente = new Socket(host, port);
+//            System.out.println("Cliente conectou com servidor na porta: "+port);
+//
+//            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
+//                       
+//            saida.writeObject(dados);
+//            saida.flush();
+//            System.out.println("Conexão encerrada!");   
+//        }
+//        catch(Exception e){
+//            System.out.println("Erro: "+e.getMessage());
+//            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//    }
+       
     public static Integer lerAcesso(){
+        Scanner ler = new Scanner(System.in);
                 
-        while (true){
+        while (true)
+        {
             System.out.println("\nACESSOS");
             System.out.println("[1] Somente Agronomia");
             System.out.println("[2] Somente Engenharia Agronomica");
@@ -55,15 +64,25 @@ public class ClienteTCP {
             System.out.println("[6] Engenharia Agronomica ou Agronegocio");
             System.out.println("[7] Todos os cursos");
             System.out.print("Digite o número de acesso: ");
-            Integer acesso = ler.nextInt();
+            Integer acesso = Integer.parseInt(ler.nextLine());
         
-            return acesso;
+            if (acesso > 7 || acesso < 1){
+                System.out.println("\n************************");
+                System.out.println("Erro: Tipo inválido");
+                System.out.println("************************\n");
+                continue;
+            }
+            else{
+                return acesso;
+            }
         }
     }
     
     public static Integer lerTipo(){
+        Scanner ler = new Scanner(System.in);
                 
-        while (true){
+        while (true)
+        {
             System.out.println("\nTIPOS DE OPORTUNIDADES:");
             System.out.println("[1] Emprego formal");
             System.out.println("[2] Estágio até 20h/semana");
@@ -73,134 +92,97 @@ public class ClienteTCP {
             System.out.println("[6] Bolsa de extensão");
             System.out.println("[7] Bolsa de graduação");
             System.out.print("Digite o tipo da oportunidade: ");
-            Integer tipo = ler.nextInt();
-            
-            return tipo;
+            Integer tipo = Integer.parseInt(ler.nextLine());
+
+            if (tipo > 7 || tipo < 1){
+                System.out.println("\n************************");
+                System.out.println("Erro: Tipo inválido");
+                System.out.println("************************\n");
+                continue;
+            }
+            else{
+                return tipo;
+            }
         }
     }
     
-    public static Date lerFechada() throws ParseException{
+    public static String lerFechada(){
+        Scanner ler = new Scanner(System.in); 
         
-        Arquivo arquivoLista = new Arquivo();
-        System.out.print("Digite a data de FECHAMENTO (dd/MM/yyyy): ");
-        String dataRecebida = ler.next();
+        System.out.print("Digite a data de FECHADA (dd/MM/yyyy): ");
+        String dataFechada = ler.next();
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
-	Date dt = df.parse(dataRecebida);
-        
-        return dt;
+	Date dt = new Date();
+        try {
+            dt = df.parse(dataFechada);
+        } catch (ParseException e) {
+            System.out.println("Formato errado!" + e.getMessage());
+        }
+        System.out.println("");
+        return dataFechada;
     }
     
-    public static Oportunidade lerOportunidade() throws IOException, ParseException{
+    public static String lerIngresso(){
+        Scanner ler = new Scanner(System.in); 
         
+        System.out.print("Digite a data de INGRESSO (dd/MM/yyyy): ");
+        String dataIngresso = ler.next();
+	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+	Date dt = new Date();
+        try {
+            dt = df.parse(dataIngresso);
+        } catch (ParseException e) {
+            System.out.println("Formato errado!" + e.getMessage());
+        }
+        System.out.println("");
+        return dataIngresso;
+    }
+    
+    
+    public static String lerOportunidade() throws IOException{
+        Scanner ler = new Scanner(System.in);
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        
+        String retorno = new String();
         Oportunidade op = new Oportunidade();
-        Cargo cargo = new Cargo();
-        
-        System.out.print("Digite o CÓDIGO da oportunidade para inserí-lo: ");
+        System.out.print("Digite o CÓDIGO da oportunidade: ");
         op.setCodigo(ler.nextInt());
         
-        System.out.print("Digite a DESCRIÇÃO da oportunidade para inserí-la: ");
+        System.out.print("Digite a DESCRIÇÃO da oportunidade: ");
         op.setDescricao(in.readLine());
         
-        System.out.print("Digite o CÓDIGO do cargo para inserí-lo: ");
+        System.out.print("Digite o CÓDIGO do cargo: ");
         op.setCodcargo(ler.nextInt());
         
         op.setAcesso(lerAcesso());
         
-        op.setFechada(lerFechada());
+        retorno = op.getCodigo() + "\n" + op.getDescricao() + 
+                "\n" + op.getCodcargo()+ "\n" + op.getAcesso()+ "\n" + lerIngresso()+ "\n" + lerFechada();
+        return retorno;
         
-        return op;  
     }
     
-    public static Oportunidade excluir(){
-        Oportunidade op = new Oportunidade();
-        System.out.print("Digite o CÓDIGO da oportunidade para excluí-la: ");
-        op.setCodigo(ler.nextInt());
-        return op;
-    }
-    
-    public static Oportunidade consultar(){
-        Oportunidade op = new Oportunidade();
-        System.out.print("Digite o CÓDIGO da oportunidade para consultá-la: ");
-        op.setCodigo(ler.nextInt());
-        return op;        
-    }
-    
-    public static Oportunidade alterar() throws ParseException{
-
-        Oportunidade op = new Oportunidade();
-        String teste = "n";
-        System.out.println("Alterar oportunidade, digite o CÓDIGO da oportunidade a ser alterada.\n"
-                           + "Se quiser alterar o campo digite S senão digite N");
-        System.out.print("Digite o CÓDIGO da oportunidade a ser alterada: ");
-        op.setCodigo(ler.nextInt());
-        System.out.print("Alterar DESCRIÇÃO (S/N)? ");
-        teste = ler.next();
-        if(teste.equals("s") || teste.equals("S")){
-            op.setDescricao(Aux_Alterar("a descrição"));
-            teste = "n";
-        }
-        else{
-            op.setDescricao(null);
-        }
-        System.out.print("Alterar CARGO (S/N)? ");
-        teste = ler.next();
-        if(teste.equals("s") || teste.equals("S")){
-            op.setCodcargo(Integer.parseInt(Aux_Alterar("o código do cargo")));
-            teste = "n";
-        }
-        else{
-            op.setCodcargo(0);
-        }
-        System.out.print("Alterar ACESSO (S/N)? ");
-        teste = ler.next();
-        if(teste.equals("s") || teste.equals("S")){
-            op.setAcesso(Integer.parseInt(Aux_Alterar("o código do acesso")));
-            teste = "n";
-        }
-        else{
-            op.setAcesso(0);
-        }
-        System.out.print("Alterar DATA FECHAMENTO (S/N)? ");
-        teste = ler.next();
-        if(teste.equals("s") || teste.equals("S")){
-            op.setFechada(lerFechada());
-            teste = "n";
-        }
-        else{
-            op.setFechada(null);
-        }
-        
-        return op;
-    }
-    
-    public static String Aux_Alterar(String str){
-        String ret = new String();
-        System.out.print("Digite " + str + ": ");
-        try {
-            ret = in.readLine();
-        } catch (IOException ex) {
-            Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ret;
-    }
-    
-    public static Cargo listarOportunidades(){
+    public static String lerCargo() throws IOException{
+        Scanner ler = new Scanner(System.in); 
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String retorno = new String();
         Cargo cargo = new Cargo(); 
-        System.out.print("Digite o CÓDIGO do cargo para listar as oportunidades: ");
+        
+        System.out.print("Digite o CÓDIGO do cargo: ");
         cargo.setCodcargo(ler.nextInt());
-        return cargo;
-    }
-    
-    public static Oportunidade listarAbertas(){
-        Oportunidade op = new Oportunidade(); 
-        Cargo cargo = new Cargo(); 
-        //System.out.print("Digite o TIPO da oportunidade para listar as em aberto: ");
-        cargo.setTipo(lerTipo());
-        return op;
         
+        System.out.print("Digite a DESCRIÇÃO do cargo: ");
+        cargo.setDescricao(in.readLine());
+        
+        cargo.setTipo(lerTipo());  
+        
+        retorno = cargo.getCodcargo() + "\n" + cargo.getDescricao() + "\n" + lerTipo();
+        return retorno;
     }
     
     public static void main(String[] args) throws Exception{
+        
+        Scanner ler = new Scanner(System.in);
         
         try{
             int port = 1972;
@@ -209,12 +191,12 @@ public class ClienteTCP {
             Socket cliente = new Socket(host, port);
             
             ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
-            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream()); 
+            //ObjectInputStream inp = new ObjectInputStream(cliente.getInputStream());
             System.out.println("Cliente conectou com servidor na porta: "+port);
 
             while(true){
                 System.out.println("\n*******************");
-                System.out.println("     OPERAÇÕES      ");
+                System.out.println("     OPERAÇÕES   ");
                 System.out.println("*******************");
                 System.out.println("[1] Adicionar");
                 System.out.println("[2] Alterar");
@@ -225,68 +207,58 @@ public class ClienteTCP {
                 System.out.println("[7] Sair");
                 System.out.print("Digite a sua opção desejada: ");
 
-                Integer operacao = ler.nextInt();
+                Integer operacao = Integer.parseInt(ler.nextLine());
                 Oportunidade op = new Oportunidade();
+                DaoBanco dao = new DaoBanco();
                 Cargo cargo = new Cargo();
-                Arquivo arquivoLista =  new Arquivo();
-                arquivoLista.setOperacao(operacao);
                 List<Oportunidade> listaOportunidades = new ArrayList();
                 
                 switch(operacao){
                     case 1: //adicionar
-                        op = lerOportunidade();
-                        listaOportunidades.add(op);
-                        arquivoLista.setOportunidades(listaOportunidades);
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
+                        
+                        System.out.println(dao.adicionar(op));
                         break;
                         
                     case 2: //alterar
-                        op = alterar();
-                        listaOportunidades.add(op);
-                        arquivoLista.setOportunidades(listaOportunidades);
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
+                        System.out.println(dao.alterar(op));
                         break;
                         
                     case 3: //consultar
-                        op = consultar();
-                        listaOportunidades.add(op);
-                        arquivoLista.setOportunidades(listaOportunidades);
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
+                        System.out.println(dao.consultar(op));
                         break;
                         
                     case 4: //excluir
-                        op = excluir();
-                        listaOportunidades.add(op);
-                        arquivoLista.setOportunidades(listaOportunidades);
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
+                        lerOportunidade();
+                        //listaOportunidades.add(op);
+                        System.out.println(dao.excluir(op));
                         break;
                         
                     case 5: //listarOportunidades
-                        cargo = listarOportunidades();
-                        listaOportunidades.add(op);
-                        arquivoLista.setOportunidades(listaOportunidades);
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);    
+                        lerOportunidade();
+                        listaOportunidades = dao.listaOportunidades(1);
+                        //System.out.println(dao.listaOportunidades(Codcargo));                     
                         break;
                         
                     case 6: //listarAbertas
-                        op = listarAbertas();
-                        listaOportunidades.add(op);
-                        arquivoLista.setOportunidades(listaOportunidades);
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);  
+                        cargo.setTipo(lerTipo());
+                        listaOportunidades = dao.listaAbertas(7);
+                        //System.out.println(dao.listaAbertas(tipo));            
                         break;
                         
                     case 7:
                         System.out.println("Sair...");
-                        arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        cliente.close();
-                        System.exit(0);
                         break;
                 }
             }
         }
-        catch(SocketException ex){
-            Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Erro: "+ex.getMessage());  
+        catch(Exception e){
+            System.out.println("Erro: "+e.getMessage());  
         }
         finally{
                 

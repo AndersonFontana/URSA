@@ -1,6 +1,5 @@
 package dominio;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -8,7 +7,7 @@ import java.util.Date;
  *
  * @author anderson
  */
-public class Oportunidade implements Serializable {
+public class Oportunidade {
 	private int codigo;
 	private int codcargo;
 	private Cargo cargo;
