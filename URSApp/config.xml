@@ -3,7 +3,7 @@
     <name>URSApp</name>
     <description>O aplicativo oficial da URSA!</description>
     <author email="gabrielplicks@gmail.com" href="http://www.facebook.com/gabriel.paludo">Gabriel Paludo Licks</author>
-    <content original-src="index.html" src="http://10.0.0.105:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 // Importa módulo Push para a página
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
@@ -12,7 +12,7 @@ import { DetailsPage } from '../details/details';
 })
 export class HomePage {
 
-	constructor(public navCtrl: NavController, private push: Push, public alertCtrl: AlertController) {
+	constructor(public navCtrl: NavController, private push: Push) {
 
 	  	// Checar se tem permissão para enviar push
 		this.push.hasPermission().then((res: any) => {
@@ -44,12 +44,6 @@ export class HomePage {
 				pushObject.on('notification').subscribe((notification: any) =>
 				{
 					alert(notification.message);
-					/*let alert = this.alertCtrl.create({
-					   	title: notification.title,
-					   	subTitle: notification.message,
-					   	buttons: ['OK']
-					});
-					alert.present();*/
 
 					let additionalData = JSON.parse(JSON.stringify(notification.additionalData));
 
