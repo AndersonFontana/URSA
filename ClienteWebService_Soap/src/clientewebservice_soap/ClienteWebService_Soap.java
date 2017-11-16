@@ -3,22 +3,56 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientewebsoap;
+package clientewebservice_soap;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import webservices.Oportunidade;
 
 /**
  *
  * @author Regis
  */
-public class ClienteWebSoap {
+public class ClienteWebService_Soap {
 
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        altera(17, 3 , "Teste", 1, "22/02/2008");
+        
+        /*
+        if(adiciona(1, 2, "exe", 1, "22/04/2007")){
+            System.out.println("OK");
+        };
+        
+        if(exclui(1)){
+            System.out.println("OK");
+        }
+        
+        */
+        Oportunidade op = new Oportunidade();
+        op = consulta(12);
+        
+        String S = op.getFechada().toString();
+       
+        System.out.println("Timestamp: " + S);
+        
+        /*
+        List<Oportunidade> oportunidades = new ArrayList();
+        oportunidades = listaOp(3);
+        System.out.println(oportunidades.size());
+        for(int i=0;i<oportunidades.size();i++){
+            System.out.println("Op: " + oportunidades.get(i).getDescricao());  
+        }
+
+        List<Oportunidade> oportunidade= new ArrayList();
+        oportunidade = listaAb(2);
+        System.out.println(oportunidade.size());
+        for(int i=0;i<oportunidade.size();i++){
+            System.out.println("Ab: " + oportunidade.get(i).getDescricao());  
+        }
+        */
     }
 
     protected static boolean adiciona(java.lang.Integer codigo, java.lang.Integer codCargo, java.lang.String descricao, java.lang.Integer acesso, java.lang.String fechada) {
@@ -27,22 +61,22 @@ public class ClienteWebSoap {
         return port.adiciona(codigo, codCargo, descricao, acesso, fechada);
     }
 
-    protected static boolean altera(java.lang.Integer codigo, java.lang.Integer codCargo, java.lang.String descricao, java.lang.Integer acesso, webservices.Timestamp fechada) {
+    protected static boolean altera(java.lang.Integer codigo, java.lang.Integer codCargo, java.lang.String descricao, java.lang.Integer acesso, java.lang.String fechada) {
         webservices.Operacoes_Service service = new webservices.Operacoes_Service();
         webservices.Operacoes port = service.getOperacoesPort();
         return port.altera(codigo, codCargo, descricao, acesso, fechada);
-    }
-
-    protected static boolean exclui(java.lang.Integer exclui) {
-        webservices.Operacoes_Service service = new webservices.Operacoes_Service();
-        webservices.Operacoes port = service.getOperacoesPort();
-        return port.exclui(exclui);
     }
 
     protected static Oportunidade consulta(java.lang.Integer consulta) {
         webservices.Operacoes_Service service = new webservices.Operacoes_Service();
         webservices.Operacoes port = service.getOperacoesPort();
         return port.consulta(consulta);
+    }
+
+    protected static boolean exclui(java.lang.Integer exclui) {
+        webservices.Operacoes_Service service = new webservices.Operacoes_Service();
+        webservices.Operacoes port = service.getOperacoesPort();
+        return port.exclui(exclui);
     }
 
     protected static java.util.List<webservices.Oportunidade> listaAb(int listaAb) {
@@ -56,7 +90,7 @@ public class ClienteWebSoap {
         webservices.Operacoes port = service.getOperacoesPort();
         return port.listaOp(listaOp);
     }
-
-   
+    
+    
     
 }

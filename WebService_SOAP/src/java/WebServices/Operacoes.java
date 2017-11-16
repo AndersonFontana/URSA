@@ -63,12 +63,19 @@ public class Operacoes {
                             @WebParam(name = "codCargo") Integer CodCargo,
                             @WebParam(name = "descricao") String descricao,
                             @WebParam(name = "acesso") Integer acesso,
-                            @WebParam(name = "fechada") Timestamp fechada
+                            @WebParam(name = "fechada") String fechada
                             
                ) {
         
         DaoBanco db = new DaoBanco();
-        Oportunidade op = new Oportunidade(Codigo, CodCargo, descricao, acesso, fechada);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date dt = new Date();
+        try {
+            dt = df.parse(fechada);
+        } catch (ParseException ex) {
+            System.out.println("Formato errado da data" + ex.getMessage());
+        }
+        Oportunidade op = new Oportunidade(Codigo, CodCargo, descricao, acesso, dt);
         try {
             db.alterar(op);
         } catch (Exception ex) {
@@ -108,7 +115,7 @@ public class Operacoes {
         List<Oportunidade> oportunidades = new ArrayList();
          DaoBanco db = new DaoBanco();
         try {
-            db.listaOportunidades(Codigo);
+            oportunidades = db.listaOportunidades(Codigo);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,12 +128,13 @@ public class Operacoes {
          List<Oportunidade> oportunidade = new ArrayList();
          DaoBanco db = new DaoBanco();
         try {
-            db.listaAbertas(Tipo);
+            oportunidade = db.listaAbertas(Tipo);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
          return oportunidade;
     }
+    
     
     
 }
