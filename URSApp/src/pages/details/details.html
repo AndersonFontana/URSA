@@ -5,22 +5,37 @@
 </ion-header>
 
 <ion-content padding>
-	<h1>
-		{{title}}
-	</h1>
-	<p>
-		Código: {{content.codigo}}
-		<br>
-		Cód. Cargo: {{content.codcargo}}
-		<br>
-		Cargo: {{content.cargo}}
-		<br>
-		Descrição: {{content.descricao}}
-		<br>
-		Acesso: {{content.acesso}}
-		<br>
-		Ingresso: {{content.ingresso}}
-		<br>
-		Fechada: {{content.fechada}}
-	</p>
+
+	<h2 style="text-align: center;">{{content.descricao}}</h2>
+	<ion-list>
+		<ion-item>
+			<ion-label>Cód. Oportunidade</ion-label>
+        	<ion-note item-end>{{content.codigo}}</ion-note>
+		</ion-item>
+		<ion-item>
+			<ion-label>Cód. Cargo</ion-label>
+        	<ion-note item-end>{{content.codcargo}}</ion-note>
+		</ion-item>
+		<ion-item>
+			<ion-label>Cargo</ion-label>
+        	<ion-note item-end>{{content.descricao}}</ion-note>
+		</ion-item>
+		<ion-item>
+			<ion-label>Descrição</ion-label>
+        	<ion-note item-end>{{content.descricao}}</ion-note>
+		</ion-item>
+		<ion-item>
+			<ion-label>Acesso</ion-label>
+        	<ion-note item-end>{{content.acesso}}</ion-note>
+		</ion-item>
+		<ion-item>
+			<ion-label>Ingresso</ion-label>
+        	<ion-note item-end>{{content.ingresso}}</ion-note>
+		</ion-item>
+		<ion-item>
+			<ion-label>Fechada</ion-label>
+        	<ion-note item-end>{{content.fechada}}</ion-note>
+		</ion-item>
+	</ion-list>
+
 </ion-content>
