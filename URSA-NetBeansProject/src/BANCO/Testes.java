@@ -21,7 +21,7 @@ public class Testes {
 	public static void main(String[] args) {
             DaoBanco dao = new DaoBanco();
             
-            Oportunidade op = new Oportunidade(1126, 1, "Teste oportunidade", 0, new Date());
+            Oportunidade op = new Oportunidade(1130, 1, "Teste oportunidade", 0, new Date());
             
             try {
                 dao.adicionar(op);
