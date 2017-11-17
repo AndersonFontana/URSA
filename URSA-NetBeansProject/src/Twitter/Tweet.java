@@ -1,6 +1,8 @@
 package Twitter;
 
 import dominio.Oportunidade;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -32,7 +34,8 @@ public class Tweet {
                 // inicia conexão
                 
                 //cria tweet
-                String pretweet = "Nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
+                String pretweet = Timestamp.valueOf(LocalDateTime.now())+"\n"+
+                        "Nova oportunidade de cargo "+op.getCargo().getDescricao()+" está disponivel."+
                         "\n\n"+op.getDescricao();
                 
                 // formata tweet
