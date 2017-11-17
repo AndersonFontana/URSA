@@ -39,7 +39,7 @@ public class ThreadServidorTCP extends Thread{
             return true;
         } catch (SQLException e) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Não foi possivel inserir a oportunidade!");
+            throw new Exception("Não foi possível inserir a oportunidade!");
         } catch (Exception ex) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
@@ -59,7 +59,7 @@ public class ThreadServidorTCP extends Thread{
             return true;
         } catch (SQLException e) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Não foi possivel alterar a oportunidade!");
+            throw new Exception("Não foi possível alterar a oportunidade!");
         } catch (Exception ex) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
@@ -85,7 +85,7 @@ public class ThreadServidorTCP extends Thread{
             return true;
         }  catch (SQLException e) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Não foi possivel excluir a oportunidade!");
+            throw new Exception("Não foi possível excluir a oportunidade!");
         } catch (Exception ex) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
@@ -171,7 +171,7 @@ public class ThreadServidorTCP extends Thread{
                             op = consultar(codigo);
                             listRetorno.add((Oportunidade)op);
                             arquivoLista.setOportunidades(listRetorno);
-                            arquivoLista.setRetorno("Arquivo consultado com sucesso!");
+                            arquivoLista.setRetorno("Oportunidade consultada com sucesso!");
                             System.out.println(arquivoLista.getRetorno());
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
