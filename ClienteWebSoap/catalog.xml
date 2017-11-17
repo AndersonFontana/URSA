@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/WebService_SOAP/Operacoes?WSDL" uri="xml-resources/web-service-references/Operacoes/wsdl/localhost_8080/WebService_SOAP/Operacoes.wsdl"/>
-    <system systemId="http://localhost:8080/WebService_SOAP/Operacoes?xsd=1" uri="xml-resources/web-service-references/Operacoes/wsdl/localhost_8080/WebService_SOAP/Operacoes.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/WebService_SOAP/Operacoes?Tester" uri="xml-resources/web-service-references/Operacoes_Tester/wsdl/localhost_8080/WebService_SOAP/Operacoes.tester"/>
-</catalog>
