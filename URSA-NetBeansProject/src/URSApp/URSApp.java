@@ -27,7 +27,7 @@ public class URSApp {
         
         String content = "{\"codigo\": \"" + objeto.getCodigo() + "\", " + 
                           "\"codcargo\": \"" + objeto.getCodcargo() + "\", " + 
-                          "\"cargo\": \"" + objeto.getCargo() + "\", " + 
+                          "\"cargo\": \"" + objeto.getCargo().getDescricao() + "\", " + 
                           "\"descricao\": \"" + objeto.getDescricao() + "\", " + 
                           "\"acesso\": \"" + objeto.getAcesso() + "\", " + 
                           "\"ingresso\": \"" + objeto.getIngresso() + "\", " + 
