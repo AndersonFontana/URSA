@@ -33,22 +33,5 @@
         <delete dir="${build.generated.dir}/jax-wsCache/Operacoes"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
     </target>
-    <target name="wsimport-client-Operacoes_Tester" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/Operacoes_Tester"/>
-        <property name="wsdl-Operacoes_Tester" location="xml-resources/web-service-references/Operacoes_Tester/wsdl/localhost_8080/WebService_SOAP/Operacoes.tester"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Operacoes_Tester" destdir="${build.generated.dir}/jax-wsCache/Operacoes_Tester" wsdl="${wsdl-Operacoes_Tester}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/WebService_SOAP/Operacoes?Tester" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-Operacoes_Tester}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/Operacoes_Tester"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/Operacoes_Tester">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-Operacoes_Tester" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/Operacoes_Tester"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/"/>
-    </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-Operacoes, wsimport-client-Operacoes_Tester"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-Operacoes"/>
 </project>
