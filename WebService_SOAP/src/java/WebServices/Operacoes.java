@@ -52,7 +52,8 @@ public class Operacoes {
         try {
             db.adicionar(op);
         } catch (Exception ex) {
-            Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            return false;
         }
         
         return true;
@@ -79,7 +80,8 @@ public class Operacoes {
         try {
             db.alterar(op);
         } catch (Exception ex) {
-            Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            return false;
         }
         
         return true;
@@ -91,7 +93,8 @@ public class Operacoes {
         try {
             db.excluir(codigo);
         } catch (Exception ex) {
-            Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            return false;
         }
         
         return true;
