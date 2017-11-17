@@ -22,30 +22,31 @@ public class ClienteWebService_Soap {
     public static void main(String[] args) {
         
         /*
-        if(adiciona(1, 2, "exe", 1, "22/04/2007")){
-            System.out.println("OK");
-        };
-        
+        adiciona(10001, 1, "teste2", 1, "22/04/2007");
+            
+        /*
         if(exclui(1)){
             System.out.println("OK");
         }
         
         */
         Oportunidade op = new Oportunidade();
-        op = consulta(12);
+        op = consulta(10001);
+     
         
-        String S = op.getFechada().toString();
+        
        
-        System.out.println("Timestamp: " + S);
+        System.out.println("Timestamp: " + op.getDescricao());
+        
         
         /*
         List<Oportunidade> oportunidades = new ArrayList();
-        oportunidades = listaOp(3);
+        oportunidades = listaOp(1);
         System.out.println(oportunidades.size());
         for(int i=0;i<oportunidades.size();i++){
             System.out.println("Op: " + oportunidades.get(i).getDescricao());  
         }
-
+/*
         List<Oportunidade> oportunidade= new ArrayList();
         oportunidade = listaAb(2);
         System.out.println(oportunidade.size());
