@@ -6,6 +6,7 @@
 package clientewebservice_soap;
 
 import javax.swing.JOptionPane;
+import webservices.Oportunidade;
 
 /**
  *
@@ -266,6 +267,14 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
+        int cod = Integer.parseInt(jTextFieldCod.getText().trim());
+        Oportunidade op = new Oportunidade();
+        op = cws.consulta(cod);
+        jTextFieldDesc.setText(op.getDescricao());
+        String des = new String();
+        jTextFieldAcesso.setText(Integer.toString(op.getAcesso()));
+        jTextFieldCodCar.setText(Integer.toString(op.getCodcargo()));
+        
         
     }//GEN-LAST:event_jButtonConsultarActionPerformed
 
