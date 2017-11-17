@@ -52,8 +52,7 @@ public class Operacoes {
         try {
             db.adicionar(op);
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return false;
+            Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return true;
