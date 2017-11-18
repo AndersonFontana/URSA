@@ -295,4 +295,64 @@ public class DaoBanco {
         }
         return oportunidades;
     }
+    
+    public String getTipoDescricao(int tipo) throws Exception {
+        String ret;
+        switch(tipo) {
+            case 1:
+                ret = "Emprego formal";
+                break;
+            case 2:
+                ret = "Estágio até 20h/semana";
+                break;
+            case 3:
+                ret = "Estágio acima de 20h/semana";
+                break;
+            case 4:
+                ret = "Estágio voluntário";
+                break;
+            case 5:
+                ret = "Bolsa de pesquisa";
+                break;
+            case 6:
+                ret = "Bolsa de extensão";
+                break;
+            case 7:
+                ret = "Bolsa de graduação";
+                break;
+            default:
+                throw new Exception("Tipo não encontrado!");
+        }
+        return ret;
+    }
+    
+    public String getAcessoDescricao(int acesso) throws Exception {
+        String ret;
+        switch (acesso) {
+            case 1:
+                ret = "Somente Agronomia";
+                break;
+            case 2:
+                ret = "Somente Engenharia Agronomica";
+                break;
+            case 3:
+                ret = "Somente Agronogocio";
+                break;
+            case 4:
+                ret = "Agronomia ou Eng. Agronomica";
+                break;
+            case 5:
+                ret = "Agronomia ou Agronegocio";
+                break;
+            case 6:
+                ret = "Eng. Agronomica ou Agronegocio";
+                break;
+            case 7:
+                ret = "Todos os cursos";
+                break;
+            default:
+                throw new Exception("Acesso não encontrado!");
+        }
+        return ret;
+    }
 }
