@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author user
+ * @author daniela
  */
 public class ThreadServidorTCP extends Thread{
 
@@ -32,14 +32,22 @@ public class ThreadServidorTCP extends Thread{
      */
       
     public static Boolean inserir(Integer codigo, Integer codcargo, String descricao, Integer acesso, Date fechada) throws Exception {
+//        Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
+//        DaoBanco dao = new DaoBanco();
+//        String s = "Oportunidade incluída com sucesso! Código: "+op.getCodigo();
+//        try {
+//            dao.adicionar(op);
+//        } catch (SQLException ex) {
+//            //Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+//            s = ex.getMessage();
+//        }
+//        return s;
+        
         try {
             Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
             DaoBanco dao = new DaoBanco();
             dao.adicionar(op);
             return true;
-        } catch (SQLException e) {
-            Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Não foi possível inserir a oportunidade!");
         } catch (Exception ex) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
@@ -47,6 +55,22 @@ public class ThreadServidorTCP extends Thread{
     }
     
     public static Boolean alterar(Integer codigo, Integer codcargo, String descricao, Integer acesso, Date fechada) throws Exception {
+//        Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
+//        DaoBanco dao = new DaoBanco();
+//        String s = "Oportunidade alterada com sucesso! Código: "+op.getCodigo();
+//        op.setCodigo(codigo);
+//        op.setAcesso(acesso);
+//        op.setCodcargo(codcargo);
+//        op.setDescricao(descricao);
+//        op.setFechada(fechada);
+//        try {
+//            dao.alterar(op);
+//        } catch (Exception ex) {
+//            //Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+//            s = ex.getMessage();
+//        }
+//        return s;
+
         try {
             DaoBanco dao = new DaoBanco();
             Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
@@ -57,9 +81,6 @@ public class ThreadServidorTCP extends Thread{
             op.setFechada(fechada);
             dao.alterar(op);
             return true;
-        } catch (SQLException e) {
-            Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Não foi possível alterar a oportunidade!");
         } catch (Exception ex) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
@@ -78,14 +99,21 @@ public class ThreadServidorTCP extends Thread{
         }
     }
     
-    public static Boolean excluir(Integer codigo) throws Exception{
+    public static Boolean excluir(Integer Codigo) throws Exception{
+//        DaoBanco dao = new DaoBanco();
+//        Oportunidade op = new Oportunidade();
+//        String s = "Oportunidade excluída com sucesso! Código: "+op.getCodigo();
+//        try {
+//            dao.excluir(Codigo);
+//        } catch (Exception ex) {
+//            //Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+//            s = ex.getMessage();
+//        }
+//        return s;
         try {
             DaoBanco dao = new DaoBanco();
-            dao.excluir(codigo);
+            dao.excluir(Codigo);
             return true;
-        }  catch (SQLException e) {
-            Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Não foi possível excluir a oportunidade!");
         } catch (Exception ex) {
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(ex.getMessage());
@@ -133,7 +161,7 @@ public class ThreadServidorTCP extends Thread{
             
             while (true){
                 Object obj = entrada.readObject();
-                Arquivo arquivoLista = (Arquivo) obj;
+                ArquivoLista arquivoLista = (ArquivoLista) obj;
 
                 Oportunidade op = (Oportunidade) arquivoLista.getOportunidades().get(0);
                 
@@ -148,21 +176,28 @@ public class ThreadServidorTCP extends Thread{
                     case 1: // Adicionar oportunidade
                         try{
                             inserir(codigo, codcargo, descricao, acesso, fechada);
-                            arquivoLista.setRetorno("Oportunidade inserida com sucesso!");
-                            System.out.println(arquivoLista.getRetorno());
-                            
+                            arquivoLista.setRetorno("\n..................................................................\n"
+                                    +"---> Oportunidade inserida com sucesso! <---" 
+                                    +"\nCódigo: "+ op.getCodigo()
+                                    +"\n..................................................................");
+                            arquivoLista.setRet(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setRet(1);
                         }
                         break;
 
                     case 2: //Alterar oportunidade
                         try{
                             alterar(codigo, codcargo, descricao, acesso, fechada);
-                            arquivoLista.setRetorno("Oportunidade alterada com sucesso!");
-                            System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRetorno("\n..................................................................\n"
+                                    +"---> Oportunidade alterada com sucesso! <---"
+                                    +"\nCódigo: "+ op.getCodigo()
+                                    +"\n..................................................................");
+                            arquivoLista.setRet(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setRet(1);
                         }
                         break;
 
@@ -171,20 +206,35 @@ public class ThreadServidorTCP extends Thread{
                             op = consultar(codigo);
                             listRetorno.add((Oportunidade)op);
                             arquivoLista.setOportunidades(listRetorno);
-                            arquivoLista.setRetorno("Oportunidade consultada com sucesso!");
-                            System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRetorno("\n..................................................................\n"
+                                    +"---> Oportunidade consultada com sucesso! <---" 
+                                    +"\n" + "Código: "+ op.getCodigo()
+                                    +"\n" + "Descrição: "+ op.getDescricao()
+                                    +"\n" + "Cargo: "+ op.getCargo()
+                                    +"\n" + "Código Cargo: "+ op.getCodcargo()
+                                    +"\n" + "Acesso: "+ op.getAcesso()
+                                    +"\n" + "Ingresso: "+ op.getIngresso()
+                                    +"\n" + "Fechada: "+ op.getFechada() 
+                                    +"\n..................................................................");
+                            arquivoLista.setRet(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setRet(1);
                         }
                         break;
                         
                     case 4: //Excluir oportunidade
                         try{
                             excluir(codigo);
-                            arquivoLista.setRetorno("Oportunidade excluída com sucesso!");
-                            System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRetorno("\n..................................................................\n"
+                                    +"---> Oportunidade excluída com sucesso! <---" 
+                                    +"\nCódigo: "+ op.getCodigo()
+                                    +"\n..................................................................");
+                            //System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRet(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setRet(1);
                         }
                         break;
 
@@ -195,11 +245,16 @@ public class ThreadServidorTCP extends Thread{
                                 listRetorno.add((Oportunidade)oport);
                             }
                             arquivoLista.setOportunidades(listRetorno);
-                            arquivoLista.setRetorno("Oportunidades listadas com sucesso!");
-                            System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRetorno("\n..................................................................\n"
+                                    +"---> Oportunidades listadas com sucesso! <---\n"
+                                    + listRetorno
+                                    +"\n..................................................................");
+                            //System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRet(0);
 
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setRet(1);
                         }
                         break;
 
@@ -209,10 +264,15 @@ public class ThreadServidorTCP extends Thread{
                                 listRetorno.add((Oportunidade)aberta);
                             }
                             arquivoLista.setOportunidades(listRetorno);
-                            arquivoLista.setRetorno("Abertas listadas com sucesso!");
-                            System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRetorno("\n...................................................................\n"
+                                    +"---> Oportunidades abertas listadas com sucesso! <---\n"
+                                    + listRetorno
+                                    +"\n..................................................................");
+                            //System.out.println(arquivoLista.getRetorno());
+                            arquivoLista.setRet(0);
                         } catch (Exception ex) {
                             arquivoLista.setRetorno(ex.getMessage());
+                            arquivoLista.setRet(1);
                         }
                         break;
                     case 7:
