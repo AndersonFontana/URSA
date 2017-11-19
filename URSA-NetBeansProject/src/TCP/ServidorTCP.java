@@ -34,7 +34,7 @@ public class ServidorTCP {
         
         try {
             Handler console = new ConsoleHandler();
-            Handler file = new FileHandler("C:\\Users\\user\\Desktop\\URSA\\Logs\\LOG" + System.currentTimeMillis() +".txt"); //local do arquivo
+            Handler file = new FileHandler("C:\\Users\\João Pedro\\Desktop\\Log" + System.currentTimeMillis() +".txt"); //local do arquivo
             console.setLevel(Level.WARNING);
             file.setLevel(Level.ALL);
             file.setFormatter(new SimpleFormatter()); // tipo do arquivo

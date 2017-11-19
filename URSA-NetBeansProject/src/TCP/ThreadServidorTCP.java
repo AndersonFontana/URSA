@@ -48,11 +48,14 @@ public class ThreadServidorTCP extends Thread{
             Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
             DaoBanco dao = new DaoBanco();
             dao.adicionar(op);
+            logInfo("Inserida oportunidade " + op.getCodigo());
             return true;
         }catch (Exception ex){
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+            logInfo(ex.getMessage());
             throw new Exception(ex.getMessage());
         }
+        
     }
     
     public static Boolean alterar(Integer codigo, Integer codcargo, String descricao, Integer acesso, Date fechada) throws Exception {
@@ -65,9 +68,11 @@ public class ThreadServidorTCP extends Thread{
             op.setDescricao(descricao);
             op.setFechada(fechada);
             dao.alterar(op);
+            logInfo("Alterada oportunidade " + op.getCodigo());
             return true;
         }catch (Exception ex){
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+            logInfo(ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }   
@@ -76,9 +81,11 @@ public class ThreadServidorTCP extends Thread{
         try{
             DaoBanco dao = new DaoBanco();
             Oportunidade op = dao.consultar(Codigo);
+            logInfo("Consultada oportunidade " + op.getCodigo());
             return op;
         }catch (Exception ex){
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+            logInfo(ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -87,9 +94,11 @@ public class ThreadServidorTCP extends Thread{
         try{
             DaoBanco dao = new DaoBanco();
             dao.excluir(Codigo);
+            logInfo("Excluida oportunidade " + Codigo.toString());
             return true;
         }catch (Exception ex){
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+            logInfo(ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -102,9 +111,11 @@ public class ThreadServidorTCP extends Thread{
             for (Oportunidade op : listOp){
                 op.setCodcargo(Codcargo);
             }
+            logInfo("Consultada lista de oportunidade do cargo " + Codcargo.toString());
             return listOp;
         }catch (Exception ex){
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+            logInfo(ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
@@ -118,12 +129,18 @@ public class ThreadServidorTCP extends Thread{
             for (Cargo cargo : listCargo){
                 cargo.setTipo(tipo);
             }
+            logInfo("Consultada lista de oportunidade abertas do tipo " + tipo.toString());
             return listCargo;
         }catch (Exception ex){
             Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex);
+            logInfo(ex.getMessage());
             throw new Exception(ex.getMessage());
         }
     }
+    
+    public static void logInfo(String log) {
+		ServidorTCP.LOGGER.info(log);
+	}
 
     public void run()
     {
