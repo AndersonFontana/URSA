@@ -31,27 +31,27 @@
                 <form action="incluir.php" method="post">
                   <div class="form-group">
                     <label for="incluir-codigo" class="col-form-label">Código</label>
-                    <input class="form-control" type="number" value="0" id="incluir-codigo">
+                    <input class="form-control" type="number" value="0" id="incluir-codigo" name= 'incluir-codigo'>
                   </div>
                   <div class="form-group">
                     <label for="incluir-codigo-cargo" class="col-form-label">Código do cargo</label>
-                    <input class="form-control" type="number" value="0" id="incluir-codigo-cargo">
+                    <input class="form-control" type="number" value="0" id="incluir-codigo-cargo" name='incluir-codigo-cargo'>
                   </div>
                   <div class="form-group">
                     <label for="incluir-descricao">Descrição</label>
-                    <textarea class="form-control" id="incluir-descricao" rows="2"></textarea>
+                    <textarea class="form-control" id="incluir-descricao" rows="2" name='incluir-descricao'></textarea>
                   </div>
                   <div class="form-group">
                     <label for="incluir-acesso" class="col-form-label">Acesso</label>
-                    <input class="form-control" type="number" value="0" id="incluir-acesso">
+                    <input class="form-control" type="number" value="0" id="incluir-acesso" name='incluir-acesso'>
                   </div>
                   <div class="form-group">
                     <label for="incluir-ingresso" class="col-form-label">Ingresso</label>
-                    <input class="form-control" type="datetime-local" value="2017-01-20T13:45:00" id="incluir-ingresso">
+                    <input class="form-control" type="datetime-local" value="2017-01-20T13:45:00" id="incluir-ingresso" name='incluir-ingresso'>
                   </div>
                   <div class="form-group">
                     <label for="incluir-fechada" class="col-form-label">Fechada</label>
-                    <input class="form-control" type="datetime-local" value="2017-01-20T13:45:00" id="incluir-fechada">
+                    <input class="form-control" type="datetime-local" value="2017-01-20T13:45:00" id="incluir-fechada" name='incluir-fechada'>
                   </div>
 
                   <button type="submit" class="btn btn-success btn-block">Incluir</button>

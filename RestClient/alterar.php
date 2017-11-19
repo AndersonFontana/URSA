@@ -11,14 +11,17 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        $url = "http:localhost:8080/WsUrsa_rest/webresources/oportunidadesws/";
+        $url = "http://localhost:8080/WsServidorRest/webresources/oportunidadesws/";
         $url1 = $url . "altera";
         $url2 = $url . "cargo/";
 
         $idcargo = $_POST['alterar-codigo-cargo'];
         $url2 .= $idcargo; 
-        $cargo = file_get_contents($url2);
-        
+
+        $ch = curl_init($url2);
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $cargo =curl_exec($ch) ;       
          
         $ingresso = strtotime($_POST['alterar-ingresso']);
         $dti = date("M d, Y h:i:00 A",$ingresso);
@@ -38,21 +41,14 @@ and open the template in the editor.
        $ch = curl_init($url1);
 
 
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json'));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 
-           'Content-Type: application/json',
-
-              'Content-Length: ' . strlen($json))
-         );
         $jsonRet = curl_exec($ch);
-        echo "string" . $jsonRet ;
+        echo  $jsonRet ;
 
-       curl_close($ch);
-
-        
+     
         
        
         ?>
