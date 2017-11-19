@@ -103,6 +103,10 @@ public class Oportunidade implements Serializable {
 	public Cargo getCargo() {
 		return cargo;
 	}
+
+        public void setCargo(Cargo cargo) {
+        
+        }
         
         
 }
