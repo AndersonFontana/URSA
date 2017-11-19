@@ -6,7 +6,6 @@
 package TCP;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -47,8 +46,8 @@ public class ArquivoLista implements Serializable{
         this.ret = ret;
     }
 
-    void setObjetos(List<Object> listaOportunidades) {
-        this.objetos = listaOportunidades;
+    void setObjetos(List<Object> listaObjetos) {
+        this.objetos = listaObjetos;
     }
     
     public List<Object> getObjetos() {

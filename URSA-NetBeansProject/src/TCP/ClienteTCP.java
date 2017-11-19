@@ -60,7 +60,6 @@ public class ClienteTCP {
     }
     
     public static Integer lerTipo(){
-        Oportunidade op = new Oportunidade();
                 
         while (true){
             System.out.println("\nTIPOS DE OPORTUNIDADES");
@@ -80,7 +79,6 @@ public class ClienteTCP {
     
     public static Date lerFechada() throws ParseException{
         
-        ArquivoLista arquivoLista = new ArquivoLista();
         System.out.print("Digite a data de FECHAMENTO (dd/MM/yyyy): ");
         String dataRecebida = ler.next();
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
@@ -223,7 +221,6 @@ public class ClienteTCP {
                 Integer operacao = ler.nextInt();
                 Object dados = new Object();
                 Oportunidade op = new Oportunidade();
-                //Cargo cargo = new Cargo();
                 ArquivoLista arquivoLista =  new ArquivoLista();
                 arquivoLista.setOperacao(operacao);
                 List<Object> listaOportunidades = new ArrayList<Object>();
@@ -294,11 +291,10 @@ public class ClienteTCP {
                         
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
-                            
+                            System.out.println("\n\n        OPORTUNIDADES PARA O CARGO SOLICITADO:");
                             if (arquivoLista.getObjetos().size() > 0){
-                                System.out.println
-                                        ("\n.................................................................."
-                                        +"\n        OPORTUNIDADES PARA O CARGO SOLICITADO:");
+                                System.out.println("..................................................................");
+                                        
                                 
                                 for (Object oport : arquivoLista.getObjetos()){
                                     op = (Oportunidade) oport;
@@ -330,24 +326,24 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada); 
+                        Cargo cargo = new Cargo();
                         
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
-                            System.out.println("\nOportunidades abertas do tipo: " + op.getCargo().getTipo());
-                            
-                            if (arquivoLista.getObjetos().size() > 0){
+                            System.out.println("\n\n        OPORTUNIDADES ABERTAS PARA O TIPO SOLICITADO:");
+                           if (arquivoLista.getObjetos().size() > 0){
                                 System.out.println("..................................................................");
                                 
                                 for (Object aberta : arquivoLista.getObjetos()){
-                                    op = (Oportunidade) aberta;
-                                    System.out.print("\nCódigo: " + op.getCodigo());
-                                    System.out.print("\nDescrição: " + op.getDescricao());
-                                    System.out.print("\nCargo: "+ op.getCargo());
-                                    System.out.print("\nCódigo Cargo: "+ op.getCodcargo());
-                                    System.out.print("\nAcesso: " + op.getAcesso());
-                                    System.out.print("\nTipo: "+ op.getCargo().getTipo());
-                                    System.out.print("\nIngresso: " + op.getIngresso());
-                                    System.out.print("\nFechada: " + op.getFechada());
+                                    cargo = (Cargo) aberta;
+                                    //System.out.print("\nCódigo: " + op.getCodigo());
+                                    //System.out.print("\nDescrição: " + op.getDescricao());
+                                    //System.out.print("\nCargo: "+ op.getCargo());
+                                    //System.out.print("\nCódigo Cargo: "+ op.getCodcargo());
+                                    //System.out.print("\nAcesso: " + op.getAcesso());
+                                    System.out.print("\nTipo: "+ cargo.getTipo());
+                                    //System.out.print("\nIngresso: " + op.getIngresso());
+                                    //System.out.print("\nFechada: " + op.getFechada());
                                     System.out.println("\n..................................................................");
                                 }
                             }

@@ -13,7 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,9 +106,7 @@ public class ThreadServidorTCP extends Thread{
         try{
             DaoBanco dao = new DaoBanco();
             List<Oportunidade> listOp = new ArrayList<Oportunidade>();
-            //listOp.add(dao.consultar(Codcargo));
             listOp = dao.listaOportunidades(Codcargo);
-            
             
             for (Oportunidade op : listOp){
                 op.setCodcargo(Codcargo);
@@ -159,19 +156,22 @@ public class ThreadServidorTCP extends Thread{
                 Object obj = entrada.readObject();
                 ArquivoLista arquivoLista = (ArquivoLista) obj;
 
-                Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                
                 
                 DaoBanco dao = new DaoBanco();
-                String descricao = op.getDescricao();
-                Integer codigo = op.getCodigo();
-                Integer codcargo = op.getCodcargo();
-                Integer acesso = op.getAcesso();
-                Date fechada = op.getFechada();
+                
                 List<Object> listaRetorno = new ArrayList<Object>();
 
                 switch (arquivoLista.getOperacao()){
                     case 1: // Adicionar oportunidade
-                        try{
+                        try{ 
+                            Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                            Integer codcargo = op.getCodcargo();
+                            String descricao = op.getDescricao();
+                            Integer codigo = op.getCodigo();
+                            Integer acesso = op.getAcesso();
+                            Date fechada = op.getFechada();
+                        
                             inserir(codigo, codcargo, descricao, acesso, fechada);
                             arquivoLista.setRetorno
                                     ("\n..................................................................\n"
@@ -187,6 +187,12 @@ public class ThreadServidorTCP extends Thread{
 
                     case 2: //Alterar oportunidade
                         try{
+                            Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                            Integer codcargo = op.getCodcargo();
+                            String descricao = op.getDescricao();
+                            Integer codigo = op.getCodigo();
+                            Integer acesso = op.getAcesso();
+                            Date fechada = op.getFechada();
                             alterar(codigo, codcargo, descricao, acesso, fechada);
                             arquivoLista.setRetorno
                                     ("\n..................................................................\n"
@@ -201,8 +207,9 @@ public class ThreadServidorTCP extends Thread{
                         break;
 
                     case 3: // Consultar oportunidade
-                        Calendar c = Calendar.getInstance();
                         try{
+                            Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                            Integer codigo = op.getCodigo();
                             op = consultar(codigo);
                             arquivoLista.setRetorno
                                     ("\n..................................................................\n"
@@ -225,6 +232,8 @@ public class ThreadServidorTCP extends Thread{
                         
                     case 4: //Excluir oportunidade
                         try{
+                            Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                            Integer codigo = op.getCodigo();
                             excluir(codigo);
                             arquivoLista.setRetorno
                                     ("\n..................................................................\n"
@@ -241,6 +250,9 @@ public class ThreadServidorTCP extends Thread{
 
                     case 5: // Listar oportunidades
                         try{
+                            Oportunidade op = (Oportunidade) arquivoLista.getObjetos().get(0);
+                            Integer codigo = op.getCodigo();
+                            Integer codcargo = op.getCodcargo();
                             for (Oportunidade oport : listaOportunidades(codcargo)){
                                 listaRetorno.add((Object)oport);
                             }
@@ -248,7 +260,6 @@ public class ThreadServidorTCP extends Thread{
                             arquivoLista.setRetorno
                                     ("\n         ---> Oportunidades listadas com sucesso! <---\n"            
                                     +"..................................................................");
-                            //System.out.println(listaRetorno);
                             arquivoLista.setRet(0);
 
                         }catch (Exception ex){
@@ -259,24 +270,16 @@ public class ThreadServidorTCP extends Thread{
 
                     case 6: // Listar abertas
                         try{
-                            for (Cargo aberta : listaAbertas(codcargo)){
+                            Cargo op = (Cargo) arquivoLista.getObjetos().get(0);
+                            Integer tipo = op.getTipo();
+                            for (Cargo aberta : listaAbertas(tipo)){
                                 listaRetorno.add((Object)aberta);
                             }
                             
-//                            arquivoLista.setObjetos(listaRetorno);
-//                            arquivoLista.setRetorno
-//                                    ("\n...................................................................\n"
-//                                    +"         ---> Oportunidades abertas listadas com sucesso! <---\n"
-//                                    +"\nCódigo: " + op.getCodigo()
-//                                    +"\nDescrição: " + op.getDescricao()
-//                                    +"\nCargo: "+ op.getCargo()
-//                                    +"\nCódigo Cargo: "+ op.getCodcargo()
-//                                    +"\nAcesso: " + op.getAcesso()
-//                                    +"\nTipo: "+ op.getCargo().getTipo()
-//                                    +"\nIngresso: " + op.getIngresso()
-//                                    +"\nFechada: " + op.getFechada()
-//                                    +"\n..................................................................");
-                            System.out.println(listaRetorno);
+                            arquivoLista.setObjetos(listaRetorno);
+                            arquivoLista.setRetorno
+                                    ("         ---> Oportunidades abertas listadas com sucesso! <---\n"
+                                    +"\n..................................................................");
                             arquivoLista.setRet(0);
                         }catch (Exception ex){
                             arquivoLista.setRetorno(ex.getMessage());
