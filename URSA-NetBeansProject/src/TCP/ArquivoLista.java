@@ -5,9 +5,9 @@
  */
 package TCP;
 
+import dominio.Cargo;
 import dominio.Oportunidade;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 public class ArquivoLista implements Serializable{
     
     private Integer operacao;
-    private List<Oportunidade> oportunidades;
+    private List<Object> objetos;
     private Integer ret;
     String retorno; 
    
@@ -47,14 +47,13 @@ public class ArquivoLista implements Serializable{
     public void setRet(Integer ret){
         this.ret = ret;
     }
+
+    void setObjetos(List<Object> listaOportunidades) {
+        this.objetos = listaOportunidades;
+    }
     
-    public List<Oportunidade> getOportunidades() {
-        return oportunidades;
+    public List<Object> getObjetos() {
+        return objetos;
     }
-
-    public void setOportunidades(List<Oportunidade> oportunidades) {
-        this.oportunidades = oportunidades;
-    }
-
    
 }
