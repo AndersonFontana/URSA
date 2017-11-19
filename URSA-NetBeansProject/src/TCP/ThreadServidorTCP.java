@@ -106,8 +106,11 @@ public class ThreadServidorTCP extends Thread{
     public static List<Oportunidade> listaOportunidades(Integer Codcargo) throws Exception{
         try{
             DaoBanco dao = new DaoBanco();
-            List<Oportunidade> listOp = (List<Oportunidade>) dao.consultar(Codcargo);
-
+            List<Oportunidade> listOp = new ArrayList<Oportunidade>();
+            //listOp.add(dao.consultar(Codcargo));
+            listOp = dao.listaOportunidades(Codcargo);
+            
+            
             for (Oportunidade op : listOp){
                 op.setCodcargo(Codcargo);
             }
@@ -124,7 +127,8 @@ public class ThreadServidorTCP extends Thread{
         try{
             DaoBanco dao = new DaoBanco();
             List<Cargo> listCargo = new ArrayList<Cargo>();
-            dao.consultar(tipo);
+            //listCargo.add(dao.consultar(tipo));
+            dao.listaAbertas(tipo);
 
             for (Cargo cargo : listCargo){
                 cargo.setTipo(tipo);
@@ -139,8 +143,8 @@ public class ThreadServidorTCP extends Thread{
     }
     
     public static void logInfo(String log) {
-		ServidorTCP.LOGGER.info(log);
-	}
+	ServidorTCP.LOGGER.info(log);
+    }
 
     public void run()
     {
@@ -210,10 +214,6 @@ public class ThreadServidorTCP extends Thread{
                                     +"\n" + "Tipo: "+ op.getCargo().getTipo() + " - " + dao.getTipoDescricao(op.getCargo().getTipo())
                                     +"\n" + "Acesso: "+ op.getAcesso() + " - " + dao.getAcessoDescricao(op.getAcesso())
                                     +"\n" + "Ingresso: "+op.getIngresso()
-//                                            .getTime() 
-//                                            +" Dia " + op.getIngresso().get(Calendar.DAY_OF_MONTH)
-//                                            +" de "+op.getIngresso().get(Calendar.MONTH)
-//                                            +" de "+op.getIngresso().get(Calendar.YEAR)
                                     +"\n" + "Fechada: "+ op.getFechada() 
                                     +"\n..................................................................");
                             arquivoLista.setRet(0);
@@ -244,21 +244,11 @@ public class ThreadServidorTCP extends Thread{
                             for (Oportunidade oport : listaOportunidades(codcargo)){
                                 listaRetorno.add((Object)oport);
                             }
-                            
                             arquivoLista.setObjetos(listaRetorno);
                             arquivoLista.setRetorno
-                                    ("\n..................................................................\n"
-                                    +"         ---> Oportunidades listadas com sucesso! <---\n"
-                                    +"\nCódigo: " + op.getCodigo()
-                                    +"\nDescrição: " + op.getDescricao()
-                                    +"\nCargo: "+ op.getCargo()
-                                    +"\nCódigo Cargo: "+ op.getCodcargo()
-                                    +"\nAcesso: " + op.getAcesso()
-                                    +"\nTipo: "+ op.getCargo().getTipo()
-                                    +"\nIngresso: " + op.getIngresso()
-                                    +"\nFechada: " + op.getFechada()
-                                    +"\n..................................................................");
-                            System.out.println(listaRetorno);
+                                    ("\n         ---> Oportunidades listadas com sucesso! <---\n"            
+                                    +"..................................................................");
+                            //System.out.println(listaRetorno);
                             arquivoLista.setRet(0);
 
                         }catch (Exception ex){
@@ -272,19 +262,20 @@ public class ThreadServidorTCP extends Thread{
                             for (Cargo aberta : listaAbertas(codcargo)){
                                 listaRetorno.add((Object)aberta);
                             }
-                            arquivoLista.setObjetos(listaRetorno);
-                            arquivoLista.setRetorno
-                                    ("\n...................................................................\n"
-                                    +"         ---> Oportunidades abertas listadas com sucesso! <---\n"
-                                    +"\nCódigo: " + op.getCodigo()
-                                    +"\nDescrição: " + op.getDescricao()
-                                    +"\nCargo: "+ op.getCargo()
-                                    +"\nCódigo Cargo: "+ op.getCodcargo()
-                                    +"\nAcesso: " + op.getAcesso()
-                                    +"\nTipo: "+ op.getCargo().getTipo()
-                                    +"\nIngresso: " + op.getIngresso()
-                                    +"\nFechada: " + op.getFechada()
-                                    +"\n..................................................................");
+                            
+//                            arquivoLista.setObjetos(listaRetorno);
+//                            arquivoLista.setRetorno
+//                                    ("\n...................................................................\n"
+//                                    +"         ---> Oportunidades abertas listadas com sucesso! <---\n"
+//                                    +"\nCódigo: " + op.getCodigo()
+//                                    +"\nDescrição: " + op.getDescricao()
+//                                    +"\nCargo: "+ op.getCargo()
+//                                    +"\nCódigo Cargo: "+ op.getCodcargo()
+//                                    +"\nAcesso: " + op.getAcesso()
+//                                    +"\nTipo: "+ op.getCargo().getTipo()
+//                                    +"\nIngresso: " + op.getIngresso()
+//                                    +"\nFechada: " + op.getFechada()
+//                                    +"\n..................................................................");
                             System.out.println(listaRetorno);
                             arquivoLista.setRet(0);
                         }catch (Exception ex){

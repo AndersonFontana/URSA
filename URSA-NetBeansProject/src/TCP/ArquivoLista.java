@@ -19,16 +19,8 @@ public class ArquivoLista implements Serializable{
     private List<Object> objetos;
     private Integer ret;
     String retorno; 
-    private Calendar data;
    
     public ArquivoLista() {
-    }
-    public Calendar getData() {
-        return data;
-    }
-
-    public void setData(Calendar data) {
-        this.data = data;
     }
     
     public String getRetorno() {
