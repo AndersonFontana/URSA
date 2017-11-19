@@ -61,11 +61,6 @@ public class ThreadServidorTCP extends Thread{
         try{
             DaoBanco dao = new DaoBanco();
             Oportunidade op = new Oportunidade(codigo, codcargo, descricao, acesso, fechada);
-            op.setCodigo(codigo);
-            op.setAcesso(acesso);
-            op.setCodcargo(codcargo);
-            op.setDescricao(descricao);
-            op.setFechada(fechada);
             dao.alterar(op);
             logInfo("Alterada oportunidade " + op.getCodigo());
             return true;
