@@ -5,7 +5,10 @@
  */
 package clientewebservice_soap;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import webservices.Oportunidade;
 
 /**
@@ -44,12 +47,20 @@ public class Interface extends javax.swing.JFrame {
         jTextFieldCodCar = new javax.swing.JTextField();
         jTextFieldAcesso = new javax.swing.JTextField();
         jTextFieldFechada = new javax.swing.JTextField();
+        jButtonLimpar = new javax.swing.JButton();
         jButtonAdicionar = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jButtonConsultar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jButtonListarOp = new javax.swing.JButton();
         jButtonListarAb = new javax.swing.JButton();
+        jTextFieldTipo = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextFieldCodCarOp = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,6 +78,13 @@ public class Interface extends javax.swing.JFrame {
 
         jLabel5.setText("Data:");
 
+        jButtonLimpar.setText("Limpar");
+        jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -75,26 +93,34 @@ public class Interface extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldCod, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldDesc))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldCodCar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldFechada, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldCod, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldCodCar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextFieldAcesso))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextFieldFechada, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 41, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jButtonLimpar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +145,9 @@ public class Interface extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextFieldFechada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(53, 53, 53)
+                .addComponent(jButtonLimpar)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jButtonAdicionar.setText("Adicionar");
@@ -150,6 +178,26 @@ public class Interface extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Oportunidades"));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Descrição", "Código do cargo", "Código de acesso"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
         jButtonListarOp.setText("Listar Oportunidades");
         jButtonListarOp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,6 +206,71 @@ public class Interface extends javax.swing.JFrame {
         });
 
         jButtonListarAb.setText("Listar Oportunidades Abertas");
+        jButtonListarAb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListarAbActionPerformed(evt);
+            }
+        });
+
+        jTextFieldTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTipoActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Código do Cargo:");
+
+        jLabel7.setText("Tipo do Cargo:");
+
+        jTextFieldCodCarOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCodCarOpActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldCodCarOp, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                        .addComponent(jButtonListarOp, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonListarAb, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonListarOp)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(jTextFieldCodCarOp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonListarAb))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,49 +278,39 @@ public class Interface extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jButtonListarOp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonConsultar)
-                                    .addComponent(jButtonAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonAdicionar)
-                                    .addComponent(jButtonExcluir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(58, 58, 58))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonListarAb)
-                                .addContainerGap())))))
+                .addGap(68, 68, 68)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(95, 95, 95)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(26, 26, 26)
                 .addComponent(jButtonAdicionar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonAlterar)
-                .addGap(13, 13, 13)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonConsultar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonListarOp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonListarAb)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,65 +321,178 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
+        
+        int cod, codCargo, acesso;
         String desc = new String();
         String fechada = new String();
-        desc = jTextFieldDesc.getText();
-        fechada = jTextFieldFechada.getText();
-        int cod = Integer.parseInt(jTextFieldCod.getText().trim());
-        int codCargo = Integer.parseInt(jTextFieldCodCar.getText().trim());
-        int acesso = Integer.parseInt(jTextFieldAcesso.getText().trim());
         
-        if(cws.adiciona(cod, codCargo, desc, acesso, fechada)){
-            JOptionPane.showMessageDialog(rootPane, "Oportunidade Adicionada");  
-        }
-        else{
-            JOptionPane.showMessageDialog(rootPane, "Erro ao adicionar oportunidade! Tente novamente!");
-        }
+        if(jTextFieldDesc.getText().trim().equals("") ||
+           jTextFieldCod.getText().trim().equals("") || 
+           jTextFieldFechada.getText().trim().equals("") ||
+           jTextFieldCodCar.getText().trim().equals("") ||
+           jTextFieldAcesso.getText().trim().equals("")
+                ){
+            JOptionPane.showMessageDialog(rootPane, "Existem campos vazios!");
         
+        }      
+        else {
+            desc = jTextFieldDesc.getText();
+            fechada = jTextFieldFechada.getText(); 
+            cod = Integer.parseInt(jTextFieldCod.getText().trim());
+            codCargo = Integer.parseInt(jTextFieldCodCar.getText().trim());
+            acesso = Integer.parseInt(jTextFieldAcesso.getText().trim());
+            
+            if(acesso < 1 || acesso > 7){
+                JOptionPane.showMessageDialog(rootPane, "Código de acesso inválido!");  
+            }
+            else{
+                if(cws.adiciona(cod, codCargo, desc, acesso, fechada)){
+                    JOptionPane.showMessageDialog(rootPane, "Oportunidade adicionada!");  
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao adicionar oportunidade! Tente novamente!");
+                }
+            }
+        }
     }//GEN-LAST:event_jButtonAdicionarActionPerformed
 
     private void jButtonListarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarOpActionPerformed
-        // TODO add your handling code here:
+       List<Oportunidade> oportunidades = new ArrayList();
+       oportunidades.clear();
+       
+       if(jTextFieldCodCarOp.getText().trim().equals("")){
+           JOptionPane.showMessageDialog(rootPane, "Digite um cargo para a pesquisa!");  
+       }
+       else{
+        int codCargoOp = Integer.parseInt(jTextFieldCodCarOp.getText().trim());
+        oportunidades = cws.listaOp(codCargoOp);
+
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.getDataVector().removeAllElements();
+        modelo.fireTableDataChanged();
+        for(Oportunidade op : oportunidades){
+            modelo.addRow(new Object[]{ op.getCodigo(), op.getDescricao(), op.getCodcargo(), op.getAcesso()});
+
+
+        }
+       }
+       
+       
     }//GEN-LAST:event_jButtonListarOpActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        int cod, codCargo, acesso;
         String desc = new String();
         String fechada = new String();
-        desc = jTextFieldDesc.getText();
-        fechada = jTextFieldFechada.getText();
-        int cod = Integer.parseInt(jTextFieldCod.getText().trim());
-        int codCargo = Integer.parseInt(jTextFieldCodCar.getText().trim());
-        int acesso = Integer.parseInt(jTextFieldAcesso.getText().trim());
         
-        if(cws.altera(cod, codCargo, desc, acesso, fechada)){
-            JOptionPane.showMessageDialog(rootPane, "Oportunidade Alterada");  
-        }
-        else{
-            JOptionPane.showMessageDialog(rootPane, "Erro ao alterar oportunidade! Tente novamente!");
+        if(jTextFieldDesc.getText().trim().equals("") ||
+           jTextFieldCod.getText().trim().equals("") || 
+           jTextFieldFechada.getText().trim().equals("") ||
+           jTextFieldCodCar.getText().trim().equals("") ||
+           jTextFieldAcesso.getText().trim().equals("")
+                ){
+            JOptionPane.showMessageDialog(rootPane, "Existem campos vazios!");
+        
+        }      
+        else {
+            desc = jTextFieldDesc.getText();
+            fechada = jTextFieldFechada.getText(); 
+            cod = Integer.parseInt(jTextFieldCod.getText().trim());
+            codCargo = Integer.parseInt(jTextFieldCodCar.getText().trim());
+            acesso = Integer.parseInt(jTextFieldAcesso.getText().trim());
+            
+            if(acesso < 1 || acesso > 7){
+                JOptionPane.showMessageDialog(rootPane, "Código de acesso inválido!");  
+            }
+            else{
+                if(cws.altera(cod, codCargo, desc, acesso, fechada)){
+                    JOptionPane.showMessageDialog(rootPane, "Oportunidade alterada!");  
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "Oportunidade não foi encontrada!");
+                }
+            }
         }
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        int cod = Integer.parseInt(jTextFieldCod.getText().trim());
-        if(cws.exclui(cod)){
-            JOptionPane.showMessageDialog(rootPane, "Oportunidade Excluida");  
+        if(jTextFieldCod.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Digite o código da oportunidade a ser excluída!");
         }
         else{
-            JOptionPane.showMessageDialog(rootPane, "Erro ao excluir oportunidade! Tente novamente!");
+            int cod = Integer.parseInt(jTextFieldCod.getText().trim());
+            if(cws.exclui(cod)){
+                JOptionPane.showMessageDialog(rootPane, "Oportunidade excluída!");  
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Oportunidade não encontrada!");
+            }
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
-        int cod = Integer.parseInt(jTextFieldCod.getText().trim());
-        Oportunidade op = new Oportunidade();
-        op = cws.consulta(cod);
-        jTextFieldDesc.setText(op.getDescricao());
-        String des = new String();
-        jTextFieldAcesso.setText(Integer.toString(op.getAcesso()));
-        jTextFieldCodCar.setText(Integer.toString(op.getCodcargo()));
-        
+        if(jTextFieldCod.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Digite o código da oportunidade a ser consultada!");
+        }
+        else{
+            int cod = Integer.parseInt(jTextFieldCod.getText().trim());
+            Oportunidade op = new Oportunidade();
+            op = cws.consulta(cod);
+            if(op.getAcesso() == -1){
+                JOptionPane.showMessageDialog(rootPane, "Oportunidade não encontrada!"); 
+            }
+
+            else{
+                jTextFieldDesc.setText(op.getDescricao());
+                String des = new String();
+                jTextFieldAcesso.setText(Integer.toString(op.getAcesso()));
+                jTextFieldCodCar.setText(Integer.toString(op.getCodcargo()));
+
+            }
+        }
         
     }//GEN-LAST:event_jButtonConsultarActionPerformed
+
+    private void jButtonListarAbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarAbActionPerformed
+       List<Oportunidade> oportunidades = new ArrayList();
+       oportunidades.clear();
+       if(jTextFieldTipo.getText().trim().equals("")){
+           JOptionPane.showMessageDialog(rootPane, "Digite um tipo de cargo para a pesquisa!");  
+       }
+       else{
+            int tipo = Integer.parseInt(jTextFieldTipo.getText().trim());
+            if(tipo < 1 || tipo > 7){
+                JOptionPane.showMessageDialog(rootPane, "Tipo de cargo inválido! Tente novamente!");
+            }
+            else{
+                oportunidades = cws.listaAb(tipo);
+
+                DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+                modelo.getDataVector().removeAllElements();
+                modelo.fireTableDataChanged();   
+                for(Oportunidade ab : oportunidades){
+                    modelo.addRow(new Object[]{ ab.getCodigo(), ab.getDescricao(), ab.getCodcargo(), ab.getAcesso()});
+
+                }
+            }
+       }
+    }//GEN-LAST:event_jButtonListarAbActionPerformed
+
+    private void jTextFieldTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldTipoActionPerformed
+
+    private void jTextFieldCodCarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodCarOpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCodCarOpActionPerformed
+
+    private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
+        jTextFieldAcesso.setText("");
+        jTextFieldCod.setText("");
+        jTextFieldCodCar.setText("");
+        jTextFieldFechada.setText("");
+        jTextFieldDesc.setText("");
+    }//GEN-LAST:event_jButtonLimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,6 +534,7 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonConsultar;
     private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonListarAb;
     private javax.swing.JButton jButtonListarOp;
     private javax.swing.JLabel jLabel1;
@@ -325,12 +542,19 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextFieldAcesso;
     private javax.swing.JTextField jTextFieldCod;
     private javax.swing.JTextField jTextFieldCodCar;
+    private javax.swing.JTextField jTextFieldCodCarOp;
     private javax.swing.JTextField jTextFieldDesc;
     private javax.swing.JTextField jTextFieldFechada;
+    private javax.swing.JTextField jTextFieldTipo;
     // End of variables declaration//GEN-END:variables
 }

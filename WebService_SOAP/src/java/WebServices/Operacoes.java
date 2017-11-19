@@ -108,6 +108,7 @@ public class Operacoes {
             ret = db.consultar(codigo);
         } catch (Exception ex) {
             Logger.getLogger(Operacoes.class.getName()).log(Level.SEVERE, null, ex);
+            ret.setAcesso(-1);
         }
         
         return ret;

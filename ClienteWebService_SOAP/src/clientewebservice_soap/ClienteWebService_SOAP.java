@@ -5,6 +5,10 @@
  */
 package clientewebservice_soap;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import webservices.Oportunidade;
 
 /**
@@ -17,7 +21,15 @@ public class ClienteWebService_SOAP {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       adiciona(10009, 1, "teste2", 1, "22/04/2007"); 
+       
+        /*
+       Oportunidade op = new Oportunidade();
+       op = consulta(2);
+        webservices.Timestamp tmp = op.getFechada();
+        System.out.println("teste " + tmp.toString());
+        */
+        
+       
 
     }
 
