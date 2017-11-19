@@ -71,6 +71,7 @@ public class ClienteTCP {
             System.out.println("[5] Bolsa de pesquisa");
             System.out.println("[6] Bolsa de extensão");
             System.out.println("[7] Bolsa de graduação");
+            System.out.println("[8] Todos");
             System.out.print("Digite o tipo da oportunidade: ");
             Integer tipo = ler.nextInt();
             
@@ -89,18 +90,6 @@ public class ClienteTCP {
         return dt;
     }
     
-//    public static Cargo lerCargo() throws IOException, ParseException{
-//        
-//        Cargo cargo = new Cargo();
-//        
-//        System.out.print("Digite a DESCRIÇÃO do cargo para inserí-la: ");
-//        cargo.setDescricao(in.readLine());
-//        
-//        cargo.setTipo(lerTipo());
-//        
-//        return cargo;
-//    }
-    
     public static Object lerOportunidade() throws IOException, ParseException{
         
         Oportunidade op = new Oportunidade();
@@ -112,12 +101,11 @@ public class ClienteTCP {
         System.out.print("Digite a DESCRIÇÃO da oportunidade para inserí-la: ");
         op.setDescricao(in.readLine());
         
-        System.out.print("Digite o CÓDIGO do cargo para inserí-lo: ");
+        System.out.print("Digite o CÓDIGO do cargo para inserí-lo [1-14]: ");
         op.setCodcargo(ler.nextInt());
         
         op.setAcesso(lerAcesso());
         op.setCargo(cargo);
-        cargo.setTipo(lerTipo());
         op.setFechada(lerFechada());
         return op;  
     }
@@ -231,9 +219,9 @@ public class ClienteTCP {
             System.out.println("Cliente conectou com servidor na porta: "+port);
 
             while(true){
-                System.out.println("\n****************************");
-                System.out.println("          OPERAÇÕES          ");
-                System.out.println("****************************");
+                System.out.println("\n******************************************************************");
+                System.out.println("                            OPERAÇÕES                               ");
+                System.out.println("******************************************************************");
                 System.out.println("[1] Adicionar");
                 System.out.println("[2] Alterar");
                 System.out.println("[3] Consultar");
@@ -246,7 +234,7 @@ public class ClienteTCP {
                 Integer operacao = ler.nextInt();
                 Object dados = new Object();
                 Oportunidade op = new Oportunidade();
-                Cargo cargo = new Cargo();
+                //Cargo cargo = new Cargo();
                 ArquivoLista arquivoLista =  new ArquivoLista();
                 arquivoLista.setOperacao(operacao);
                 List<Object> listaOportunidades = new ArrayList<Object>();
@@ -258,12 +246,11 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        //ret = lerRetorno();
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
                         }
                         else if(arquivoLista.getRet() == 1){
-                            ret = "\nErro: "+ arquivoLista.getRetorno();
+                            ret = "\nERRO: "+ arquivoLista.getRetorno();
                         }
                         System.out.println(ret);
                         break;
@@ -273,12 +260,11 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        //ret = lerRetorno();
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
                         }
                         else if(arquivoLista.getRet() == 1){
-                            ret = "\nErro: "+ arquivoLista.getRetorno();
+                            ret = "\nERRO: "+ arquivoLista.getRetorno();
                         }
                         System.out.println(ret);
                         break;
@@ -288,12 +274,11 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        //ret = lerRetorno();
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
                         }
                         else if(arquivoLista.getRet() == 1){
-                            ret = "\nErro: "+ arquivoLista.getRetorno();
+                            ret = "\nERRO: "+ arquivoLista.getRetorno();
                         }
                         System.out.println(ret);
                         break;
@@ -303,12 +288,11 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada);
-                        //ret = lerRetorno();
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
                         }
                         else if(arquivoLista.getRet() == 1){
-                            ret = "\nErro: "+ arquivoLista.getRetorno();
+                            ret = "\nERRO: "+ arquivoLista.getRetorno();
                         }
                         System.out.println(ret);
                         break;
@@ -318,7 +302,7 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada); 
-                        //ret = lerRetorno();
+                        
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
                             System.out.println("\nOportunidades do cargo: " + op.getCodcargo());
@@ -328,13 +312,15 @@ public class ClienteTCP {
                                 
                                 for (Object oport : arquivoLista.getObjetos()){
                                     op = (Oportunidade) oport;
-
-                                    System.out.print("\nCódigo: " + op.getCodigo());
-                                    System.out.print("\nDescrição: " + op.getDescricao());
-                                    System.out.print("\nAcesso: " + op.getAcesso());
-                                    System.out.print("\nIngresso: " + op.getIngresso());
-                                    System.out.print("\nFechada: " + op.getFechada());
-                                    System.out.println("\n..................................................................");
+//                                    System.out.print("\nCódigo: " + op.getCodigo());
+//                                    System.out.print("\nDescrição: " + op.getDescricao());
+//                                    System.out.print("\nCargo: "+ op.getCargo());
+//                                    System.out.print("\nCódigo Cargo: "+ op.getCodcargo());
+//                                    System.out.print("\nAcesso: " + op.getAcesso());
+//                                    System.out.print("\nTipo: "+ op.getCargo().getTipo());
+//                                    System.out.print("\nIngresso: " + op.getIngresso());
+//                                    System.out.print("\nFechada: " + op.getFechada());
+                                    System.out.print("\n..................................................................");
                                 }
                             }
                             else{
@@ -342,7 +328,7 @@ public class ClienteTCP {
                             }   
                         }
                         else if(arquivoLista.getRet() == 1){
-                            ret = "\nErro: "+ arquivoLista.getRetorno();
+                            ret = "\nERRO: "+ arquivoLista.getRetorno();
                         }
                         System.out.println(ret);
                         break;
@@ -352,22 +338,24 @@ public class ClienteTCP {
                         listaOportunidades.add(dados);
                         arquivoLista.setObjetos(listaOportunidades);
                         arquivoLista = enviar(cliente, arquivoLista, saida, entrada); 
-                        //ret = lerRetorno();
+                        
                         if(arquivoLista.getRet() == 0){
                             ret = arquivoLista.getRetorno();
-                            System.out.println("\nOportunidades abertas do tipo: " + cargo.getTipo());
+                            System.out.println("\nOportunidades abertas do tipo: " + op.getCargo().getTipo());
                             
                             if (arquivoLista.getObjetos().size() > 0){
                                 System.out.println("..................................................................");
                                 
                                 for (Object aberta : arquivoLista.getObjetos()){
-                                    cargo = (Cargo) aberta;
-
-                                    System.out.print("\nCódigo: " + op.getCodigo());
-                                    System.out.print("\nDescrição: " + op.getDescricao());
-                                    System.out.print("\nAcesso: " + op.getAcesso());
-                                    System.out.print("\nIngresso: " + op.getIngresso());
-                                    System.out.print("\nFechada: " + op.getFechada());
+                                    op = (Oportunidade) aberta;
+//                                    System.out.print("\nCódigo: " + op.getCodigo());
+//                                    System.out.print("\nDescrição: " + op.getDescricao());
+//                                    System.out.print("\nCargo: "+ op.getCargo());
+//                                    System.out.print("\nCódigo Cargo: "+ op.getCodcargo());
+//                                    System.out.print("\nAcesso: " + op.getAcesso());
+//                                    System.out.print("\nTipo: "+ op.getCargo().getTipo());
+//                                    System.out.print("\nIngresso: " + op.getIngresso());
+//                                    System.out.print("\nFechada: " + op.getFechada());
                                     System.out.println("\n..................................................................");
                                 }
                             }
@@ -376,7 +364,7 @@ public class ClienteTCP {
                             }
                         }
                         else if(arquivoLista.getRet() == 1){
-                            ret = "\nErro: "+ arquivoLista.getRetorno();
+                            ret = "\nERRO: "+ arquivoLista.getRetorno();
                         }
                         break;
                         
