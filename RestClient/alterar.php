@@ -17,11 +17,7 @@ and open the template in the editor.
 
         $idcargo = $_POST['alterar-codigo-cargo'];
         $url2 .= $idcargo; 
-
-        $ch = curl_init($url2);
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $cargo =curl_exec($ch) ;       
+        $cargo = file_get_contents($url2); 
          
         $ingresso = strtotime($_POST['alterar-ingresso']);
         $dti = date("M d, Y h:i:00 A",$ingresso);
@@ -32,21 +28,22 @@ and open the template in the editor.
         $json ="{\"codigo\":". $_POST['alterar-codigo'];
         $json.=",\"codcargo\":".$idcargo;
         $json.=",\"cargo\":". $cargo;
-        $json.=",\"descricao\":".$_POST['alterar-descricao'];
+        $json.=",\"descricao\":\"".$_POST['alterar-descricao']."\"";
         $json.=",\"acesso\":".$_POST['alterar-acesso'];
         $json.=",\"ingresso\":\"".$dti . "\"" ;
         $json.=",\"fechada\":\"". $dtf . "\"";
         $json.="}";
+
         
-       $ch = curl_init($url1);
+       $ch = curl_init();
 
-
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json'));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-
-        $jsonRet = curl_exec($ch);
-        echo  $jsonRet ;
+       curl_setopt($ch, CURLOPT_URL, $url1);
+       curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Content-Length: ' . strlen($json)));
+       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+       curl_setopt($ch, CURLOPT_POSTFIELDS,$json);
+       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+       $jsonRet = curl_exec($ch);
+       echo  $jsonRet ;
 
      
         

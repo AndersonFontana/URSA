@@ -11,7 +11,7 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-       	$url = "http://localhost:8080/WsUrsa_rest/webresources/oportunidadesws/";
+       	$url = "http://localhost:8080/WsServidorRest/webresources/oportunidadesws/";
         $url .= "excluir/";
  	    $id = $_POST['excluir-codigo'];
         $url .= $id;

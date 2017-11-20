@@ -8,7 +8,7 @@
 // define variables and set to empty lcg_value()
 
 if (  $_SERVER["REQUEST_METHOD"] == "POST")
-    $url = "http://localhost:8080/WsUrsa_rest/webresources/oportunidadesws/";
+    $url = "http://localhost:8080/WsServidorRest/webresources/oportunidadesws/";
     $url .= "listaop/";
     $url .=  $_POST['lista'];
     $jsonobj = json_decode( file_get_contents($url));
